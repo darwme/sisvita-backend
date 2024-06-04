@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import jwt_required
 from model.cuestionario import Cuestionario
 from utils.db import db
 from schemas.cuestionario import cuestionario_schema, cuestionarios_schema
@@ -6,6 +7,7 @@ from schemas.cuestionario import cuestionario_schema, cuestionarios_schema
 cuestionario= Blueprint('cuestionario', __name__)
 
 @cuestionario.route('/cuestionario/v1', methods=['POST'])
+@jwt_required()
 def addCuestionario():
     id_cuestionario=request.json.get('id_cuestionario')
     id_test=request.json.get('id_test')
@@ -27,6 +29,7 @@ def addCuestionario():
     return make_response(jsonify(data), 201)
 
 @cuestionario.route('/cuestionario/v1/listar', methods=['GET'])
+@jwt_required()
 def getCuestionario():
     cuestionarios=Cuestionario.query.all()
     result=cuestionarios_schema.dump(cuestionarios)
@@ -40,6 +43,7 @@ def getCuestionario():
     return make_response(jsonify(data), 200)
 
 @cuestionario.route('/cuestionario/v1/<int:id>', methods=['GET'])
+@jwt_required()
 def getOne(id):
     cuestionario=Cuestionario.query.get(id)
 
@@ -61,6 +65,7 @@ def getOne(id):
     return make_response(jsonify(data), 200)
 
 @cuestionario.route('/cuestionario/v1/<int:id>', methods=['PUT'])
+@jwt_required()
 def updateOne(id):
     cuestionario = Cuestionario.query.get(id)
 
@@ -96,6 +101,7 @@ def updateOne(id):
     return make_response(jsonify(data), 200)
 
 @cuestionario.route('/cuestionario/v1/<int:id>', methods=['DELETE'])
+@jwt_required()
 def deleteOne(id):
     cuestionario=Cuestionario.query.get(id)
 

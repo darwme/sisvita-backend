@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import jwt_required
 from model.especialista import Especialista
 from utils.db import db
 from schemas.especialista import especialista_schema, especialistas_schema
@@ -6,6 +7,7 @@ from schemas.especialista import especialista_schema, especialistas_schema
 especialista= Blueprint('especialista', __name__)
 
 @especialista.route('/especialidad/v1', methods=['POST'])
+@jwt_required()
 def addEspecialista():
     id_especialista = request.json.get("id_especialista")
     id_usuario = request.json.get("id_usuario")
@@ -26,6 +28,7 @@ def addEspecialista():
     return make_response(jsonify(data), 201)
 
 @especialista.route('/especialista/v1/listar', methods=['GET'])
+@jwt_required()
 def getEspecialista():
     especialistas = Especialista.query.all()
     result = especialistas_schema.dump(especialistas)
@@ -39,6 +42,7 @@ def getEspecialista():
     return make_response(jsonify(data), 200)
 
 @especialista.route('/especialista/v1/<int:id>', methods=['GET'])
+@jwt_required()
 def getOne(id):
     especialista = Especialista.query.get(id)
     
@@ -60,6 +64,7 @@ def getOne(id):
     return make_response(jsonify(data), 200)
 
 @especialista.route('/especialista/v1/<int:id>', methods=['PUT'])
+@jwt_required()
 def updateOne(id):
 
     especialista = Especialista.query.get(id)
@@ -93,6 +98,7 @@ def updateOne(id):
     return make_response(jsonify(data), 200)
 
 @especialista.route('/especialista/v1/<int:id>', methods=['DELETE'])
+@jwt_required()
 def deleteOne(id):
     especialista = Especialista.query.get(id)
 

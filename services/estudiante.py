@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import jwt_required
 from model.estudiante import Estudiante
 from utils.db import db
 from schemas.estudiante import estudiante_schema, estudiantes_schema
@@ -7,6 +8,7 @@ from schemas.test import test_schema, tests_schema
 estudiante = Blueprint('estudiante', __name__)
 
 @estudiante.route('/estudiante/v1/tests/<int:id_estudiante>', methods=['GET'])
+@jwt_required()
 def getTests(id_estudiante):
 
     estudiante = Estudiante.query.get(id_estudiante)
@@ -32,6 +34,7 @@ def getTests(id_estudiante):
     return make_response(jsonify(data), 200)
 
 @estudiante.route('/estudiante/v1/test/<int:id_test>', methods=['GET'])
+@jwt_required()
 def getTest(id_test):
 
     id_estudiante = request.json.get("id_estudiante")
@@ -64,6 +67,7 @@ def getTest(id_test):
     return make_response(jsonify(data), 200)
 
 @estudiante.route('/estudiante/v1/listar', methods=['GET'])
+@jwt_required()
 def getEstudiantes():
     estudiantes = Estudiante.query.all()
     result = estudiantes_schema.dump(estudiantes)
@@ -77,6 +81,7 @@ def getEstudiantes():
     return make_response(jsonify(data), 200)
 
 @estudiante.route('/estudiante/v1/<int:id>', methods=['GET'])
+@jwt_required()
 def getOne(id):
     estudiante = Estudiante.query.get(id)
 
@@ -98,6 +103,7 @@ def getOne(id):
     return make_response(jsonify(data), 200)
 
 @estudiante.route('/estudiante/v1/<int:id>', methods=['PUT'])
+@jwt_required()
 def updateEstudiante(id):
     nuevo_estudiante = Estudiante.query.get(id)
 
@@ -132,6 +138,7 @@ def updateEstudiante(id):
     return make_response(jsonify(data), 200)
 
 @estudiante.route('/estudiante/v1/<int:id>', methods=['DELETE'])
+@jwt_required()
 def deleteOne(id):
 
     estudiante = Estudiante.query.get(id)

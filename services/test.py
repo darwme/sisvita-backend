@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response
+from flask_jwt_extended import jwt_required
 from model.test import Test
 from utils.db import db
 from schemas.test import test_schema, tests_schema
@@ -7,6 +8,7 @@ test_routes = Blueprint('test', __name__)  # Crea un blueprint llamado 'test'
 
 # Crear un nuevo test
 @test_routes.route('/test/v1', methods=['POST'])
+@jwt_required()
 def crear_test():
     clasificacion = request.json.get("clasificacion")
     total_test = request.json.get("total_test")
@@ -30,6 +32,7 @@ def crear_test():
 
 # Listar todos los tests
 @test_routes.route('/test/v1/listar', methods=['GET'])
+@jwt_required()
 def listar_tests():
     all_tests = Test.query.all()
     result = tests_schema.dump(all_tests)
@@ -45,6 +48,7 @@ def listar_tests():
 
 # Obtener un test por su ID
 @test_routes.route('/test/v1/<int:id>', methods=['GET'])
+@jwt_required()
 def obtener_test(id):
     test = Test.query.get(id)
 
@@ -68,6 +72,7 @@ def obtener_test(id):
 
 # Actualizar un test por su ID
 @test_routes.route('/test/v1/<int:id>', methods=['PUT'])
+@jwt_required()
 def actualizar_test(id):
     nuevo_test = Test.query.get(id)
 
@@ -106,6 +111,7 @@ def actualizar_test(id):
 
 # Eliminar un test por su ID
 @test_routes.route('/test/v1/<int:id>', methods=['DELETE'])
+@jwt_required()
 def eliminar_test(id):
 
     predio = Test.query.get(id)
