@@ -1,5 +1,6 @@
 from utils.db import db
 from dataclasses import dataclass
+from model.test import Test
 
 @dataclass
 class Estudiante(db.Model):
@@ -15,3 +16,11 @@ class Estudiante(db.Model):
         self.id_usuario = id_usuario
         self.codigo_estudiante = codigo_estudiante
         self.carrera_profesional = carrera_profesional
+
+
+    def getTests(self):
+        return Test.query.filter_by(id_estudiante=self.id_estudiante).all()
+    
+    def getTestByIdEstudiante(self, id_test):
+        return Test.query.filter_by(id_test=id_test, id_estudiante=self.id_estudiante).first()
+
