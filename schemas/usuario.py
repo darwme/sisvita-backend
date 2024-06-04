@@ -10,6 +10,7 @@ class UsuarioSchema(ma.Schema):
     fecha_nacimiento = fields.Date()
     sexo = fields.String()
     estado_civil = fields.String()
+    tipo_usuario = fields.String()
     is_admin = fields.Boolean()
     
 usuario_schema = UsuarioSchema()

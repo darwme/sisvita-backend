@@ -1,4 +1,5 @@
-from flask import Flask 
+from flask import Flask
+from flask_jwt_extended import JWTManager 
 from utils.db import db
 from services.seccion import seccion
 from services.estudiante import estudiante
@@ -15,6 +16,15 @@ from config import DATABASE_CONNECTION
 app= Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI']=DATABASE_CONNECTION
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+
+#Configuracion del JWT
+app.config['SECRET_KEY'] = 'sisvita_secret_key'
+app.config["JWT_SECRET_KEY"] = 'sisvita_jwt_secret_key'
+app.config['JWT_TOKEN_LOCATION'] = ['headers']
+
+
+jwt = JWTManager(app)
+
 
 #SQLAlchemy(app)
 db.init_app(app)

@@ -17,6 +17,7 @@ def crear_usuario():
     fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
+    tipo_usuario = request.json.get("tipo_usuario")
     is_admin = request.json.get("is_admin")
 
     nuevo_usuario = Usuario(nombre, apellido, email, clave, fecha_nacimiento, sexo, estado_civil, is_admin)
