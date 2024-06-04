@@ -19,7 +19,7 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(100))
     apellido = db.Column(db.String(100))
     email = db.Column(db.String(100), nullable=False, unique=True)
-    clave = db.Column(db.String(128))
+    clave = db.Column(db.String(1200))
     fecha_nacimiento = db.Column(db.Date)
     sexo = db.Column(sexo_enum, nullable=False)
     estado_civil = db.Column(estado_civil_enum, nullable=False)
