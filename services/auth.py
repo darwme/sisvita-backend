@@ -32,30 +32,26 @@ def register():
         
         db.session.add(nuevo_usuario)
         db.session.commit()
-
-        result1 = usuario_schema.dump(nuevo_usuario)
         
         iduser = nuevo_usuario.id_usuario
         if not iduser:
             raise Exception('Error al registrar el usuario')
         
-        result2 = {}
+        result = {}
         tipo = nuevo_usuario.tipo_usuario.lower()
         if tipo == 'estudiante':
             nuevo_estudiante = Estudiante(iduser, codigo_estudiante, carrera_profesional)
             db.session.add(nuevo_estudiante)
             db.session.commit()
 
-            result2 = estudiante_schema.dump(nuevo_estudiante)
+            result = estudiante_schema.dump(nuevo_estudiante)
         if tipo == 'especialista':
             nuevo_especialista = Especialista(iduser, especialidad)
             db.session.add(nuevo_especialista)
             db.session.commit()
 
-            result2 = especialista_schema.dump(nuevo_especialista)
+            result = especialista_schema.dump(nuevo_especialista)
 
-
-        result = {**result1, **result2}
 
         data = {
             'message': 'Se registró correctamente',
@@ -93,8 +89,7 @@ def login():
             result3 = {'token': token}
         else:
             raise Exception('Usuario no encontrado')
-        
-        result1 = usuario_schema.dump(usuario)
+
         result2 = {}
         tipo = usuario.tipo_usuario.lower()
 
@@ -112,7 +107,7 @@ def login():
             if not especialista:
                 raise Exception('Especialista no encontrado')
 
-        result = {**result3, **result1, **result2}
+        result = {**result3, **result2}
 
         data = {
             'message': 'Usuario Alumno logueado correctamente',
