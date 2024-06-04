@@ -7,6 +7,7 @@ from services.cuestionario import cuestionario
 from services.especialista import especialista
 from services.usuario import usuario_bp
 from services.auth import auth
+from model.seccion import crear_secciones
 
 from flask_sqlalchemy import SQLAlchemy
 from config import DATABASE_CONNECTION
@@ -27,7 +28,7 @@ app.register_blueprint(auth)
 
 with app.app_context():
     db.create_all()
-
+    crear_secciones()
 
 if __name__=="__main__":
     app.run(host='0.0.0.0', debug=True, port=5000)

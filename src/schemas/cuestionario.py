@@ -9,7 +9,9 @@ class CuestionarioSchema(ma.Schema):
         model = Cuestionario
         fields = (
             'id_cuestionario',
-            'total_cuestionario'
+            'total_cuestionario',
+            'seccion',
+            'test'
         )
     seccion = fields.Nested(SeccionSchema)
     test = fields.Nested(TestSchema)
