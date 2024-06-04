@@ -10,7 +10,8 @@ class TestSchema(ma.Schema):
             'id_test',
             'clasificacion',
             'total_test',
-            'fecha'
+            'fecha',
+            'estudiante'
         )
     estudiante = fields.Nested(EstudianteSchema)
 

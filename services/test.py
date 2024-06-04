@@ -8,13 +8,12 @@ test_routes = Blueprint('test', __name__)  # Crea un blueprint llamado 'test'
 # Crear un nuevo test
 @test_routes.route('/test/v1', methods=['POST'])
 def crear_test():
-    id_test = request.json.get("id_test")
     clasificacion = request.json.get("clasificacion")
     total_test = request.json.get("total_test")
     fecha = request.json.get("fecha")
     id_estudiante = request.json.get("id_estudiante")
     
-    nuevo_test = Test(id_test, id_estudiante, clasificacion, total_test, fecha)
+    nuevo_test = Test(id_estudiante, clasificacion, total_test, fecha)
     db.session.add(nuevo_test)
     db.session.commit()
 
