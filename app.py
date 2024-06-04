@@ -9,11 +9,12 @@ from services.especialista import especialista
 from services.usuario import usuario_bp
 from services.auth import auth
 from model.seccion import crear_secciones
-
+from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from config import DATABASE_CONNECTION
 
 app= Flask(__name__)
+CORS(app, origins='*')
 app.config['SQLALCHEMY_DATABASE_URI']=DATABASE_CONNECTION
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
