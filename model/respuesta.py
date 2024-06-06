@@ -9,8 +9,8 @@ class Respuesta(db.Model):
     id_fila = db.Column(db.Integer, db.ForeignKey('fila.id_fila'))
     valor = db.Column(db.Integer)
 
-    cuestionario = db.relationship('Cuestionario', backref='respuestas')
-    fila = db.relationship('Fila', backref='respuestas')
+    cuestionario = db.relationship('Cuestionario', backref='respuesta')
+    fila = db.relationship('Fila', backref='respuesta')
 
     def __init__(self, id_respuesta, id_cuestionario, id_fila, valor):
         self.id_respuesta = id_respuesta

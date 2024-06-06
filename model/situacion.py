@@ -10,6 +10,7 @@ class Situacion(db.Model):
 
     seccion = db.relationship('Seccion', backref='situacion')
 
-    def __init__(self, id_seccion, enunciado):
+    def __init__(self,id_situacion, id_seccion, enunciado):
+        self.id_situacion = id_situacion
         self.id_seccion = id_seccion
         self.enunciado = enunciado
