@@ -8,8 +8,8 @@ class Fila(db.Model):
     id_pregunta = db.Column(db.Integer, db.ForeignKey('pregunta.id_pregunta'))
     id_situacion = db.Column(db.Integer, db.ForeignKey('situacion.id_situacion'))
 
-    pregunta = db.relationship('Pregunta', backref='filas')
-    situacion = db.relationship('Situacion', backref='filas')
+    pregunta = db.relationship('Pregunta', backref='fila')
+    situacion = db.relationship('Situacion', backref='fila')
 
     def __init__(self, id_fila, id_pregunta, id_situacion):
         self.id_fila = id_fila

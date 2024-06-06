@@ -23,4 +23,3 @@ class Estudiante(db.Model):
     
     def getTestByIdEstudiante(self, id_test):
         return Test.query.filter_by(id_test=id_test, id_estudiante=self.id_estudiante).first()
-

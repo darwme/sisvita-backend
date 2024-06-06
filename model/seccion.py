@@ -26,11 +26,3 @@ def crear_secciones():
 
     db.session.commit()
     print('Secciones creadas o ya existentes.')
-
-
-
-
-
-    
-
-

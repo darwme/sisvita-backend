@@ -5,10 +5,11 @@ from dataclasses import dataclass
 class Situacion(db.Model):
     __tablename__ = 'situacion'
     id_situacion = db.Column(db.Integer, primary_key=True)
-    seccion = db.Column(db.String(255))
+    id_seccion = db.Column(db.Integer, db.ForeignKey('seccion.id_seccion'))
     enunciado = db.Column(db.String(255))
 
-    def __init__(self, id_situacion, seccion, enunciado):
-        self.id_situacion = id_situacion
-        self.seccion = seccion
+    seccion = db.relationship('Seccion', backref='situacion')
+
+    def __init__(self, id_seccion, enunciado):
+        self.id_seccion = id_seccion
         self.enunciado = enunciado
