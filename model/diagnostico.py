@@ -10,8 +10,8 @@ class Diagnostico(db.Model):
     categoria = db.Column(db.String(100))
     puntaje = db.Column(db.Integer)
 
-    test = db.relationship('Test', backref='diagnosticos')
-    clasificacion = db.relationship('Clasificacion', backref='diagnosticos')
+    test = db.relationship('Test', backref='diagnostico')
+    clasificacion = db.relationship('Clasificacion', backref='diagnostico')
 
     def __init__(self, id_diagnostico, id_test, id_clasificacion, categoria, puntaje):
         self.id_diagnostico = id_diagnostico

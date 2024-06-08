@@ -1,5 +1,4 @@
 from utils.db import db
-
 from dataclasses import dataclass
 
 @dataclass
