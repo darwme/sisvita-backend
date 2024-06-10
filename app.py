@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_jwt_extended import JWTManager 
+#utils
 from utils.db import db
+#services
 from services.seccion import seccion
 from services.estudiante import estudiante
 from services.test import test_routes
@@ -8,7 +10,9 @@ from services.cuestionario import cuestionario
 from services.especialista import especialista
 from services.usuario import usuario_bp
 from services.auth import auth
+#model
 from model.seccion import crear_secciones
+
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from config import DATABASE_CONNECTION
