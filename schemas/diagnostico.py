@@ -17,6 +17,6 @@ class DiagnosticoSchema(ma.Schema):
     test = fields.Nested(TestSchema)
     clasificacion = fields.Nested(ClasificacionSchema)
 
-Diagnostico_schema = TestSchema()
-Diagnosticos_schema = TestSchema(many=True)
+diagnostico_schema = DiagnosticoSchema()
+diagnosticos_schema = DiagnosticoSchema(many=True)
 

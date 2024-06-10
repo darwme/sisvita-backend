@@ -15,7 +15,7 @@ def crear_diagnostico():
     puntaje = request.json.get("puntaje")
     id_clasificacion = request.json.get("id_clasificacion")
     
-    nuevo_diagnostico = Test(id_test,categoria,puntaje,id_clasificacion)
+    nuevo_diagnostico = Diagnostico(id_test,categoria,puntaje,id_clasificacion)
     db.session.add(nuevo_diagnostico)
     db.session.commit()
 
@@ -30,7 +30,7 @@ def crear_diagnostico():
     return make_response(jsonify(data), 201)
 
 
-# Listar todos los tests -----------------------------------------
+# Listar todos los diagnosticos -----------------------------------------
 @diagnostico_routes.route('/diagnostico/v1/listar', methods=['GET'])
 @jwt_required()
 def listar_diagnosticos():
