@@ -8,8 +8,6 @@ class TestSchema(ma.Schema):
         model = Test
         fields = (
             'id_test',
-            'clasificacion',
-            'total_test',
             'fecha',
             'estudiante'
         )
