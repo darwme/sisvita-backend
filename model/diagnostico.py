@@ -15,7 +15,7 @@ class Diagnostico(db.Model):
     id_clasificacion = db.Column(db.Integer, db.ForeignKey('clasificion.id_clasificion'), nullable=False)
     
     test = db.relationship('Test', backref='diagnosticos')
-    clasificacion = db.relationship('clasificacion', backref='diagnosticos')
+    clasificacion = db.relationship('Clasificacion', backref='diagnosticos')
     
     def __init__(self, id_test,categoria,puntaje,id_clasificacion):
         self.id_test = id_test
