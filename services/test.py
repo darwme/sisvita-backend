@@ -6,16 +6,14 @@ from schemas.test import test_schema, tests_schema
 
 test_routes = Blueprint('test', __name__)  # Crea un blueprint llamado 'test'
 
-# Crear un nuevo test
+# Crear un nuevo test -----------------------------------------
 @test_routes.route('/test/v1', methods=['POST'])
 @jwt_required()
 def crear_test():
-    clasificacion = request.json.get("clasificacion")
-    total_test = request.json.get("total_test")
     fecha = request.json.get("fecha")
     id_estudiante = request.json.get("id_estudiante")
     
-    nuevo_test = Test(id_estudiante, clasificacion, total_test, fecha)
+    nuevo_test = Test(id_estudiante,fecha)
     db.session.add(nuevo_test)
     db.session.commit()
 
@@ -30,7 +28,7 @@ def crear_test():
     return make_response(jsonify(data), 201)
 
 
-# Listar todos los tests
+# Listar todos los tests -----------------------------------------
 @test_routes.route('/test/v1/listar', methods=['GET'])
 @jwt_required()
 def listar_tests():
@@ -46,7 +44,7 @@ def listar_tests():
     return make_response(jsonify(data), 200)
 
 
-# Obtener un test por su ID
+# Obtener un test por su ID -----------------------------------------
 @test_routes.route('/test/v1/<int:id>', methods=['GET'])
 @jwt_required()
 def obtener_test(id):
@@ -70,7 +68,7 @@ def obtener_test(id):
 
     return make_response(jsonify(data), 200)
 
-# Actualizar un test por su ID
+# Actualizar un test por su ID -----------------------------------------
 @test_routes.route('/test/v1/<int:id>', methods=['PUT'])
 @jwt_required()
 def actualizar_test(id):
@@ -86,14 +84,10 @@ def actualizar_test(id):
     
     id_test = request.json.get("id_test")
     id_estudiante = request.json.get("id_estudiante")
-    clasificacion = request.json.get("clasificacion")
-    total_test = request.json.get("total_test")
     fecha = request.json.get("fecha")
     
     nuevo_test.id_test = id_test
     nuevo_test.id_estudiante = id_estudiante
-    nuevo_test.clasificacion = clasificacion
-    nuevo_test.total_test = total_test
     nuevo_test.fecha = fecha
 
     db.session.commit()
@@ -109,14 +103,14 @@ def actualizar_test(id):
     return make_response(jsonify(data), 200)
 
 
-# Eliminar un test por su ID
+# Eliminar un test por su ID -------------------------------------------
 @test_routes.route('/test/v1/<int:id>', methods=['DELETE'])
 @jwt_required()
 def eliminar_test(id):
 
-    predio = Test.query.get(id)
+    viejo_test = Test.query.get(id)
 
-    if not predio:
+    if not viejo_test:
         data = {
             'message': 'Test no encontrado',
             'status': 404
@@ -124,7 +118,7 @@ def eliminar_test(id):
 
         return make_response(jsonify(data), 404)
     
-    db.session.delete(predio)
+    db.session.delete(viejo_test)
     db.session.commit()
 
     data = {
