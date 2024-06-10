@@ -11,7 +11,7 @@ class Clasificacion(db.Model):
         self.id_clasificacion = id_clasificacion
         self.nombre = nombre
 
-def crear_secciones():
+def crear_clasificaciones():
     clasificaciones = [
         {'id_clasificacion': 1, 'nombre': 'ansiedad minima'},
         {'id_clasificacion': 2, 'nombre': 'ansiedad moderada'},

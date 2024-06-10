@@ -4,10 +4,10 @@ from model.respuesta import Respuesta
 from utils.db import db
 from schemas.respuesta import respuesta_schema, respuestas_schema
 
-respuesta_routes = Blueprint('respuesta', __name__)  # Crea un blueprint llamado 'respuesta'
+respuesta = Blueprint('respuesta', __name__)  # Crea un blueprint llamado 'respuesta'
 
 # Crear un nuevo repuesta -----------------------------------------
-@respuesta_routes.route('/respuesta/v1', methods=['POST'])
+@respuesta.route('/respuesta/v1', methods=['POST'])
 @jwt_required()
 def crear_respuesta():
     id_fila = request.json.get("id_fila")
@@ -30,7 +30,7 @@ def crear_respuesta():
 
 
 # Listar todos los respuestas -----------------------------------------
-@respuesta_routes.route('/respuesta/v1/listar', methods=['GET'])
+@respuesta.route('/respuesta/v1/listar', methods=['GET'])
 @jwt_required()
 def listar_respuestas():
     all_respuestas = Respuesta.query.all()
@@ -46,7 +46,7 @@ def listar_respuestas():
 
 
 # Obtener un respuesta por su ID -----------------------------------------
-@respuesta_routes.route('/respuesta/v1/<int:id>', methods=['GET'])
+@respuesta.route('/respuesta/v1/<int:id>', methods=['GET'])
 @jwt_required()
 def obtener_respuesta(id):
     respuesta = Respuesta.query.get(id)
@@ -70,7 +70,7 @@ def obtener_respuesta(id):
     return make_response(jsonify(data), 200)
 
 # Actualizar un respuesta por su ID -----------------------------------------
-@respuesta_routes.route('/respuesta/v1/<int:id>', methods=['PUT'])
+@respuesta.route('/respuesta/v1/<int:id>', methods=['PUT'])
 @jwt_required()
 def actualizar_respuesta(id):
     nueva_respuesta = Respuesta.query.get(id)
@@ -108,7 +108,7 @@ def actualizar_respuesta(id):
 
 
 # Eliminar una respuesta por su ID -------------------------------------------
-@respuesta_routes.route('/respuesta/v1/<int:id>', methods=['DELETE'])
+@respuesta.route('/respuesta/v1/<int:id>', methods=['DELETE'])
 @jwt_required()
 def eliminar_respuesta(id):
 

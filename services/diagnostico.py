@@ -4,10 +4,10 @@ from model.diagnostico import Diagnostico
 from utils.db import db
 from schemas.diagnostico import diagnostico_schema, diagnosticos_schema
 
-diagnostico_routes = Blueprint('diagnostico', __name__)  # Crea un blueprint llamado 'diagnostico'
+diagnostico = Blueprint('diagnostico', __name__)  # Crea un blueprint llamado 'diagnostico'
 
 # Crear un nuevo diagnostico -----------------------------------------
-@diagnostico_routes.route('/diagnostico/v1', methods=['POST'])
+@diagnostico.route('/diagnostico/v1', methods=['POST'])
 @jwt_required()
 def crear_diagnostico():
     id_test = request.json.get("id_test")
@@ -31,7 +31,7 @@ def crear_diagnostico():
 
 
 # Listar todos los diagnosticos -----------------------------------------
-@diagnostico_routes.route('/diagnostico/v1/listar', methods=['GET'])
+@diagnostico.route('/diagnostico/v1/listar', methods=['GET'])
 @jwt_required()
 def listar_diagnosticos():
     all_diagnosticos = Diagnostico.query.all()
@@ -47,7 +47,7 @@ def listar_diagnosticos():
 
 
 # Obtener un Diagnostico por su ID -----------------------------------------
-@diagnostico_routes.route('/diagnostico/v1/<int:id>', methods=['GET'])
+@diagnostico.route('/diagnostico/v1/<int:id>', methods=['GET'])
 @jwt_required()
 def obtener_diagnostico(id):
     diagnostico = Diagnostico.query.get(id)
@@ -71,7 +71,7 @@ def obtener_diagnostico(id):
     return make_response(jsonify(data), 200)
 
 # Actualizar un diagnostico por su ID -----------------------------------------
-@diagnostico_routes.route('/diagnostico/v1/<int:id>', methods=['PUT'])
+@diagnostico.route('/diagnostico/v1/<int:id>', methods=['PUT'])
 @jwt_required()
 def actualizar_diagnostico(id):
     nuevo_diagnostico = Diagnostico.query.get(id)
@@ -110,7 +110,7 @@ def actualizar_diagnostico(id):
 
 
 # Eliminar un test por su ID -------------------------------------------
-@diagnostico_routes.route('/diagnostico/v1/<int:id>', methods=['DELETE'])
+@diagnostico.route('/diagnostico/v1/<int:id>', methods=['DELETE'])
 @jwt_required()
 def eliminar_diagnostico(id):
 
