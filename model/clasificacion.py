@@ -26,4 +26,4 @@ def crear_secciones():
             db.session.add(new_clasificacion)
 
     db.session.commit()
-    print('Secciones creadas o ya existentes.')
+    print('Clasificaciones creadas o ya existentes.')
