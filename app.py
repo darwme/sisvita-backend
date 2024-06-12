@@ -8,8 +8,13 @@ from utils.db import db
 from services.seccion import seccion
 from services.estudiante import estudiante
 from services.test import test_routes
+#from services.cuestionario import cuestionario
 from services.especialista import especialista
 from services.usuario import usuario_bp
+#from services.situacion import situacion
+#from services.pregunta import pregunta
+#from services.fila import fila
+from services.clasificacion import clasificacion
 from services.diagnostico import diagnostico
 from services.respuesta import respuesta
 from services.auth import auth
@@ -40,6 +45,7 @@ jwt = JWTManager(app)
 db.init_app(app)
 app.register_blueprint(estudiante)
 app.register_blueprint(test_routes)
+#app.register_blueprint(cuestionario)
 app.register_blueprint(especialista)
 app.register_blueprint(usuario_bp)
 app.register_blueprint(seccion)
