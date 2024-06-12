@@ -64,9 +64,9 @@ with app.app_context():
     db.create_all()
     crear_secciones()
     crear_situaciones()
-    crear_clasificaciones()
     crear_preguntas()
     crear_filas()
+    crear_clasificaciones()
 
 if __name__=="__main__":
     app.run(host='0.0.0.0', debug=True, port=5000)
