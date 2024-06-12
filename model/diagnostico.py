@@ -12,7 +12,7 @@ class Diagnostico(db.Model):
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'), nullable=False)
     categoria = db.Column(categoria_enum, nullable=False)
     puntaje = db.Column(db.Integer)
-    id_clasificacion = db.Column(db.Integer, db.ForeignKey('clasificion.id_clasificacion'), nullable=False)
+    id_clasificacion = db.Column(db.Integer, db.ForeignKey('clasificacion.id_clasificacion'), nullable=False)
     
     test = db.relationship('Test', backref='diagnosticos')
     clasificacion = db.relationship('Clasificacion', backref='diagnosticos')
