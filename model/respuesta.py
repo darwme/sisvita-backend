@@ -14,7 +14,6 @@ class Respuesta(db.Model):
     fila = db.relationship('Fila', backref='respuestas')
     test = db.relationship('Test', backref='respuestas')
     
-    
     def __init__(self, id_fila,id_test,valor):
         self.id_fila = id_fila
         self.id_test = id_test
