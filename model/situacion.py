@@ -8,6 +8,8 @@ class Situacion(db.Model):
     enunciado = db.Column(db.String(255))
     id_seccion = db.Column(db.Integer, db.ForeignKey('seccion.id_seccion'))
 
+    seccion = db.relationship('Seccion', backref='situaciones')
+    
     def __init__(self, id_situacion, enunciado, id_seccion):
         self.id_situacion = id_situacion
         self.enunciado = enunciado

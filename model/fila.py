@@ -8,6 +8,9 @@ class Fila(db.Model):
     id_pregunta = db.Column(db.Integer, db.ForeignKey('pregunta.id_pregunta'), nullable=False)
     id_situacion = db.Column(db.Integer, db.ForeignKey('situacion.id_situacion'), nullable=False)
 
+    pregunta = db.relationship('Pregunta', backref='filas')
+    situacion = db.relationship('Situacion', backref='filas')
+    
     def __init__(self, id_fila, id_pregunta, id_situacion):
         self.id_fila = id_fila
         self.id_pregunta = id_pregunta
@@ -249,5 +252,4 @@ def crear_filas():
     db.session.commit()
     print('Filas creadas o ya existentes.')
 
-# Llama a la función para crear las filas
-crear_filas()
+
