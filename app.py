@@ -11,9 +11,9 @@ from services.test import test_routes
 #from services.cuestionario import cuestionario
 from services.especialista import especialista
 from services.usuario import usuario_bp
-from services.situacion import situacion
-from services.pregunta import pregunta
-from services.fila import fila
+#from services.situacion import situacion
+#from services.pregunta import pregunta
+#from services.fila import fila
 from services.clasificacion import clasificacion
 from services.diagnostico import diagnostico
 from services.respuesta import respuesta
