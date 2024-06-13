@@ -9,8 +9,8 @@ class RespuestaSchema(ma.Schema):
         model = Respuesta
         fields = (
             'id_respuesta',
-            'fila',
-            'test',
+            'id_fila',
+            'id_test',
             'valor'
         )
     test = fields.Nested(TestSchema)

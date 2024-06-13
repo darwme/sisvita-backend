@@ -7,8 +7,8 @@ class SituacionSchema(ma.Schema):
         model = Situacion
         fields = (
             'id_situacion',
-            'seccion', 
-            'enunciado'
+            'enunciado',
+            'id_seccion'
         )
 
 situacion_schema = SituacionSchema()

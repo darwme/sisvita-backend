@@ -9,10 +9,10 @@ class DiagnosticoSchema(ma.Schema):
         model = Diagnostico
         fields = (
             'id_diagnostico',
-            'test',
+            'id_test',
             'categoria',
             'puntaje',
-            'clasificacion'
+            'id_clasificacion'
         )
     test = fields.Nested(TestSchema)
     clasificacion = fields.Nested(ClasificacionSchema)

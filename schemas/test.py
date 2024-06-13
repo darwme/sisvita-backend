@@ -8,8 +8,8 @@ class TestSchema(ma.Schema):
         model = Test
         fields = (
             'id_test',
+            'id_estudiante',
             'fecha',
-            'estudiante'
         )
     estudiante = fields.Nested(EstudianteSchema)
 
