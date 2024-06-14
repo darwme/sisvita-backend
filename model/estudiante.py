@@ -17,10 +17,11 @@ class Estudiante(db.Model):
         self.codigo_estudiante = codigo_estudiante
         self.carrera_profesional = carrera_profesional
 
-
+    #retorna todos los registros de la tabla `Test` que están asociados con este estudiante
     def getTests(self):
         return Test.query.filter_by(id_estudiante=self.id_estudiante).all()
     
+    #retorna un registro específico de la tabla `Test` que está asociado  con este estudiante y que tiene un ID de test 
     def getTestByIdEstudiante(self, id_test):
         return Test.query.filter_by(id_test=id_test, id_estudiante=self.id_estudiante).first()
 

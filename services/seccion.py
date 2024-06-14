@@ -5,7 +5,7 @@ from schemas.seccion import seccion_schema, secciones_schema
 
 seccion = Blueprint('seccion', __name__)
 
-# Crear una sección
+# Crear una sección ----------------------------------------
 @seccion.route('/seccion/v1', methods=['POST'])
 def crear_seccion():
     id_seccion = request.json.get("id_seccion")
@@ -25,7 +25,7 @@ def crear_seccion():
 
     return make_response(jsonify(data), 201)
 
-# Listar todas las secciones
+# Listar todas las secciones ----------------------------------------
 @seccion.route('/seccion/v1/listar', methods=['GET'])
 def listar_secciones():
     all_secciones = Seccion.query.all()
@@ -39,7 +39,7 @@ def listar_secciones():
 
     return make_response(jsonify(data), 200)
 
-# Obtener una sección por su ID
+# Obtener una sección por su ID ----------------------------------------
 @seccion.route('/seccion/v1/<int:id>', methods=['GET'])
 def obtener_seccion(id):
     seccion = Seccion.query.get(id)
@@ -61,7 +61,7 @@ def obtener_seccion(id):
 
     return make_response(jsonify(data), 200)
 
-# Actualizar una sección por su ID
+# Actualizar una sección por su ID ----------------------------------------
 @seccion.route('/seccion/v1/<int:id>', methods=['PUT'])
 def actualizar_seccion(id):
     nueva_seccion = Seccion.query.get(id)
@@ -92,7 +92,7 @@ def actualizar_seccion(id):
 
     return make_response(jsonify(data), 200)
 
-# Eliminar una sección por su ID
+# Eliminar una sección por su ID ----------------------------------------
 @seccion.route('/seccion/v1/<int:id>', methods=['DELETE'])
 def eliminar_seccion(id):
     seccion = Seccion.query.get(id)
