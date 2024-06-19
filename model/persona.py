@@ -17,6 +17,7 @@ class Persona(db.Model):
     sexo = db.Column(sexo_enum, nullable=False)
     estado_civil = db.Column(estado_civil_enum, nullable=False)
     fecha_nacimiento = db.Column(db.Date)
+    celular = db.Column(db.String(9))
 
     paciente = db.relationship('Paciente', uselist=False, back_populates='persona')
     especialista = db.relationship('Especialista', uselist=False, back_populates='persona')
