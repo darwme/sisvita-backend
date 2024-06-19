@@ -2,7 +2,7 @@ from utils.db import db
 from dataclasses import dataclass
 
 @dataclass
-class Opcion(db.Model):
+class Rango(db.Model):
     __tablename__='rango'
     id_rango = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
