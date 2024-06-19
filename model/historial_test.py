@@ -13,8 +13,8 @@ class Historial_test(db.Model):
     diagnostico = db.Column(db.String(50))
     cant_preguntas_realizadas = db.Column(db.Integer)
     
-    usuario = db.relationship('Usuario', backref='Historiales_tests')
-    test = db.relationship('Test', backref='Historiales_tests')
+    usuario = db.relationship('Usuario', backref='historiales_tests')
+    test = db.relationship('Test', backref='historiales_tests')
 
     def __init__(self,id_usuario,id_test,fecha_realizada,puntaje_realizado,diagnostico,cant_preguntas_realizadas):
         self.id_usuario = id_usuario
