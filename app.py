@@ -5,25 +5,26 @@ from flask_jwt_extended import JWTManager
 from utils.db import db
 
 #services
-from services.seccion import seccion
-from services.estudiante import estudiante
-from services.test import test_routes
+from services.administrador import administrador
+from services.usuario import usuario
+from services.persona import persona
 from services.especialista import especialista
-from services.usuario import usuario_bp
+from services.paciente import paciente
+from services.cita import cita
+from services.historial_test import historial_test
+from services.rango import rango
+from services.test import test
+from services.test_respuesta import test_respuesta
+from services.seccion import seccion
 from services.situacion import situacion
 from services.pregunta import pregunta
-from services.fila import fila
-from services.clasificacion import clasificacion
-from services.diagnostico import diagnostico
 from services.respuesta import respuesta
-from services.auth import auth
+from services.respuesta_historial import respuesta_historial
+
+
 
 #model
-from model.seccion import crear_secciones
-from model.clasificacion import crear_clasificaciones
-from model.situacion import crear_situaciones
-from model.pregunta import crear_preguntas
-from model.fila import crear_filas
+from model.administrador import registrar_admin
 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -45,28 +46,26 @@ jwt = JWTManager(app)
 
 #SQLAlchemy(app)
 db.init_app(app)
-app.register_blueprint(estudiante)
-app.register_blueprint(test_routes)
+app.register_blueprint(administrador)
+app.register_blueprint(usuario)
+app.register_blueprint(persona)
 app.register_blueprint(especialista)
-app.register_blueprint(usuario_bp)
+app.register_blueprint(paciente)
+app.register_blueprint(cita)
+app.register_blueprint(historial_test)
+app.register_blueprint(rango)
+app.register_blueprint(test)
+app.register_blueprint(test_respuesta)
 app.register_blueprint(seccion)
-
 app.register_blueprint(situacion)
 app.register_blueprint(pregunta)
-app.register_blueprint(fila)
-app.register_blueprint(clasificacion)
-app.register_blueprint(diagnostico)
 app.register_blueprint(respuesta)
+app.register_blueprint(respuesta_historial)
 
-app.register_blueprint(auth)
 
 with app.app_context():
     db.create_all()
-    crear_secciones()
-    crear_situaciones()
-    crear_preguntas()
-    crear_filas()
-    crear_clasificaciones()
+    registrar_admin()
 
 if __name__=="__main__":
     app.run(host='0.0.0.0', debug=True, port=5000)
