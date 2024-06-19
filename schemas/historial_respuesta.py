@@ -8,9 +8,8 @@ class Historial_respuestaSchema(ma.Schema):
     class Meta:
         model = Historial_respuesta
         fields = (
-            'id_historial_test',
+            'id_historial_respuesta',
             'historial_test',
-            'id_pregunta',
             'respuesta',
         )
 

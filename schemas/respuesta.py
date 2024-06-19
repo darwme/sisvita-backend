@@ -13,5 +13,5 @@ class RespuestaSchema(ma.Schema):
         )
     pregunta = fields.Nested(PreguntaSchema)
 
-situacion_schema = RespuestaSchema()
-situacion_schema = RespuestaSchema(many=True)
+respuesta_schema = RespuestaSchema()
+respuestas_schema = RespuestaSchema(many=True)

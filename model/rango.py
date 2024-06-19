@@ -12,8 +12,9 @@ class Rango(db.Model):
     
     test = db.relationship('Test', backref='rangos')
 
-    def __init__(self, nombre,minimo,maximo,diagnostico):
-        self.nombre = nombre
+    def __init__(self,id_test,descripcion,minimo,maximo,diagnostico):
+        self.id_test= id_test
+        self.descripcion = descripcion
         self.minimo = minimo       
         self.maximo = maximo
         self.diagnostico = diagnostico
