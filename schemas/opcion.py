@@ -7,12 +7,12 @@ class OpcionSchema(ma.Schema):
     class Meta:
         model = Opcion
         fields = (
-            'id_opcion',
-            'test',
+            #'id_opcion',
+            #'test',
             'descripcion',
             'valor_opcion',
         )
-    test = fields.Nested(TestSchema)
+    #test = fields.Nested(TestSchema)
 
 opcion_schema = OpcionSchema()
 opciones_schema = OpcionSchema(many=True)

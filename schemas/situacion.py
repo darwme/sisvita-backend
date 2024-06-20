@@ -7,11 +7,11 @@ class SituacionSchema(ma.Schema):
     class Meta:
         model = Situacion
         fields = (
-            'id_situacion',
-            'seccion',
+            #'id_situacion',
+            #'seccion',
             'descripcion',
         )
-    seccion = fields.Nested(SeccionSchema)
+    #seccion = fields.Nested(SeccionSchema)
 
 situacion_schema = SituacionSchema()
 situaciones_schema = SituacionSchema(many=True)

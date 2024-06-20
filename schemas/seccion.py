@@ -7,11 +7,11 @@ class SeccionSchema(ma.Schema):
     class Meta:
         model = Seccion
         fields = (
-            'id_seccion',
-            'test',
+            #'id_seccion',
+            #'test',
             'descripcion',
         )
-    test = fields.Nested(TestSchema)
+    #test = fields.Nested(TestSchema)
 
 seccion_schema = SeccionSchema()
 secciones_schema = SeccionSchema(many=True)

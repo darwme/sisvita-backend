@@ -62,6 +62,28 @@ def obtener_opcion(id):
 
     return make_response(jsonify(data), 200)
 
+#Obtener opciones por id_test ----------------------------------------
+@opcion.route('/opcion/v1/test/<int:id_test>', methods=['GET'])
+def obtener_opciones_por_test(id_test):
+    opciones = Opcion.query.filter_by(id_test=id_test).all()
+    result = opciones_schema.dump(opciones)
+
+    if not opciones:
+        data = {
+            'message': 'No se encontraron opciones para el test mencionado.',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Opciones recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
 # Actualizar una opción por su ID ----------------------------------------
 @opcion.route('/opcion/v1/<int:id>', methods=['PUT'])
 def actualizar_opcion(id):

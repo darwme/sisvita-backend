@@ -13,6 +13,22 @@ from schemas.pregunta import pregunta_schema,preguntas_schema
 from schemas.opcion import opcion_schema,opciones_schema
 
 
+def getSeccionesByIdTest(id_test):
+    secciones = Seccion.query.filter_by(id_test=id_test).all()
+    return secciones
+
+def getSituacionesByIdSeccion(id_seccion):
+    situaciones = Situacion.query.filter_by(id_seccion=id_seccion).all()
+    return situaciones
+
+def getPreguntasByIdSituacion(id_situacion):
+    preguntas = Pregunta.query.filter_by(id_situacion=id_situacion).all()
+    return preguntas
+
+def getOpcionesByIdTest(id_test):
+    opciones = Opcion.query.filter_by(id_seccion=id_test).all()
+    return opciones
+
 administrar = Blueprint('administrar', __name__)
 
 @administrar.route('/administrar/v1/registrar/test', methods=['POST'])
@@ -63,74 +79,37 @@ def crear_test():
 
 
 
-
+        #getOpcionesByIdTest(id_test)
+    #getPreguntasByIdSituacion(id_situacion)
+    #getSituacionesByIdSeccion(id_seccion)
+    #getSeccionesByIdTest(id_test)
 
 #--------------------
 #
+import logging
+
 @administrar.route('/administrar/v1/enviar/test', methods=['GET'])
 def listar_tests_detalles():
     all_tests = Test.query.all()
     test_list = []
     for test in all_tests:
-        secciones = listar_secciones_por_test(test.id_test)
-        test_info = {
-            'nombre': test.nombre,
-            'secciones': secciones
-        }
-        test_list.append(test_info)
-    
-    # Retornar el JSON directamente
-    return jsonify({
-        'data': test_list
-    })
-#secciones
-def listar_secciones_por_test(id_test):
-    
-    secciones = Seccion.query.filter_by(id_test=id_test).all()
-    
-    secciones_list = []
-    for sec in secciones:
-        situaciones = listar_situaciones_por_seccion(sec.id_seccion)
-        seccion_info = {
-            'descripcion': sec.descripcion,
-            'situaciones': situaciones
-        }
-        secciones_list.append(seccion_info)
-    
-    return jsonify({
-        'data': secciones_list
-    })
-#situaciones   
-def listar_situaciones_por_seccion(id_seccion):
-    
-    situaciones = Situacion.query.filter_by(id_seccion=id_seccion).all()
-    
-    situaciones_list = []
-    for sit in situaciones:
-        preguntas = listar_preguntas_por_situacion(sit.id_situacion)
-        situacion_info = {
-            'descripcion': sit.descripcion,
-            'situaciones': preguntas
-        }
-        situaciones_list.append(situacion_info)
-    
-    return jsonify({
-        'data': situaciones_list
-    })
+        secciones = getSeccionesByIdTest(test.id_test)
+        logging.info('secciones: %s', secciones)
+        test_data = test_schema.dump(test)
+        test_data['secciones'] = []
+        for seccion in secciones:
+            situaciones = getSituacionesByIdSeccion(seccion.id_seccion)
+            seccion_data = seccion_schema.dump(seccion)
+            seccion_data['situaciones'] = []
+            for situacion in situaciones:
+                preguntas = getPreguntasByIdSituacion(situacion.id_situacion)
+                situacion_data = situacion_schema.dump(situacion)
+                situacion_data['preguntas'] = preguntas_schema.dump(preguntas)
+                seccion_data['situaciones'].append(situacion_data)
+            test_data['secciones'].append(seccion_data)
+        test_list.append(test_data)
+    return jsonify(test_list)
 
-#preguntas
-def listar_preguntas_por_situacion(id_situacion):
-    
-    situaciones = Pregunta.query.filter_by(id_situacion=id_situacion).all()
-    
-    preguntas_list = []
-    for preg in situaciones:
-        pregunta_info = {
-            'descripcion': preg.descripcion
-        }
-        preguntas_list.append(pregunta_info)
-    
-    return jsonify({
-        'data': preguntas_list
-    })
+
+
 
