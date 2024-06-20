@@ -11,20 +11,22 @@ from services.persona import persona
 from services.especialista import especialista
 from services.paciente import paciente
 from services.cita import cita
+
 from services.historial_test import historial_test
-from services.rango import rango
+from services.respuesta import respuesta
+
+
 from services.test import test
-from services.test_respuesta import test_respuesta
+from services.rango import rango
+from services.opcion import opcion
+
 from services.seccion import seccion
 from services.situacion import situacion
 from services.pregunta import pregunta
-from services.respuesta import respuesta
-from services.respuesta_historial import respuesta_historial
-
-
 
 #model
 from model.administrador import registrar_admin
+
 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -52,15 +54,18 @@ app.register_blueprint(persona)
 app.register_blueprint(especialista)
 app.register_blueprint(paciente)
 app.register_blueprint(cita)
+
 app.register_blueprint(historial_test)
-app.register_blueprint(rango)
+app.register_blueprint(respuesta)
+
 app.register_blueprint(test)
-app.register_blueprint(test_respuesta)
+app.register_blueprint(rango)
+app.register_blueprint(opcion)
+
 app.register_blueprint(seccion)
 app.register_blueprint(situacion)
 app.register_blueprint(pregunta)
-app.register_blueprint(respuesta)
-app.register_blueprint(respuesta_historial)
+
 
 
 with app.app_context():
