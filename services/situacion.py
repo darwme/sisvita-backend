@@ -1,23 +1,17 @@
 from flask import Blueprint, request, jsonify, make_response
 from model.situacion import Situacion
-from model.seccion import Seccion
 from utils.db import db
 from schemas.situacion import situacion_schema, situaciones_schema
 
 situacion = Blueprint('situacion', __name__)
 
-# Crear una situación
+# Crear una situación ----------------------------------------
 @situacion.route('/situacion/v1', methods=['POST'])
 def crear_situacion():
-    id_situacion = request.json.get("id_situacion")
     id_seccion = request.json.get("id_seccion")
-    enunciado = request.json.get("enunciado")
+    descripcion = request.json.get("descripcion")
 
-    seccion = Seccion.query.get(id_seccion)
-    if not seccion:
-        return make_response(jsonify({'message': 'Sección no encontrada', 'status': 404}), 404)
-
-    nueva_situacion = Situacion(id_situacion=id_situacion, id_seccion=id_seccion, enunciado=enunciado)
+    nueva_situacion = Situacion(id_seccion, descripcion)
     db.session.add(nueva_situacion)
     db.session.commit()
 
@@ -31,7 +25,31 @@ def crear_situacion():
 
     return make_response(jsonify(data), 201)
 
-# Listar todas las situaciones
+#Listas todas las situaciones por id_seccion --------------------------
+@situacion.route('/situacion/v1/seccion/<int:id_seccion>', methods=['GET'])
+def obtener_situaciones(id_seccion):
+    situaciones = Situacion.query.filter_by(id_seccion=id_seccion).all()
+
+    result = situaciones_schema.dump(situaciones)
+
+    if not situaciones:
+        data = {
+            'message': 'Situaciones no encontradas',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Situaciones recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
+
+# Listar todas las situaciones ----------------------------------------
 @situacion.route('/situacion/v1/listar', methods=['GET'])
 def listar_situaciones():
     all_situaciones = Situacion.query.all()
@@ -45,7 +63,7 @@ def listar_situaciones():
 
     return make_response(jsonify(data), 200)
 
-# Obtener una situación por su ID
+# Obtener una situación por su ID ----------------------------------------
 @situacion.route('/situacion/v1/<int:id>', methods=['GET'])
 def obtener_situacion(id):
     situacion = Situacion.query.get(id)
@@ -67,12 +85,12 @@ def obtener_situacion(id):
 
     return make_response(jsonify(data), 200)
 
-# Actualizar una situación por su ID
+# Actualizar una situación por su ID ----------------------------------------
 @situacion.route('/situacion/v1/<int:id>', methods=['PUT'])
 def actualizar_situacion(id):
-    situacion = Situacion.query.get(id)
+    situacion_actual = Situacion.query.get(id)
 
-    if not situacion:
+    if not situacion_actual:
         data = {
             'message': 'Situación no encontrada',
             'status': 404
@@ -80,21 +98,15 @@ def actualizar_situacion(id):
 
         return make_response(jsonify(data), 404)
 
-    id_situacion = request.json.get("id_situacion")
     id_seccion = request.json.get("id_seccion")
-    enunciado = request.json.get("enunciado")
+    descripcion = request.json.get("descripcion")
 
-    seccion = Seccion.query.get(id_seccion)
-    if not seccion:
-        return make_response(jsonify({'message': 'Sección no encontrada', 'status': 404}), 404)
-
-    situacion.id_situacion = id_situacion
-    situacion.id_seccion = id_seccion
-    situacion.enunciado = enunciado
+    situacion_actual.id_seccion = id_seccion
+    situacion_actual.descripcion = descripcion
 
     db.session.commit()
 
-    result = situacion_schema.dump(situacion)
+    result = situacion_schema.dump(situacion_actual)
 
     data = {
         'message': 'Situación actualizada correctamente',
@@ -104,7 +116,7 @@ def actualizar_situacion(id):
 
     return make_response(jsonify(data), 200)
 
-# Eliminar una situación por su ID
+# Eliminar una situación por su ID ----------------------------------------
 @situacion.route('/situacion/v1/<int:id>', methods=['DELETE'])
 def eliminar_situacion(id):
     situacion = Situacion.query.get(id)

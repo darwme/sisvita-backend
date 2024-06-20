@@ -1,128 +1,202 @@
 from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import create_access_token
-from model.usuario import Usuario
 from werkzeug.security import generate_password_hash, check_password_hash
-from model.estudiante import Estudiante
+
+from model.usuario import Usuario
+from model.administrador import Administrador
+from model.persona import Persona
+from model.paciente import Paciente
 from model.especialista import Especialista
+
 from utils.db import db
+
 from schemas.usuario import usuario_schema, usuarios_schema
-from schemas.estudiante import estudiante_schema, estudiantes_schema
+from schemas.administrador import administrador_schema, administradores_schema
+from schemas.persona import persona_schema, personas_schema
+from schemas.paciente import paciente_schema, pacientes_schema
 from schemas.especialista import especialista_schema, especialistas_schema
 
 auth = Blueprint('auth', __name__)
 
-@auth.route('/auth/v1/register', methods=['POST'])
-def register():
+def crear_usuario_y_persona(datos):
     try:
-        nombre = request.json.get("nombre")
-        apellido = request.json.get("apellido")
-        email = request.json.get("email")
-        clave = request.json.get("clave")
-        fecha_nacimiento = request.json.get("fecha_nacimiento")
-        sexo = request.json.get("sexo")
-        estado_civil = request.json.get("estado_civil")
-        is_admin = request.json.get("is_admin")
-        codigo_estudiante = request.json.get("codigo_estudiante")
-        tipo_usuario = request.json.get("tipo_usuario")
-        carrera_profesional = request.json.get("carrera_profesional")
-        especialidad = request.json.get("especialidad")
+        email = datos.get("email")
+        clave = datos.get("clave")
 
         clave_hash = generate_password_hash(clave)
-        nuevo_usuario = Usuario(nombre, apellido, email, clave_hash, fecha_nacimiento, sexo, estado_civil, tipo_usuario, is_admin)
-        
+
+        nuevo_usuario = Usuario(email, clave_hash)
         db.session.add(nuevo_usuario)
         db.session.commit()
-        
-        iduser = nuevo_usuario.id_usuario
-        if not iduser:
+
+        id_usuario = nuevo_usuario.id_usuario
+        if not id_usuario:
             raise Exception('Error al registrar el usuario')
+
+        nueva_persona = Persona(
+            id_usuario=id_usuario,
+            nombres=datos.get("nombres"),
+            apellidos=datos.get("apellidos"),
+            dni=datos.get("dni"),
+            fecha_nacimiento=datos.get("fecha_nacimiento"),
+            sexo=datos.get("sexo"),
+            estado_civil=datos.get("estado_civil"),
+            celular=datos.get("celular")
+        )
+        db.session.add(nueva_persona)
+        db.session.commit()
+
+        id_persona = nueva_persona.id_persona
+        if not id_persona:
+            raise Exception('Error al registrar la persona')
+
+        return nueva_persona
+
+    except Exception as e:
+        db.session.rollback()
+        raise e
+
+@auth.route('/auth/v1/register/paciente', methods=['POST'])
+def registrar_paciente():
+    try:
+        datos = request.json
+
+        # Validación de campos específicos para paciente
+        if not datos.get("codigo_paciente"):
+            raise ValueError("El código de paciente es un campo obligatorio")
+
+        # Crear usuario y persona
+        nueva_persona = crear_usuario_y_persona(datos)
         
-        result = {}
-        tipo = nuevo_usuario.tipo_usuario.lower()
-        if tipo == 'estudiante':
-            nuevo_estudiante = Estudiante(iduser, codigo_estudiante, carrera_profesional)
-            db.session.add(nuevo_estudiante)
-            db.session.commit()
-
-            result = estudiante_schema.dump(nuevo_estudiante)
-        if tipo == 'especialista':
-            nuevo_especialista = Especialista(iduser, especialidad)
-            db.session.add(nuevo_especialista)
-            db.session.commit()
-
-            result = especialista_schema.dump(nuevo_especialista)
-
+        # Crear paciente
+        nuevo_paciente = Paciente(
+            id_persona=nueva_persona.id_persona,
+            codigo_paciente=datos.get("codigo_paciente"),
+            antecedentes=datos.get("antecedentes")
+        )
+        db.session.add(nuevo_paciente)
+        db.session.commit()
+        
+        result = paciente_schema.dump(nuevo_paciente)
 
         data = {
-            'message': 'Se registró correctamente',
+            'message': 'Paciente registrado correctamente',
             'status': 201,
             'data': result
         }
 
         return jsonify(data), 201
 
-    except Exception as e:
-        # En caso de error, hacer rollback a la sesión y mostrar un mensaje de error
-        db.session.rollback()
+    except ValueError as ve:
         error_data = {
-            'message': 'Error al registrar el usuario estudiante',
+            'message': str(ve),
+            'status': 400
+        }
+        return jsonify(error_data), 400
+
+    except Exception as e:
+        error_data = {
+            'message': 'Error al registrar el paciente',
             'status': 500,
             'error': str(e)
         }
         return jsonify(error_data), 500
-    
+
+@auth.route('/auth/v1/register/especialista', methods=['POST'])
+def registrar_especialista():
+    try:
+        datos = request.json
+
+        # Validación de campos específicos para especialista
+        if not datos.get("codigo_especialista") or not datos.get("especialidad"):
+            raise ValueError("El código de especialista y la especialidad son campos obligatorios")
+
+        # Crear usuario y persona
+        nueva_persona = crear_usuario_y_persona(datos)
+
+        # Crear especialista
+        nuevo_especialista = Especialista(
+            id_persona=nueva_persona.id_persona,
+            codigo_especialista=datos.get("codigo_especialista"),
+            especialidad=datos.get("especialidad"),
+            experiencia=datos.get("experiencia")
+        )
+        db.session.add(nuevo_especialista)
+        db.session.commit()
+        
+        result = especialista_schema.dump(nuevo_especialista)
+
+        data = {
+            'message': 'Especialista registrado correctamente',
+            'status': 201,
+            'data': result
+        }
+
+        return jsonify(data), 201
+
+    except ValueError as ve:
+        error_data = {
+            'message': str(ve),
+            'status': 400
+        }
+        return jsonify(error_data), 400
+
+    except Exception as e:
+        error_data = {
+            'message': 'Error al registrar el especialista',
+            'status': 500,
+            'error': str(e)
+        }
+        return jsonify(error_data), 500
+
+  
 @auth.route('/auth/v1/login', methods=['POST'])
 def login():
     try:
         email = request.json.get("email")
         clave = request.json.get("clave")
-        tipo_usuario = request.json.get("tipo_usuario")
-
-        print("email: ", email, "clave: ", clave, "tipo_usuario: ", tipo_usuario)
-
-        usuario = Usuario.query.filter_by(email=email).first()
-        token = None
-        result3 = {}
-        if usuario and check_password_hash(usuario.clave, clave):
-
-            token = create_access_token(identity=usuario.id_usuario)
-            result3 = {'token': token}
-        else:
-            raise Exception('Usuario no encontrado')
-
-        result2 = {}
-        tipo = usuario.tipo_usuario.lower()
-
-        if tipo == 'estudiante':
-            estudiante = Estudiante.query.filter_by(id_usuario=usuario.id_usuario).first()
-            result2 = estudiante_schema.dump(estudiante)
-
-            if not estudiante:
-                raise Exception('Estudiante no encontrado')
         
-        if tipo == 'especialista':
-            especialista = Especialista.query.filter_by(id_usuario=usuario.id_usuario).first()
-            result2 = especialista_schema.dump(especialista)
+        # Buscar al usuario por su email
+        usuario = Usuario.query.filter_by(email=email).first()
 
-            if not especialista:
-                raise Exception('Especialista no encontrado')
+        if usuario and check_password_hash(usuario.clave, clave):
+            # Crear token de acceso
+            token = create_access_token(identity=usuario.id_usuario)
 
-        result = {**result3, **result2}
+            # Inicializar resultado
+            result = {
+                'token': token,
+                'usuario': usuario_schema.dump(usuario)
+            }
+            
+            # Comprobar si es un paciente
+            paciente = Paciente.query.filter_by(id_persona=usuario.id_usuario).first()
+            if paciente:
+                result['paciente'] = paciente_schema.dump(paciente)
 
-        data = {
-            'message': 'Usuario Alumno logueado correctamente',
-            'status': 200,
-            'data': result
-        }
+            # Comprobar si es un especialista
+            especialista = Especialista.query.filter_by(id_persona=usuario.id_usuario).first()
+            if especialista:
+                result['especialista'] = especialista_schema.dump(especialista)
 
-        return jsonify(data), 200
+            data = {
+                'message': 'Usuario logueado correctamente',
+                'status': 200,
+                'data': result
+            }
+
+            return jsonify(data), 200
+        else:
+            # Autenticación fallida
+            return jsonify({
+                'message': 'Credenciales incorrectas',
+                'status': 401
+            }), 401
 
     except Exception as e:
         error_data = {
-            'message': 'Error al loguear el usuario',
+            'message': 'Error al procesar el login',
             'status': 500,
             'error': str(e)
         }
         return jsonify(error_data), 500
-
-

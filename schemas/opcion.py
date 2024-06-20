@@ -1,17 +1,18 @@
 from utils.ma import ma
-from model.seccion import Seccion
+from model.opcion import Opcion
 from marshmallow import fields
 from schemas.test import TestSchema
 
-class SeccionSchema(ma.Schema):
+class OpcionSchema(ma.Schema):
     class Meta:
-        model = Seccion
+        model = Opcion
         fields = (
-            #'id_seccion',
+            #'id_opcion',
             #'test',
             'descripcion',
+            'valor_opcion',
         )
     #test = fields.Nested(TestSchema)
 
-seccion_schema = SeccionSchema()
-secciones_schema = SeccionSchema(many=True)
+opcion_schema = OpcionSchema()
+opciones_schema = OpcionSchema(many=True)
