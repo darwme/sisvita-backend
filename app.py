@@ -25,7 +25,7 @@ from services.situacion import situacion
 from services.pregunta import pregunta
 
 #model
-from model.administrador import registrar_admin
+
 
 
 from flask_cors import CORS
@@ -70,7 +70,6 @@ app.register_blueprint(pregunta)
 
 with app.app_context():
     db.create_all()
-    registrar_admin()
 
 if __name__=="__main__":
     app.run(host='0.0.0.0', debug=True, port=5000)
