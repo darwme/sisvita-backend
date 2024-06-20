@@ -12,11 +12,11 @@ usuario = Blueprint('usuario', __name__)
 def crear_usuario():
     email = request.json.get("gmail")
     clave = request.json.get("clave")
-
-    nuevo_usuario = Usuario(gmail,clave)
+    print("aqui")
+    nuevo_usuario = Usuario(email,clave)
     db.session.add(nuevo_usuario)
     db.session.commit()
-
+    print("aqui2")
     result = usuario_schema.dump(nuevo_usuario)
 
     data = {
@@ -76,10 +76,10 @@ def actualizar_usuario(id):
 
         return make_response(jsonify(data), 404)
 
-    gmail = request.json.get("gmail")
+    email = request.json.get("gmail")
     clave = request.json.get("clave")
 
-    usuario_existente.gmail = gmail
+    usuario_existente.gmail = email
     usuario_existente.clave = clave
 
     db.session.commit()
