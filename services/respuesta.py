@@ -8,10 +8,11 @@ respuesta = Blueprint('respuesta', __name__)
 # Crear una respuesta ----------------------------------------
 @respuesta.route('/respuesta/v1', methods=['POST'])
 def crear_respuesta():
+    id_historial_test = request.json.get("id_historial_test")
     id_pregunta = request.json.get("id_pregunta")
     valor = request.json.get("valor")
 
-    nueva_respuesta = Respuesta(id_pregunta,valor)
+    nueva_respuesta = Respuesta(id_historial_test,id_pregunta,valor)
     db.session.add(nueva_respuesta)
     db.session.commit()
 
@@ -73,10 +74,12 @@ def actualizar_respuesta(id):
         }
 
         return make_response(jsonify(data), 404)
-
+    
+    id_historial_test = request.json.get("id_historial_test")
     id_pregunta = request.json.get("id_pregunta")
     valor = request.json.get("valor")
 
+    respuesta_actual.id_historial_test = id_historial_test
     respuesta_actual.id_pregunta = id_pregunta
     respuesta_actual.valor = valor
 

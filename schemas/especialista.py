@@ -1,20 +1,19 @@
 from utils.ma import ma
 from model.especialista import Especialista  
 from marshmallow import fields
-from schemas.usuario import UsuarioSchema
+from schemas.persona import PersonaSchema
 
 class EspecialistaSchema(ma.Schema):
     class Meta:
         model = Especialista
         fields = (
             'id_especialista',
-            'id_persona', 
+            'persona', 
             'codigo_especialista',
             'especialidad',
-            'experiencia',
-            'usuario'
-        )
+            'experiencia',        )
 
-    usuario = fields.Nested(UsuarioSchema)
+    persona = fields.Nested(PersonaSchema)
+    
 especialista_schema = EspecialistaSchema()
 especialistas_schema = EspecialistaSchema(many=True)

@@ -8,10 +8,10 @@ class AdministradorSchema(ma.Schema):
         model = Administrador
         fields = (
             'id_administrador',
-            'id_usuario', 
+            'usuario', 
             'nombre_admin'
         )
-
     usuario = fields.Nested(UsuarioSchema)
+    
 administrador_schema = AdministradorSchema()
 administradores_schema = AdministradorSchema(many=True)
