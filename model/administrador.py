@@ -13,4 +13,4 @@ class Administrador(db.Model):
     def __init__(self, id_usuario, nombre_admin):
         self.id_usuario = id_usuario
         self.nombre_admin = nombre_admin
-
+    
