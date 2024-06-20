@@ -7,11 +7,9 @@ class Seccion(db.Model):
     id_seccion = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     descripcion = db.Column(db.String(250))
-    cant_situaciones = db.Column(db.Integer)
     
     test = db.relationship('Test', backref='seciones')
 
-    def __init__(self,id_test,descripcion,cant_situaciones):
+    def __init__(self,id_test,descripcion):
         self.id_test = id_test
         self.descripcion = descripcion
-        self.cant_situaciones = cant_situaciones

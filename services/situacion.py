@@ -10,9 +10,8 @@ situacion = Blueprint('situacion', __name__)
 def crear_situacion():
     id_seccion = request.json.get("id_seccion")
     descripcion = request.json.get("descripcion")
-    cant_preguntas = request.json.get("cant_preguntas")
 
-    nueva_situacion = Situacion(id_seccion, descripcion, cant_preguntas)
+    nueva_situacion = Situacion(id_seccion, descripcion)
     db.session.add(nueva_situacion)
     db.session.commit()
 
@@ -77,11 +76,9 @@ def actualizar_situacion(id):
 
     id_seccion = request.json.get("id_seccion")
     descripcion = request.json.get("descripcion")
-    cant_preguntas = request.json.get("cant_preguntas")
 
     situacion_actual.id_seccion = id_seccion
     situacion_actual.descripcion = descripcion
-    situacion_actual.cant_preguntas = cant_preguntas
 
     db.session.commit()
 

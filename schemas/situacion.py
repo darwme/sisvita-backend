@@ -10,7 +10,6 @@ class SituacionSchema(ma.Schema):
             'id_situacion',
             'seccion',
             'descripcion',
-            'cant_preguntas',
         )
     seccion = fields.Nested(SeccionSchema)
 

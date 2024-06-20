@@ -8,7 +8,6 @@ class TestSchema(ma.Schema):
         fields = (
             'id_test',
             'nombre',
-            'cant_secciones',
         )
 
 test_schema = TestSchema()

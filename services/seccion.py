@@ -10,9 +10,8 @@ seccion = Blueprint('seccion', __name__)
 def crear_seccion():
     id_test = request.json.get("id_test")
     descripcion = request.json.get("descripcion")
-    cant_situaciones = request.json.get("cant_situaciones")
 
-    nueva_seccion = Seccion(id_test,descripcion,cant_situaciones)
+    nueva_seccion = Seccion(id_test,descripcion)
     db.session.add(nueva_seccion)
     db.session.commit()
 
@@ -77,11 +76,9 @@ def actualizar_seccion(id):
 
     id_test = request.json.get("id_test")
     descripcion = request.json.get("descripcion")
-    cant_situaciones = request.json.get("cant_situaciones")
 
     nueva_seccion.id_test = id_test
     nueva_seccion.descripcion = descripcion
-    nueva_seccion.cant_situaciones = cant_situaciones
 
     db.session.commit()
 
