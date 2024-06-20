@@ -18,11 +18,11 @@ class Persona(db.Model):
     fecha_nacimiento = db.Column(db.Date)
     sexo = db.Column(sexo_enum)
     estado_civil = db.Column(estado_civil_enum)
-    num_celular = db.Column(db.String(9))
+    celular = db.Column(db.String(9))
     
     usuario = db.relationship('Usuario', backref='persona')
 
-    def __init__(self, id_usuario, nombres, apellidos,dni,fecha_nacimiento, sexo, estado_civil,num_celular):
+    def __init__(self, id_usuario, nombres, apellidos,dni,fecha_nacimiento, sexo, estado_civil,celular):
         self.id_usuario = id_usuario
         self.nombres = nombres
         self.apellidos = apellidos
@@ -30,4 +30,4 @@ class Persona(db.Model):
         self.fecha_nacimiento = fecha_nacimiento
         self.sexo = sexo
         self.estado_civil = estado_civil
-        self.num_celular = num_celular
+        self.celular = celular

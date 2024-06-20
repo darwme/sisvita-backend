@@ -79,7 +79,7 @@ def actualizar_usuario(id):
     email = request.json.get("email")
     clave = request.json.get("clave")
 
-    usuario_existente.gmail = email
+    usuario_existente.email = email
     usuario_existente.clave = clave
 
     db.session.commit()

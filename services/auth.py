@@ -29,7 +29,7 @@ def crear_usuario_y_persona(datos):
 
         clave_hash = generate_password_hash(clave)
         
-        nuevo_usuario = Usuario(gmail, clave_hash)
+        nuevo_usuario = Usuario(email, clave_hash)
         db.session.add(nuevo_usuario)
         db.session.commit()
 
@@ -45,7 +45,7 @@ def crear_usuario_y_persona(datos):
             fecha_nacimiento=datos.get("fecha_nacimiento"),
             sexo=datos.get("sexo"),
             estado_civil=datos.get("estado_civil"),
-            num_celular=datos.get("num_celular")
+            celular=datos.get("celular")
         )
         db.session.add(nueva_persona)
         db.session.commit()

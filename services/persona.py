@@ -17,7 +17,7 @@ def crear_persona():
     fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
-    num_celular = request.json.get("num_celular")
+    celular = request.json.get("celular")
 
     nueva_persona = Persona(
         id_usuario=id_usuario, 
@@ -26,7 +26,7 @@ def crear_persona():
         sexo=sexo, 
         estado_civil=estado_civil, 
         fecha_nacimiento=fecha_nacimiento, 
-        num_celular=num_celular
+        celular=celular
     )
     
     db.session.add(nueva_persona)
@@ -98,7 +98,7 @@ def actualizar_persona(id):
     fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
-    num_celular = request.json.get("num_celular")
+    celular = request.json.get("celular")
 
     persona_existente.id_usuario = id_usuario
     persona_existente.nombres = nombres
@@ -108,7 +108,7 @@ def actualizar_persona(id):
     persona_existente.fecha_nacimiento = fecha_nacimiento
     persona_existente.sexo = sexo
     persona_existente.estado_civil = estado_civil
-    persona_existente.num_celular = num_celular
+    persona_existente.celular = celular
 
     db.session.commit()
 
