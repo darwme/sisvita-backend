@@ -13,7 +13,6 @@ def crear_persona():
     id_usuario = request.json.get("id_usuario")
     nombres = request.json.get("nombres")
     apellidos = request.json.get("apellidos")
-    dni = request.json.get("dni")
     fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
@@ -94,7 +93,6 @@ def actualizar_persona(id):
     id_usuario = request.json.get("id_usuario")
     nombres = request.json.get("nombres")
     apellidos = request.json.get("apellidos")
-    dni = request.json.get("dni")
     fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
@@ -104,7 +102,6 @@ def actualizar_persona(id):
     persona_existente.nombres = nombres
     persona_existente.apellidos = apellidos
     persona_existente.sexo = sexo
-    persona_existente.dni = dni
     persona_existente.fecha_nacimiento = fecha_nacimiento
     persona_existente.sexo = sexo
     persona_existente.estado_civil = estado_civil

@@ -11,7 +11,6 @@ class PersonaSchema(ma.Schema):
             'usuario', 
             'nombres',
             'apellidos',
-            'dni',
             'fecha_nacimiento',
             'sexo',
             'estado_civil',
