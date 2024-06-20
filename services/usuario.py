@@ -10,7 +10,7 @@ usuario = Blueprint('usuario', __name__)
 # Create a new usuario ----------------------------------------
 @usuario.route('/usuario/v1', methods=['POST'])
 def crear_usuario():
-    email = request.json.get("gmail")
+    email = request.json.get("email")
     clave = request.json.get("clave")
     print("aqui")
     nuevo_usuario = Usuario(email,clave)
@@ -76,7 +76,7 @@ def actualizar_usuario(id):
 
         return make_response(jsonify(data), 404)
 
-    email = request.json.get("gmail")
+    email = request.json.get("email")
     clave = request.json.get("clave")
 
     usuario_existente.gmail = email
