@@ -5,6 +5,7 @@ from utils.db import db
 from schemas.persona import persona_schema, personas_schema
 
 # Define the Blueprint for 'persona'
+persona = Blueprint('persona', __name__)
 
 # Create a new persona ----------------------------------------
 @persona.route('/persona/v1', methods=['POST'])

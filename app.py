@@ -24,6 +24,8 @@ from services.seccion import seccion
 from services.situacion import situacion
 from services.pregunta import pregunta
 
+from services.auth import auth
+
 #model
 
 
@@ -65,6 +67,7 @@ app.register_blueprint(opcion)
 app.register_blueprint(seccion)
 app.register_blueprint(situacion)
 app.register_blueprint(pregunta)
+app.register_blueprint(auth)
 
 
 
