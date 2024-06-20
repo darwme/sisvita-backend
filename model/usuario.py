@@ -14,3 +14,4 @@ class Usuario(db.Model):
         self.clave = clave
 
 
+
