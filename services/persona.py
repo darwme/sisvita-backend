@@ -5,7 +5,6 @@ from utils.db import db
 from schemas.persona import persona_schema, personas_schema
 
 # Define the Blueprint for 'persona'
-persona = Blueprint('persona', __name__)
 
 # Create a new persona ----------------------------------------
 @persona.route('/persona/v1', methods=['POST'])
@@ -13,10 +12,11 @@ def crear_persona():
     id_usuario = request.json.get("id_usuario")
     nombres = request.json.get("nombres")
     apellidos = request.json.get("apellidos")
+    dni = request.json.get("dni")
+    fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
-    fecha_nacimiento = request.json.get("fecha_nacimiento")
-    celular = request.json.get("celular")
+    num_celular = request.json.get("num_celular")
 
     nueva_persona = Persona(
         id_usuario=id_usuario, 
@@ -25,7 +25,7 @@ def crear_persona():
         sexo=sexo, 
         estado_civil=estado_civil, 
         fecha_nacimiento=fecha_nacimiento, 
-        celular=celular
+        num_celular=num_celular
     )
     
     db.session.add(nueva_persona)
@@ -89,22 +89,25 @@ def actualizar_persona(id):
         }
 
         return make_response(jsonify(data), 404)
-
+    
     id_usuario = request.json.get("id_usuario")
     nombres = request.json.get("nombres")
     apellidos = request.json.get("apellidos")
+    dni = request.json.get("dni")
+    fecha_nacimiento = request.json.get("fecha_nacimiento")
     sexo = request.json.get("sexo")
     estado_civil = request.json.get("estado_civil")
-    fecha_nacimiento = request.json.get("fecha_nacimiento")
-    celular = request.json.get("celular")
+    num_celular = request.json.get("num_celular")
 
     persona_existente.id_usuario = id_usuario
     persona_existente.nombres = nombres
     persona_existente.apellidos = apellidos
     persona_existente.sexo = sexo
-    persona_existente.estado_civil = estado_civil
+    persona_existente.dni = dni
     persona_existente.fecha_nacimiento = fecha_nacimiento
-    persona_existente.celular = celular
+    persona_existente.sexo = sexo
+    persona_existente.estado_civil = estado_civil
+    persona_existente.num_celular = num_celular
 
     db.session.commit()
 

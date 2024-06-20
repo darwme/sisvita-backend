@@ -13,7 +13,7 @@ def crear_especialista():
     data = request.get_json()
     id_persona = data.get("id_persona")
     codigo_especialista = data.get("codigo_especialista")
-    especialista = data.get("especialista")
+    especialidad = data.get("especialidad")
     experiencia = data.get("experiencia")
 
     nuevo_especialista = Especialista(
@@ -87,12 +87,12 @@ def actualizar_especialista(id):
     data = request.get_json()
     id_persona = data.get("id_persona")
     codigo_especialista = data.get("codigo_especialista")
-    especialista = data.get("especialista")
+    especialidad = data.get("especialidad")
     experiencia = data.get("experiencia")
 
     especialista_existente.id_persona = id_persona
     especialista_existente.codigo_especialista = codigo_especialista
-    especialista_existente.especialista = especialista
+    especialista_existente.especialidad = especialidad
     especialista_existente.experiencia = experiencia
 
     db.session.commit()

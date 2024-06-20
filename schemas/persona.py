@@ -11,13 +11,13 @@ class PersonaSchema(ma.Schema):
             'usuario', 
             'nombres',
             'apellidos',
+            'dni',
+            'fecha_nacimiento',
             'sexo',
             'estado_civil',
-            'fecha_nacimiento',
-            'celular',
+            'num_celular',
         )
     usuario = fields.Nested(UsuarioSchema)
-
 
 persona_schema = PersonaSchema()
 personas_schema = PersonaSchema(many=True)
