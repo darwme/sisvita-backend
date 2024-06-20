@@ -20,11 +20,11 @@ auth = Blueprint('auth', __name__)
 
 def crear_usuario_y_persona(datos):
     try:
-        gmail = datos.get("gmail")
+        email = datos.get("email")
         clave = datos.get("clave")
 
         # Validación básica de campos requeridos
-        if not gmail or not clave:
+        if not email or not clave:
             raise ValueError("El email y la clave son campos obligatorios")
 
         clave_hash = generate_password_hash(clave)
