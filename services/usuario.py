@@ -10,10 +10,10 @@ usuario = Blueprint('usuario', __name__)
 # Create a new usuario ----------------------------------------
 @usuario.route('/usuario/v1', methods=['POST'])
 def crear_usuario():
-    gmail = request.json.get("gmail")
+    email = request.json.get("gmail")
     clave = request.json.get("clave")
 
-    nuevo_usuario = Usuario(gmail=gmail, clave=clave)
+    nuevo_usuario = Usuario(gmail,clave)
     db.session.add(nuevo_usuario)
     db.session.commit()
 
