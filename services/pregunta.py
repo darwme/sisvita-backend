@@ -25,6 +25,29 @@ def crear_pregunta():
 
     return make_response(jsonify(data), 201)
 
+# Listar todas las preguntas por id_situacion -----------------------
+@pregunta.route('/pregunta/v1/situacion/<int:id_situacion>', methods=['GET'])
+def obtener_preguntas(id_situacion):
+    preguntas = Pregunta.query.filter_by(id_situacion=id_situacion).all()
+
+    result = preguntas_schema.dump(preguntas)
+
+    if not preguntas:
+        data = {
+            'message': 'Preguntas no encontradas',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Preguntas recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
 # Listar todas las preguntas ----------------------------------------
 @pregunta.route('/pregunta/v1/listar', methods=['GET'])
 def listar_preguntas():

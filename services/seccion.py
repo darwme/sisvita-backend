@@ -40,6 +40,31 @@ def listar_secciones():
 
     return make_response(jsonify(data), 200)
 
+#Obtener secciones por id_test ----------------------------------------
+
+@seccion.route('/seccion/v1/test/<int:id_test>', methods=['GET'])
+def obtener_secciones(id_test):
+    secciones = Seccion.query.filter_by(id_test=id_test).all()
+
+    result = secciones_schema.dump(secciones)
+
+    if not secciones:
+        data = {
+            'message': 'Secciones no encontradas',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Secciones recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
+
 # Obtener una sección por su ID ----------------------------------------
 @seccion.route('/seccion/v1/<int:id>', methods=['GET'])
 def obtener_seccion(id):

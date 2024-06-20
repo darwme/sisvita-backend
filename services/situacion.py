@@ -26,6 +26,30 @@ def crear_situacion():
 
     return make_response(jsonify(data), 201)
 
+#Listas todas las situaciones por id_seccion --------------------------
+@situacion.route('/situacion/v1/seccion/<int:id_seccion>', methods=['GET'])
+def obtener_situaciones(id_seccion):
+    situaciones = Situacion.query.filter_by(id_seccion=id_seccion).all()
+
+    result = situaciones_schema.dump(situaciones)
+
+    if not situaciones:
+        data = {
+            'message': 'Situaciones no encontradas',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Situaciones recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
+
 # Listar todas las situaciones ----------------------------------------
 @situacion.route('/situacion/v1/listar', methods=['GET'])
 def listar_situaciones():
