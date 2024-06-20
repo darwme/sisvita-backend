@@ -120,3 +120,26 @@ def eliminar_rango(id):
     }
 
     return make_response(jsonify(data), 200)
+
+# Listar rangos por id_test ----------------------------------------
+@rango.route('/rango/v1/test/<int:id_test>', methods=['GET'])
+def listar_rangos_por_test(id_test):
+    rangos = Rango.query.filter_by(id_test=id_test).all()
+
+    result = rangos_schema.dump(rangos)
+
+    if not rangos:
+        data = {
+            'message': 'No se encontraron rangos para el id_test proporcionado',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+
+    data = {
+        'message': 'Rangos recuperados correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
