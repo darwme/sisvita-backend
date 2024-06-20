@@ -1,56 +1,57 @@
-from flask import Flask, Blueprint, request, jsonify, make_response
-from flask_jwt_extended import jwt_required
-from utils.db import db
+# In service/usuario_service.py
+from flask import Blueprint, request, jsonify, make_response
 from model.usuario import Usuario
+from utils.db import db
 from schemas.usuario import usuario_schema, usuarios_schema
 
-usuario_blueprint = Blueprint('usuario', __name__)
+# Define the Blueprint for 'usuario'
+usuario = Blueprint('usuario', __name__)
 
-@usuario_blueprint.route('/usuario/v1', methods=['POST'])
-@jwt_required()
-def addUsuario():
+# Create a new usuario ----------------------------------------
+@usuario.route('/usuario/v1', methods=['POST'])
+def crear_usuario():
+    gmail = request.json.get("gmail")
     clave = request.json.get("clave")
-    email = request.json.get("email")
-    
-    nuevo_usuario = Usuario(clave, email)
+
+    nuevo_usuario = Usuario(gmail=gmail, clave=clave)
     db.session.add(nuevo_usuario)
     db.session.commit()
-    
+
     result = usuario_schema.dump(nuevo_usuario)
-    
+
     data = {
         'message': 'Usuario creado correctamente',
         'status': 201,
         'data': result
     }
-    
+
     return make_response(jsonify(data), 201)
 
-@usuario_blueprint.route('/usuario/v1/listar', methods=['GET'])
-@jwt_required()
-def getUsuarios():
-    usuarios = Usuario.query.all()
-    result = usuarios_schema.dump(usuarios)
-    
+# List all usuarios ----------------------------------------
+@usuario.route('/usuario/v1/listar', methods=['GET'])
+def listar_usuarios():
+    all_usuarios = Usuario.query.all()
+    result = usuarios_schema.dump(all_usuarios)
+
     data = {
         'message': 'Usuarios recuperados correctamente',
         'status': 200,
         'data': result
     }
-    
+
     return make_response(jsonify(data), 200)
 
-@usuario_blueprint.route('/usuario/v1/<int:id>', methods=['GET'])
-@jwt_required()
-def getOneUsuario(id):
+# Get a usuario by ID ----------------------------------------
+@usuario.route('/usuario/v1/<int:id>', methods=['GET'])
+def obtener_usuario(id):
     usuario = Usuario.query.get(id)
-    
+
     if not usuario:
         data = {
             'message': 'Usuario no encontrado',
             'status': 404
         }
-        
+
         return make_response(jsonify(data), 404)
     
     result = usuario_schema.dump(usuario)
@@ -59,60 +60,59 @@ def getOneUsuario(id):
         'status': 200,
         'data': result
     }
-    
+
     return make_response(jsonify(data), 200)
 
-@usuario_blueprint.route('/usuario/v1/<int:id>', methods=['PUT'])
-@jwt_required()
-def updateOneUsuario(id):
-    usuario = Usuario.query.get(id)
-    
-    if not usuario:
+# Update a usuario by ID ----------------------------------------
+@usuario.route('/usuario/v1/<int:id>', methods=['PUT'])
+def actualizar_usuario(id):
+    usuario_existente = Usuario.query.get(id)
+
+    if not usuario_existente:
         data = {
             'message': 'Usuario no encontrado',
             'status': 404
         }
-        
+
         return make_response(jsonify(data), 404)
-    
+
+    gmail = request.json.get("gmail")
     clave = request.json.get("clave")
-    email = request.json.get("email")
-    
-    usuario.clave = clave
-    usuario.email = email
-    
+
+    usuario_existente.gmail = gmail
+    usuario_existente.clave = clave
+
     db.session.commit()
-    
-    result = usuario_schema.dump(usuario)
-    
+
+    result = usuario_schema.dump(usuario_existente)
+
     data = {
         'message': 'Usuario actualizado correctamente',
         'status': 200,
         'data': result
     }
-    
+
     return make_response(jsonify(data), 200)
 
-@usuario_blueprint.route('/usuario/v1/<int:id>', methods=['DELETE'])
-@jwt_required()
-def deleteOneUsuario(id):
+# Delete a usuario by ID ----------------------------------------
+@usuario.route('/usuario/v1/<int:id>', methods=['DELETE'])
+def eliminar_usuario(id):
     usuario = Usuario.query.get(id)
-    
+
     if not usuario:
         data = {
             'message': 'Usuario no encontrado',
             'status': 404
         }
-        
+
         return make_response(jsonify(data), 404)
-    
+
     db.session.delete(usuario)
     db.session.commit()
-    
+
     data = {
         'message': 'Usuario eliminado correctamente',
         'status': 200
     }
-    
-    return make_response(jsonify(data), 200)
 
+    return make_response(jsonify(data), 200)

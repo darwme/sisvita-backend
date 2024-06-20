@@ -1,18 +1,19 @@
+# In service/administrador_service.py
 from flask import Blueprint, request, jsonify, make_response
-from flask_jwt_extended import jwt_required
-from utils.db import db
 from model.administrador import Administrador
+from utils.db import db
 from schemas.administrador import administrador_schema, administradores_schema
 
-administrador_blueprint = Blueprint('administrador', __name__)
+# Define the Blueprint for 'administrador'
+administrador = Blueprint('administrador', __name__)
 
-@administrador_blueprint.route('/administrador/v1', methods=['POST'])
-@jwt_required()
-def addAdministrador():
+# Create a new administrador ----------------------------------------
+@administrador.route('/administrador/v1', methods=['POST'])
+def crear_administrador():
     id_usuario = request.json.get("id_usuario")
     nombre_admin = request.json.get("nombre_admin")
 
-    nuevo_administrador = Administrador(id_usuario,nombre_admin)
+    nuevo_administrador = Administrador(id_usuario=id_usuario, nombre_admin=nombre_admin)
     db.session.add(nuevo_administrador)
     db.session.commit()
 
@@ -26,11 +27,11 @@ def addAdministrador():
 
     return make_response(jsonify(data), 201)
 
-@administrador_blueprint.route('/administrador/v1/listar', methods=['GET'])
-@jwt_required()
-def getAdministradores():
-    administradores = Administrador.query.all()
-    result = administradores_schema.dump(administradores)
+# List all administradores ----------------------------------------
+@administrador.route('/administrador/v1/listar', methods=['GET'])
+def listar_administradores():
+    all_administradores = Administrador.query.all()
+    result = administradores_schema.dump(all_administradores)
 
     data = {
         'message': 'Administradores recuperados correctamente',
@@ -40,9 +41,9 @@ def getAdministradores():
 
     return make_response(jsonify(data), 200)
 
-@administrador_blueprint.route('/administrador/v1/<int:id>', methods=['GET'])
-@jwt_required()
-def getOneAdministrador(id):
+# Get an administrador by ID ----------------------------------------
+@administrador.route('/administrador/v1/<int:id>', methods=['GET'])
+def obtener_administrador(id):
     administrador = Administrador.query.get(id)
 
     if not administrador:
@@ -52,7 +53,7 @@ def getOneAdministrador(id):
         }
 
         return make_response(jsonify(data), 404)
-
+    
     result = administrador_schema.dump(administrador)
     data = {
         'message': 'Administrador recuperado correctamente',
@@ -62,12 +63,12 @@ def getOneAdministrador(id):
 
     return make_response(jsonify(data), 200)
 
-@administrador_blueprint.route('/administrador/v1/<int:id>', methods=['PUT'])
-@jwt_required()
-def updateOneAdministrador(id):
-    administrador = Administrador.query.get(id)
+# Update an administrador by ID ----------------------------------------
+@administrador.route('/administrador/v1/<int:id>', methods=['PUT'])
+def actualizar_administrador(id):
+    administrador_existente = Administrador.query.get(id)
 
-    if not administrador:
+    if not administrador_existente:
         data = {
             'message': 'Administrador no encontrado',
             'status': 404
@@ -78,12 +79,12 @@ def updateOneAdministrador(id):
     id_usuario = request.json.get("id_usuario")
     nombre_admin = request.json.get("nombre_admin")
 
-    administrador.id_usuario = id_usuario
-    administrador.nombre_admin = nombre_admin
+    administrador_existente.id_usuario = id_usuario
+    administrador_existente.nombre_admin = nombre_admin
 
     db.session.commit()
 
-    result = administrador_schema.dump(administrador)
+    result = administrador_schema.dump(administrador_existente)
 
     data = {
         'message': 'Administrador actualizado correctamente',
@@ -93,9 +94,9 @@ def updateOneAdministrador(id):
 
     return make_response(jsonify(data), 200)
 
-@administrador_blueprint.route('/administrador/v1/<int:id>', methods=['DELETE'])
-@jwt_required()
-def deleteOneAdministrador(id):
+# Delete an administrador by ID ----------------------------------------
+@administrador.route('/administrador/v1/<int:id>', methods=['DELETE'])
+def eliminar_administrador(id):
     administrador = Administrador.query.get(id)
 
     if not administrador:

@@ -1,19 +1,25 @@
+# In service/paciente_service.py
 from flask import Blueprint, request, jsonify, make_response
+from model.paciente import Paciente
 from utils.db import db
-from model.paciente import Paciente  
-from schemas.paciente import paciente_schema, pacientes_schema  
+from schemas.paciente import paciente_schema, pacientes_schema
 
+# Define the Blueprint for 'paciente'
 paciente = Blueprint('paciente', __name__)
 
-@paciente.route('/paciente/listar/v1', methods=['POST'])
-def addPaciente():
-   
-    id_persona=request.json.get("id_persona")
+# Create a new paciente ----------------------------------------
+@paciente.route('/paciente/v1', methods=['POST'])
+def crear_paciente():
+    id_persona = request.json.get("id_persona")
     codigo_paciente = request.json.get("codigo_paciente")
     antecedentes = request.json.get("antecedentes")
-    
 
-    nuevo_paciente = Paciente(id_persona,codigo_paciente, antecedentes)
+    nuevo_paciente = Paciente(
+        id_persona=id_persona, 
+        codigo_paciente=codigo_paciente, 
+        antecedentes=antecedentes
+    )
+    
     db.session.add(nuevo_paciente)
     db.session.commit()
 
@@ -27,11 +33,11 @@ def addPaciente():
 
     return make_response(jsonify(data), 201)
 
-
-@paciente.route('/paciente//', methods=['GET'])
-def getPacientes():
-    pacientes = Paciente.query.all()
-    result = pacientes_schema.dump(pacientes)
+# List all pacientes ----------------------------------------
+@paciente.route('/paciente/v1/listar', methods=['GET'])
+def listar_pacientes():
+    all_pacientes = Paciente.query.all()
+    result = pacientes_schema.dump(all_pacientes)
 
     data = {
         'message': 'Pacientes recuperados correctamente',
@@ -41,9 +47,9 @@ def getPacientes():
 
     return make_response(jsonify(data), 200)
 
-
+# Get a paciente by ID ----------------------------------------
 @paciente.route('/paciente/v1/<int:id>', methods=['GET'])
-def getOnePaciente(id):
+def obtener_paciente(id):
     paciente = Paciente.query.get(id)
 
     if not paciente:
@@ -53,7 +59,7 @@ def getOnePaciente(id):
         }
 
         return make_response(jsonify(data), 404)
-
+    
     result = paciente_schema.dump(paciente)
     data = {
         'message': 'Paciente recuperado correctamente',
@@ -63,12 +69,12 @@ def getOnePaciente(id):
 
     return make_response(jsonify(data), 200)
 
+# Update a paciente by ID ----------------------------------------
+@paciente.route('/paciente/v1/<int:id>', methods=['PUT'])
+def actualizar_paciente(id):
+    paciente_existente = Paciente.query.get(id)
 
-@paciente.route('/paciente/v1/', methods=['PUT'])
-def updateOnePaciente(id):
-    paciente = Paciente.query.get(id)
-
-    if not paciente:
+    if not paciente_existente:
         data = {
             'message': 'Paciente no encontrado',
             'status': 404
@@ -79,15 +85,14 @@ def updateOnePaciente(id):
     id_persona = request.json.get("id_persona")
     codigo_paciente = request.json.get("codigo_paciente")
     antecedentes = request.json.get("antecedentes")
-   
 
-    id_persona.id_persona = id_persona
-    paciente.codigo_paciente = codigo_paciente
-    paciente.antecendentes = antecedentes
+    paciente_existente.id_persona = id_persona
+    paciente_existente.codigo_paciente = codigo_paciente
+    paciente_existente.antecedentes = antecedentes
 
     db.session.commit()
 
-    result = paciente_schema.dump(paciente)
+    result = paciente_schema.dump(paciente_existente)
 
     data = {
         'message': 'Paciente actualizado correctamente',
@@ -97,9 +102,9 @@ def updateOnePaciente(id):
 
     return make_response(jsonify(data), 200)
 
-
-@paciente.route('/paciente/v1/', methods=['DELETE'])
-def deleteOnePaciente(id):
+# Delete a paciente by ID ----------------------------------------
+@paciente.route('/paciente/v1/<int:id>', methods=['DELETE'])
+def eliminar_paciente(id):
     paciente = Paciente.query.get(id)
 
     if not paciente:

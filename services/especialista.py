@@ -1,124 +1,131 @@
-from flask import Flask, Blueprint, request, jsonify, make_response
-from flask_jwt_extended import jwt_required
-from utils.db import db
+# In service/especialista_service.py
+from flask import Blueprint, request, jsonify, make_response
 from model.especialista import Especialista
+from utils.db import db
 from schemas.especialista import especialista_schema, especialistas_schema
 
-especialista_blueprint = Blueprint('especialista', __name__)
+# Define the Blueprint for 'especialista'
+especialista = Blueprint('especialista', __name__)
 
-@especialista_blueprint.route('/especialista/v1', methods=['POST'])
-@jwt_required()
-def addEspecialista():
-    id_persona = request.json.get("id_persona")
-    codigo_especialista = request.json.get("codigo_especialista")
-    especialidad = request.json.get("especialidad")
-    experiencia = request.json.get("experiencia")
-    
-    nuevo_especialista = Especialista(id_persona, codigo_especialista,especialidad, experiencia)
+# Create a new especialista ----------------------------------------
+@especialista.route('/especialista/v1', methods=['POST'])
+def crear_especialista():
+    data = request.get_json()
+    id_persona = data.get("id_persona")
+    codigo_especialista = data.get("codigo_especialista")
+    especialista = data.get("especialista")
+    experiencia = data.get("experiencia")
+
+    nuevo_especialista = Especialista(
+        id_persona=id_persona,
+        codigo_especialista=codigo_especialista,
+        especialista=especialista,
+        experiencia=experiencia
+    )
     db.session.add(nuevo_especialista)
     db.session.commit()
-    
+
     result = especialista_schema.dump(nuevo_especialista)
-    
-    data = {
+
+    response_data = {
         'message': 'Especialista creado correctamente',
         'status': 201,
         'data': result
     }
-    
-    return make_response(jsonify(data), 201)
 
-@especialista_blueprint.route('/especialista/v1/listar', methods=['GET'])
-@jwt_required()
-def getEspecialistas():
-    especialistas = Especialista.query.all()
-    result = especialistas_schema.dump(especialistas)
-    
-    data = {
+    return make_response(jsonify(response_data), 201)
+
+# List all especialistas ----------------------------------------
+@especialista.route('/especialista/v1/listar', methods=['GET'])
+def listar_especialistas():
+    all_especialistas = Especialista.query.all()
+    result = especialistas_schema.dump(all_especialistas)
+
+    response_data = {
         'message': 'Especialistas recuperados correctamente',
         'status': 200,
         'data': result
     }
-    
-    return make_response(jsonify(data), 200)
 
-@especialista_blueprint.route('/especialista/v1/<int:id>', methods=['GET'])
-@jwt_required()
-def getOneEspecialista(id):
+    return make_response(jsonify(response_data), 200)
+
+# Get an especialista by ID ----------------------------------------
+@especialista.route('/especialista/v1/<int:id>', methods=['GET'])
+def obtener_especialista(id):
     especialista = Especialista.query.get(id)
-    
+
     if not especialista:
-        data = {
+        response_data = {
             'message': 'Especialista no encontrado',
             'status': 404
         }
-        
-        return make_response(jsonify(data), 404)
+
+        return make_response(jsonify(response_data), 404)
     
     result = especialista_schema.dump(especialista)
-    data = {
+    response_data = {
         'message': 'Especialista recuperado correctamente',
         'status': 200,
         'data': result
     }
-    
-    return make_response(jsonify(data), 200)
 
-@especialista_blueprint.route('/especialista/v1/<int:id>', methods=['PUT'])
-@jwt_required()
-def updateOneEspecialista(id):
-    especialista = Especialista.query.get(id)
-    
-    if not especialista:
-        data = {
+    return make_response(jsonify(response_data), 200)
+
+# Update an especialista by ID ----------------------------------------
+@especialista.route('/especialista/v1/<int:id>', methods=['PUT'])
+def actualizar_especialista(id):
+    especialista_existente = Especialista.query.get(id)
+
+    if not especialista_existente:
+        response_data = {
             'message': 'Especialista no encontrado',
             'status': 404
         }
-        
-        return make_response(jsonify(data), 404)
-    
-    id_persona = request.json.get("id_persona")
-    codigo_especialista = request.json.get("codigo_especialista")
-    especialidad = request.json.get("especialidad")
-    experiencia = request.json.get("experiencia")
-    
-    especialista.id_persona = id_persona
-    especialista.codigo_especialista = codigo_especialista
-    especialista.especialidad = especialidad
-    especialista.experiencia = experiencia
-    
+
+        return make_response(jsonify(response_data), 404)
+
+    data = request.get_json()
+    id_persona = data.get("id_persona")
+    codigo_especialista = data.get("codigo_especialista")
+    especialista = data.get("especialista")
+    experiencia = data.get("experiencia")
+
+    especialista_existente.id_persona = id_persona
+    especialista_existente.codigo_especialista = codigo_especialista
+    especialista_existente.especialista = especialista
+    especialista_existente.experiencia = experiencia
+
     db.session.commit()
-    
-    result = especialista_schema.dump(especialista)
-    
-    data = {
+
+    result = especialista_schema.dump(especialista_existente)
+
+    response_data = {
         'message': 'Especialista actualizado correctamente',
         'status': 200,
         'data': result
     }
-    
-    return make_response(jsonify(data), 200)
 
-@especialista_blueprint.route('/especialista/v1/<int:id>', methods=['DELETE'])
-@jwt_required()
-def deleteOneEspecialista(id):
+    return make_response(jsonify(response_data), 200)
+
+# Delete an especialista by ID ----------------------------------------
+@especialista.route('/especialista/v1/<int:id>', methods=['DELETE'])
+def eliminar_especialista(id):
     especialista = Especialista.query.get(id)
-    
+
     if not especialista:
-        data = {
+        response_data = {
             'message': 'Especialista no encontrado',
             'status': 404
         }
-        
-        return make_response(jsonify(data), 404)
-    
+
+        return make_response(jsonify(response_data), 404)
+
     db.session.delete(especialista)
     db.session.commit()
-    
-    data = {
+
+    response_data = {
         'message': 'Especialista eliminado correctamente',
         'status': 200
     }
-    
-    return make_response(jsonify(data), 200)
 
+    return make_response(jsonify(response_data), 200)

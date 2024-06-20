@@ -7,8 +7,8 @@ class UsuarioSchema(ma.Schema):
         model = Usuario
         fields = (
             'id_usuario',
-            'clave',
             'email',
+            'clave',
         )
 
 usuario_schema = UsuarioSchema()
