@@ -44,7 +44,7 @@ def listar_secciones():
 @seccion.route('/seccion/v1/test/<int:id_test>', methods=['GET'])
 def obtener_secciones(id_test):
     secciones = Seccion.query.filter_by(id_test=id_test).all()
-
+    
     result = secciones_schema.dump(secciones)
 
     if not secciones:
