@@ -6,7 +6,7 @@ class Paciente(db.Model):
     __tablename__ = 'paciente'
     id_paciente = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_persona = db.Column(db.Integer, db.ForeignKey('persona.id_persona'))
-    codigo_paciente = db.Column(db.String(100))
+    codigo_paciente = db.Column(db.String(8))
     antecedentes = db.Column(db.String(255))
 
     persona = db.relationship('Persona', backref='paciente')
