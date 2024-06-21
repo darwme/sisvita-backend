@@ -26,7 +26,7 @@ def getPreguntasByIdSituacion(id_situacion):
     return preguntas
 
 def getOpcionesByIdTest(id_test):
-    opciones = Opcion.query.filter_by(id_seccion=id_test).all()
+    opciones = Opcion.query.filter_by(id_test=id_test).all()
     return opciones
 
 administrar = Blueprint('administrar', __name__)
@@ -36,42 +36,44 @@ def crear_test():
     try:
         data = request.json
 
-        for test_name, test_data in data.items():
-            # Crear nuevo test
-            nuevo_test = Test(nombre=test_name)
-            db.session.add(nuevo_test)
-            db.session.commit()
+        with db.session.begin():
+            for test_name, test_data in data.items():
+                # Crear nuevo test
+                nuevo_test = Test(nombre=test_name)
+                db.session.add(nuevo_test)
+                db.session.flush()
+                i = 0
+                for opcion_data in test_data['opciones']:
+                    # Crear nueva opcion
+                    nueva_opcion = Opcion(id_test=nuevo_test.id_test, descripcion=opcion_data, valor_opcion=i)
+                    i += 1
+                    db.session.add(nueva_opcion)
+                    db.session.flush()
 
-            for seccion_name, seccion_data in test_data['secciones'].items():
-                # Crear nueva seccion
-                nueva_seccion = Seccion(id_test=nuevo_test.id_test, descripcion=seccion_name)
-                db.session.add(nueva_seccion)
-                db.session.commit()
+                for seccion_name, seccion_data in test_data['secciones'].items():
+                    # Crear nueva seccion
+                    nueva_seccion = Seccion(id_test=nuevo_test.id_test, descripcion=seccion_name)
+                    db.session.add(nueva_seccion)
+                    db.session.flush()
 
-                for situacion_data in seccion_data['situaciones']:
-                    # Crear nueva situacion
-                    nueva_situacion = Situacion(id_seccion=nueva_seccion.id_seccion, descripcion=situacion_data['situacion'])
-                    db.session.add(nueva_situacion)
-                    db.session.commit()
+                    for situacion_data in seccion_data['situaciones']:
+                        # Crear nueva situacion
+                        nueva_situacion = Situacion(id_seccion=nueva_seccion.id_seccion, descripcion=situacion_data['situacion'])
+                        db.session.add(nueva_situacion)
+                        db.session.flush()
 
-                    for pregunta_texto in situacion_data['preguntas']:
-                        # Crear nueva pregunta
-                        nueva_pregunta = Pregunta(id_situacion=nueva_situacion.id_situacion, descripcion=pregunta_texto)
-                        db.session.add(nueva_pregunta)
-                        db.session.commit()
-
-                # Registrar opciones si existen para la seccion
-                if 'opciones' in test_data and seccion_name in test_data['opciones']:
-                    opciones = test_data['opciones'][seccion_name]
-                    for opcion_texto in opciones:
-                        nueva_opcion = Opcion(id_seccion=nueva_seccion.id_seccion, descripcion=opcion_texto)
-                        db.session.add(nueva_opcion)
-                        db.session.commit()
+                        for pregunta_texto in situacion_data['preguntas']:
+                            # Crear nueva pregunta
+                            nueva_pregunta = Pregunta(id_situacion=nueva_situacion.id_situacion, descripcion=pregunta_texto)
+                            db.session.add(nueva_pregunta)
+                            db.session.flush()
 
         return jsonify({'message': 'Datos cargados exitosamente', 'status': 201}), 201
 
     except Exception as e:
+        print(e)
         db.session.rollback()
+        print('rollback ejecutado...')
         return jsonify({'message': f'Error al cargar datos: {str(e)}', 'status': 500}), 500
 
 
@@ -90,25 +92,34 @@ import logging
 
 @administrar.route('/administrar/v1/enviar/test', methods=['GET'])
 def listar_tests_detalles():
-    all_tests = Test.query.all()
-    test_list = []
-    for test in all_tests:
-        secciones = getSeccionesByIdTest(test.id_test)
-        logging.info('secciones: %s', secciones)
-        test_data = test_schema.dump(test)
-        test_data['secciones'] = []
-        for seccion in secciones:
-            situaciones = getSituacionesByIdSeccion(seccion.id_seccion)
-            seccion_data = seccion_schema.dump(seccion)
-            seccion_data['situaciones'] = []
-            for situacion in situaciones:
-                preguntas = getPreguntasByIdSituacion(situacion.id_situacion)
-                situacion_data = situacion_schema.dump(situacion)
-                situacion_data['preguntas'] = preguntas_schema.dump(preguntas)
-                seccion_data['situaciones'].append(situacion_data)
-            test_data['secciones'].append(seccion_data)
-        test_list.append(test_data)
-    return jsonify(test_list)
+    try:
+        all_tests = Test.query.all()
+        test_list = []
+        for test in all_tests:
+            opciones = getOpcionesByIdTest(test.id_test)
+            logging.info('opciones: %s', opciones)
+            secciones = getSeccionesByIdTest(test.id_test)
+            logging.info('secciones: %s', secciones)
+            test_data = test_schema.dump(test)
+            test_data['opciones'] = opciones_schema.dump(opciones)
+            print(test_data)
+            test_data['secciones'] = []
+            for seccion in secciones:
+                situaciones = getSituacionesByIdSeccion(seccion.id_seccion)
+                seccion_data = seccion_schema.dump(seccion)
+                seccion_data['situaciones'] = []
+                for situacion in situaciones:
+                    preguntas = getPreguntasByIdSituacion(situacion.id_situacion)
+                    situacion_data = situacion_schema.dump(situacion)
+                    situacion_data['preguntas'] = preguntas_schema.dump(preguntas)
+                    seccion_data['situaciones'].append(situacion_data)
+                test_data['secciones'].append(seccion_data)
+            test_list.append(test_data)
+        return jsonify(test_list)
+    
+    except Exception as e:
+        print(e)
+        return jsonify({'message': f'Error al listar los tests: {str(e)}', 'status': 500}), 500
 
 
 

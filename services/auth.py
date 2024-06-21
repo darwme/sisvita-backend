@@ -37,7 +37,6 @@ def crear_usuario_y_persona(datos):
             id_usuario=id_usuario,
             nombres=datos.get("nombres"),
             apellidos=datos.get("apellidos"),
-            dni=datos.get("dni"),
             fecha_nacimiento=datos.get("fecha_nacimiento"),
             sexo=datos.get("sexo"),
             estado_civil=datos.get("estado_civil"),
