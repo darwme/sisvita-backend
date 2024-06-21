@@ -22,10 +22,11 @@ def crear_usuario_y_persona(datos):
     try:
         email = datos.get("email")
         clave = datos.get("clave")
+        tipo_usuario = datos.get("tipo_usuario")
 
         clave_hash = generate_password_hash(clave)
 
-        nuevo_usuario = Usuario(email, clave_hash)
+        nuevo_usuario = Usuario(email, clave_hash,tipo_usuario)
         db.session.add(nuevo_usuario)
         db.session.commit()
 
