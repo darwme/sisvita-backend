@@ -78,18 +78,6 @@ def crear_test():
 
 
 
-
-
-
-        #getOpcionesByIdTest(id_test)
-    #getPreguntasByIdSituacion(id_situacion)
-    #getSituacionesByIdSeccion(id_seccion)
-    #getSeccionesByIdTest(id_test)
-
-#--------------------
-#
-import logging
-
 @administrar.route('/administrar/v1/enviar/test', methods=['GET'])
 def listar_tests_detalles():
     try:
@@ -97,9 +85,7 @@ def listar_tests_detalles():
         test_list = []
         for test in all_tests:
             opciones = getOpcionesByIdTest(test.id_test)
-            logging.info('opciones: %s', opciones)
             secciones = getSeccionesByIdTest(test.id_test)
-            logging.info('secciones: %s', secciones)
             test_data = test_schema.dump(test)
             test_data['opciones'] = opciones_schema.dump(opciones)
             print(test_data)

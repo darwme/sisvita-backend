@@ -9,6 +9,7 @@ class UsuarioSchema(ma.Schema):
             'id_usuario',
             'email',
             'clave',
+            'tipo_usuario',
         )
 
 usuario_schema = UsuarioSchema()
