@@ -2,6 +2,10 @@ from utils.db import db
 from dataclasses import dataclass
 from datetime import datetime
 
+#FALTA
+#estadoType = ('pendiente','atendido','cancelado')
+#estado_enum = Enum(*estadoType, name='estado_cita')
+
 @dataclass
 class Cita(db.Model):
     __tablename__ = 'cita'
