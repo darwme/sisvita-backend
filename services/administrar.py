@@ -100,6 +100,8 @@ def listar_tests_detalles():
                     situacion_data['preguntas'] = []
                     for pregunta in preguntas:
                         pregunta_data = pregunta_schema.dump(pregunta)
+                        pregunta_data['id_pregunta'] = pregunta.id_pregunta 
+                        print('id_pregunta', pregunta_data['id_pregunta'])
                         print(pregunta_data)
                         situacion_data['preguntas'].append(pregunta_data)
                     seccion_data['situaciones'].append(situacion_data)
