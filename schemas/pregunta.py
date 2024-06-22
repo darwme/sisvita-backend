@@ -7,7 +7,7 @@ class PreguntaSchema(ma.Schema):
     class Meta:
         model = Pregunta
         fields = (
-            #'id_pregunta',
+            'id_pregunta',
             #'situacion',
             'descripcion',
         )

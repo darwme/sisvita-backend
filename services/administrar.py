@@ -97,7 +97,11 @@ def listar_tests_detalles():
                 for situacion in situaciones:
                     preguntas = getPreguntasByIdSituacion(situacion.id_situacion)
                     situacion_data = situacion_schema.dump(situacion)
-                    situacion_data['preguntas'] = preguntas_schema.dump(preguntas)
+                    situacion_data['preguntas'] = []
+                    for pregunta in preguntas:
+                        pregunta_data = pregunta_schema.dump(pregunta)
+                        print(pregunta_data)
+                        situacion_data['preguntas'].append(pregunta_data)
                     seccion_data['situaciones'].append(situacion_data)
                 test_data['secciones'].append(seccion_data)
             test_list.append(test_data)
@@ -106,7 +110,6 @@ def listar_tests_detalles():
     except Exception as e:
         print(e)
         return jsonify({'message': f'Error al listar los tests: {str(e)}', 'status': 500}), 500
-
 
 
 

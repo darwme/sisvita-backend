@@ -7,7 +7,7 @@ class OpcionSchema(ma.Schema):
     class Meta:
         model = Opcion
         fields = (
-            #'id_opcion',
+            'id_opcion',
             #'test',
             'descripcion',
             'valor_opcion',
