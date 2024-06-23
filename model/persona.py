@@ -2,6 +2,9 @@ from utils.db import db
 from dataclasses import dataclass
 from sqlalchemy import Enum
 
+persona_types = ('especialista','paciente', 'mixto')
+persona_enum = Enum(*persona_types, name='tipo_persona')
+
 sexo_types = ('masculino', 'femenino')
 sexo_enum = Enum(*sexo_types, name='sexo')
 estado_civil_types = ('soltero', 'casado', 'divorciado', 'viudo')
@@ -19,11 +22,12 @@ class Persona(db.Model):
     sexo = db.Column(sexo_enum)
     estado_civil = db.Column(estado_civil_enum)
     celular = db.Column(db.String(9))
+    tipo_persona = db.Column(persona_enum)
     
     usuario = db.relationship('Usuario', backref='persona')
     ubicacion = db.relationship('Ubicacion', backref='ubicacion')
 
-    def __init__(self, id_ubicacion, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular):
+    def __init__(self, id_ubicacion, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular, tipo_persona):
         self.id_ubicacion = id_ubicacion
         self.id_usuario = id_usuario
         self.nombres = nombres
@@ -32,3 +36,4 @@ class Persona(db.Model):
         self.sexo = sexo
         self.estado_civil = estado_civil
         self.celular = celular
+        self.tipo_persona = tipo_persona

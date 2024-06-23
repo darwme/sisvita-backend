@@ -1,10 +1,10 @@
 from utils.db import db
 from dataclasses import dataclass
 from datetime import datetime
+from sqlalchemy import Enum
 
-#FALTA
-#estadoType = ('pendiente','atendido','cancelado')
-#estado_enum = Enum(*estadoType, name='estado_cita')
+estadoType = ('pendiente','rechazada','atendida','cancelada')
+estado_enum = Enum(*estadoType, name='estado')
 
 @dataclass
 class Cita(db.Model):
