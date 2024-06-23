@@ -23,7 +23,8 @@ class Persona(db.Model):
     usuario = db.relationship('Usuario', backref='persona')
     ubicacion = db.relationship('Ubicacion', backref='ubicacion')
 
-    def __init__(self, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular):
+    def __init__(self, id_ubicacion, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular):
+        self.id_ubicacion = id_ubicacion
         self.id_usuario = id_usuario
         self.nombres = nombres
         self.apellidos = apellidos
