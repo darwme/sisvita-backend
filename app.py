@@ -26,6 +26,7 @@ from services.pregunta import pregunta
 
 from services.auth import auth
 from services.administrar import administrar
+from services.ubicacion import ubicacion
 
 #model
 from model.ubicacion import Ubicacion
@@ -70,6 +71,7 @@ app.register_blueprint(situacion)
 app.register_blueprint(pregunta)
 app.register_blueprint(auth)
 app.register_blueprint(administrar)
+app.register_blueprint(ubicacion)
 
 
 with app.app_context():
