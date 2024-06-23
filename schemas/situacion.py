@@ -11,7 +11,7 @@ class SituacionSchema(ma.Schema):
             #'seccion',
             'descripcion',
         )
-    #seccion = fields.Nested(SeccionSchema)
+    seccion = fields.Nested(SeccionSchema)
 
 situacion_schema = SituacionSchema()
 situaciones_schema = SituacionSchema(many=True)

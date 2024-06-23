@@ -12,7 +12,7 @@ class OpcionSchema(ma.Schema):
             'descripcion',
             'valor_opcion',
         )
-    #test = fields.Nested(TestSchema)
+    test = fields.Nested(TestSchema)
 
 opcion_schema = OpcionSchema()
 opciones_schema = OpcionSchema(many=True)

@@ -11,7 +11,7 @@ class PreguntaSchema(ma.Schema):
             #'situacion',
             'descripcion',
         )
-    #situacion = fields.Nested(SituacionSchema)
+    situacion = fields.Nested(SituacionSchema)
 
 pregunta_schema = SituacionSchema()
 preguntas_schema = SituacionSchema(many=True)

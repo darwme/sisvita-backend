@@ -17,10 +17,10 @@ class Historial_test(db.Model):
     test = db.relationship('Test', backref='historiales_tests')
 
 
-    def __init__(self,id_usuario,test_realizado,fecha_realizada,cant_preguntas_realizadas,puntaje_realizado,diagnostico):
+    def __init__(self,id_usuario,id_test,fecha_realizada,cant_preguntas_realizadas,puntaje_realizado,array_diagnostico):
         self.id_usuario = id_usuario
-        self.test_realizado = test_realizado
+        self.id_test = id_test
         self.fecha_realizada = fecha_realizada
         self.cant_preguntas_realizadas = cant_preguntas_realizadas
         self.puntaje_realizado = puntaje_realizado
-        self.diagnostico = diagnostico
+        self.array_diagnostico = array_diagnostico

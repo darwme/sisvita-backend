@@ -11,7 +11,7 @@ class SeccionSchema(ma.Schema):
             #'test',
             'descripcion',
         )
-    #test = fields.Nested(TestSchema)
+    test = fields.Nested(TestSchema)
 
 seccion_schema = SeccionSchema()
 secciones_schema = SeccionSchema(many=True)
