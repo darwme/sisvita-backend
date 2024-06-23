@@ -28,7 +28,7 @@ from services.auth import auth
 from services.administrar import administrar
 
 #model
-
+from model.ubicacion import Ubicacion
 
 
 from flask_cors import CORS
@@ -74,6 +74,7 @@ app.register_blueprint(administrar)
 
 with app.app_context():
     db.create_all()
+    Ubicacion.upload_ubicacion_peru()
 
 if __name__=="__main__":
     app.run(host='0.0.0.0', debug=True, port=5000)

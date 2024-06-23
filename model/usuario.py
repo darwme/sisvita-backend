@@ -2,7 +2,7 @@ from utils.db import db
 from sqlalchemy import Enum
 from dataclasses import dataclass
 
-usuario_types = ('administrador','paciente', 'especialista', 'mixto')
+usuario_types = ('administrador','persona')
 usuario_enum = Enum(*usuario_types, name='tipo_usuario')
 
 @dataclass
