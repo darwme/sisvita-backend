@@ -2,8 +2,8 @@ from utils.db import db
 from dataclasses import dataclass
 
 @dataclass
-class rango_test_test(db.Model):
-    __tablename__='rango_test_test'
+class Rango_test(db.Model):
+    __tablename__='rango_test'
     id_rango_test = db.Column(db.Integer, primary_key=True, autoincrement=True)
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     minimo = db.Column(db.Integer)

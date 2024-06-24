@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response
-from model.seccion import Seccion_respuesta
+from model.seccion_respuesta import Seccion_respuesta
 from utils.db import db
-from schemas.seccion import seccion_respuesta_schema, seccion_respuestas_schema
+from schemas.seccion_respuesta import seccion_respuesta_schema, seccion_respuestas_schema
 
 seccion_respuesta = Blueprint('seccion_respuesta', __name__)
 
