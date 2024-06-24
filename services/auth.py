@@ -7,6 +7,7 @@ from model.administrador import Administrador
 from model.persona import Persona
 from model.paciente import Paciente
 from model.especialista import Especialista
+from model.ubicacion import Ubicacion
 
 from utils.db import db
 
@@ -15,6 +16,10 @@ from schemas.administrador import administrador_schema, administradores_schema
 from schemas.persona import persona_schema, personas_schema
 from schemas.paciente import paciente_schema, pacientes_schema
 from schemas.especialista import especialista_schema, especialistas_schema
+from schemas.ubicacion import ubicacion_schema,ubicaciones_schema
+
+import secrets
+import string
 
 auth = Blueprint('auth', __name__)
 
@@ -40,8 +45,14 @@ def crear_usuario_y_persona(datos):
         if not id_usuario:
             raise Exception('Error al registrar el usuario')
 
+        # Validación de ubigeo
+        ubigeo = datos.get("ubigeo")
+        ubicacion = Ubicacion.query.filter_by(ubigeo=ubigeo).first()
+        if not ubicacion:
+            raise ValueError('El ubigeo proporcionado no es válido')
+        
         nueva_persona = Persona(
-            ubigeo=datos.get("ubigeo"),
+            ubigeo=ubigeo,
             id_usuario=id_usuario,
             nombres=datos.get("nombres"),
             apellidos=datos.get("apellidos"),
@@ -63,6 +74,12 @@ def crear_usuario_y_persona(datos):
         db.session.rollback()
         raise e
 
+def generar_codigo_aleatorio(longitud=8):
+    caracteres = string.ascii_letters + string.digits
+    codigo = ''.join(secrets.choice(caracteres) for _ in range(longitud))
+    return codigo
+
+
 @auth.route('/auth/v1/register/paciente', methods=['POST'])
 def registrar_paciente():
     try:
@@ -71,17 +88,19 @@ def registrar_paciente():
         if not datos.get("email") or not datos.get("clave"):
             raise ValueError("El email y la clave son campos obligatorios")
 
+        
         # Validación de campos específicos para paciente
-        if not datos.get("codigo_paciente"):
-            raise ValueError("El código de paciente es un campo obligatorio")
-
+        #if not datos.get("codigo_paciente"):
+        #    raise ValueError("El código de paciente es un campo obligatorio")
+        codigo_paciente = generar_codigo_aleatorio()
+        
         # Crear usuario y persona
         nueva_persona = crear_usuario_y_persona(datos)
         
         # Crear paciente
         nuevo_paciente = Paciente(
             id_persona=nueva_persona.id_persona,
-            codigo_paciente=datos.get("codigo_paciente"),
+            codigo_paciente=codigo_paciente,
             antecedentes=datos.get("antecedentes")
         )
         db.session.add(nuevo_paciente)
@@ -119,16 +138,15 @@ def registrar_especialista():
         datos = request.json
 
         # Validación de campos específicos para especialista
-        if not datos.get("codigo_especialista") or not datos.get("especialidad"):
-            raise ValueError("El código de especialista y la especialidad son campos obligatorios")
-
+        codigo_especialista = generar_codigo_aleatorio()
+        
         # Crear usuario y persona
         nueva_persona = crear_usuario_y_persona(datos)
 
         # Crear especialista
         nuevo_especialista = Especialista(
             id_persona=nueva_persona.id_persona,
-            codigo_especialista=datos.get("codigo_especialista"),
+            codigo_especialista=codigo_especialista,
             especialidad=datos.get("especialidad"),
             experiencia=datos.get("experiencia")
         )

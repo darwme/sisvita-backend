@@ -4,6 +4,8 @@ from model.seccion import Seccion
 from model.situacion import Situacion
 from model.pregunta import Pregunta
 from model.opcion import Opcion
+from model.rango_seccion import Rango_seccion
+from model.rango_test import Rango_test
 from utils.db import db
 
 from schemas.test import test_schema, tests_schema
@@ -11,6 +13,8 @@ from schemas.seccion import seccion_schema,secciones_schema
 from schemas.situacion import situacion_schema,situaciones_schema
 from schemas.pregunta import pregunta_schema,preguntas_schema
 from schemas.opcion import opcion_schema,opciones_schema
+from schemas.rango_seccion import rango_seccion_schema,rango_secciones_schema
+from schemas.rango_test import rango_test_schema,rango_tests_schema
 
 
 def getSeccionesByIdTest(id_test):
@@ -35,50 +39,69 @@ administrar = Blueprint('administrar', __name__)
 def crear_test():
     try:
         data = request.json
+        
+        # Extraer el nombre y la descripción del test ISRA
+        nombre = data.get('nombre')
+        descripcion = data.get('descripcion')
 
         with db.session.begin():
-            for test_name, test_data in data.items():
-                # Crear nuevo test
-                print('test', data.items())
+            # Crear el test ISRA
+            nuevo_test = Test(nombre=nombre, descripcion=descripcion)
+            db.session.add(nuevo_test)
+            db.session.flush()
 
-                test_descripcion = test_data['descripcion']
-                print('test_descripcion', test_descripcion)
-                nuevo_test = Test(nombre=test_name, descripcion=test_descripcion)
-                
-                db.session.add(nuevo_test)
-                db.session.flush()
-                i = 0
-                for opcion_data in test_data['opciones']:
-                    # Crear nueva opcion
-                    nueva_opcion = Opcion(id_test=nuevo_test.id_test, descripcion=opcion_data, valor_opcion=i)
-                    i += 1
-                    db.session.add(nueva_opcion)
-                    db.session.flush()
-
-                for seccion_name, seccion_data in test_data['secciones'].items():
-                    # Crear nueva seccion
+            # Procesar las secciones del test ISRA
+            if 'secciones' in data:
+                secciones_data = data['secciones']
+                for seccion_name, seccion_data in secciones_data.items():
                     nueva_seccion = Seccion(id_test=nuevo_test.id_test, descripcion=seccion_name)
                     db.session.add(nueva_seccion)
                     db.session.flush()
 
-                    for situacion_data in seccion_data['situaciones']:
-                        # Crear nueva situacion
-                        nueva_situacion = Situacion(id_seccion=nueva_seccion.id_seccion, descripcion=situacion_data['situacion'])
-                        db.session.add(nueva_situacion)
-                        db.session.flush()
-
-                        for pregunta_texto in situacion_data['preguntas']:
-                            # Crear nueva pregunta
-                            nueva_pregunta = Pregunta(id_situacion=nueva_situacion.id_situacion, descripcion=pregunta_texto)
-                            db.session.add(nueva_pregunta)
+                    if 'situaciones' in seccion_data:
+                        for situacion_data in seccion_data['situaciones']:
+                            nueva_situacion = Situacion(id_seccion=nueva_seccion.id_seccion, descripcion=situacion_data['situacion'])
+                            db.session.add(nueva_situacion)
                             db.session.flush()
 
-        return jsonify({'message': 'Datos cargados exitosamente', 'status': 201}), 201
+                            if 'preguntas' in situacion_data:
+                                for pregunta_texto in situacion_data['preguntas']:
+                                    nueva_pregunta = Pregunta(id_situacion=nueva_situacion.id_situacion, descripcion=pregunta_texto)
+                                    db.session.add(nueva_pregunta)
+                                    db.session.flush()
+
+                    if 'rango_seccion' in seccion_data:
+                        for rango_data in seccion_data['rango_seccion']:
+                            nueva_rango_seccion = Rango_seccion(id_seccion=nueva_seccion.id_seccion, minimo=rango_data['minimo'], maximo=rango_data['maximo'], diagnostico=rango_data['diagnostico'])
+                            db.session.add(nueva_rango_seccion)
+                            db.session.flush()
+
+            # Procesar el rango de test ISRA
+            if 'rango_test' in data:
+                for rango_data in data['rango_test']:
+                    nuevo_rango_test = Rango_test(id_test=nuevo_test.id_test, minimo=rango_data['minimo'], maximo=rango_data['maximo'], diagnostico=rango_data['diagnostico'])
+                    db.session.add(nuevo_rango_test)
+                    db.session.flush()
+
+            # Procesar las opciones del test ISRA
+            if 'opciones' in data:
+                for opcion_data in data['opciones']:
+                    nueva_opcion = Opcion(id_test=nuevo_test.id_test, descripcion=opcion_data['descripcion'], valor_opcion=opcion_data['valor_opcion'])
+                    db.session.add(nueva_opcion)
+                    db.session.flush()
+                    
+        result = test_schema.dump(nuevo_test)
+
+        data = {
+            'message': 'Test registrado correctamente',
+            'status': 201,
+            'data': result
+        }
+
+        return jsonify(data), 201
 
     except Exception as e:
-        print(e)
         db.session.rollback()
-        print('rollback ejecutado...')
         return jsonify({'message': f'Error al cargar datos: {str(e)}', 'status': 500}), 500
 
 
@@ -93,7 +116,7 @@ def listar_tests_detalles():
             secciones = getSeccionesByIdTest(test.id_test)
             test_data = test_schema.dump(test)
             test_data['opciones'] = opciones_schema.dump(opciones)
-            print(test_data)
+            #print(test_data)
             test_data['secciones'] = []
             for seccion in secciones:
                 situaciones = getSituacionesByIdSeccion(seccion.id_seccion)
@@ -106,8 +129,8 @@ def listar_tests_detalles():
                     for pregunta in preguntas:
                         pregunta_data = pregunta_schema.dump(pregunta)
                         pregunta_data['id_pregunta'] = pregunta.id_pregunta 
-                        print('id_pregunta', pregunta_data['id_pregunta'])
-                        print(pregunta_data)
+                        #print('id_pregunta', pregunta_data['id_pregunta'])
+                        #print(pregunta_data)
                         situacion_data['preguntas'].append(pregunta_data)
                     seccion_data['situaciones'].append(situacion_data)
                 test_data['secciones'].append(seccion_data)
@@ -115,7 +138,7 @@ def listar_tests_detalles():
         return jsonify(test_list)
     
     except Exception as e:
-        print(e)
+        #print(e)
         return jsonify({'message': f'Error al listar los tests: {str(e)}', 'status': 500}), 500
 
 
