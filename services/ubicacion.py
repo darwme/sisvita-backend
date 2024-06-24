@@ -5,7 +5,7 @@ from schemas.ubicacion import ubicacion_schema, ubicaciones_schema
 from typing import List
 
 class Distrito:
-    def __init__(self, nombre: str, ubigeo: int, y: float, x: float):
+    def __init__(self, nombre: str, ubigeo: str, y: float, x: float):
         self.nombre = nombre
         self.ubigeo = ubigeo
         self.y = y
