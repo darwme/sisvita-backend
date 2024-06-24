@@ -27,6 +27,7 @@ from services.situacion import situacion
 from services.pregunta import pregunta
 
 from services.auth import auth
+from services.gestion_test import gestion_test
 
 
 #model
@@ -75,6 +76,7 @@ app.register_blueprint(pregunta)
 app.register_blueprint(auth)
 app.register_blueprint(administrar)
 app.register_blueprint(ubicacion)
+app.register_blueprint(gestion_test)
 
 
 with app.app_context():
