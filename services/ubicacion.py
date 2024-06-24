@@ -2,6 +2,37 @@ from flask import Blueprint, request, jsonify, make_response
 from model.ubicacion import Ubicacion
 from utils.db import db
 from schemas.ubicacion import ubicacion_schema, ubicaciones_schema
+from typing import List
+
+class Distrito:
+    def __init__(self, nombre: str, ubigeo: int, y: float, x: float):
+        self.nombre = nombre
+        self.ubigeo = ubigeo
+        self.y = y
+        self.x = x
+    
+    def to_dict(self):
+        return {
+            "nombre": self.nombre,
+            "ubigeo": self.ubigeo,
+            "y": self.y,
+            "x": self.x
+        }
+
+class Provincia:
+    def __init__(self, nombre: str, distritos: List[Distrito] = None):
+        self.nombre = nombre
+        if distritos is None:
+            self.distritos = []
+        else:
+            self.distritos = distritos
+
+    def to_dict(self):
+        return {
+            "nombre": self.nombre,
+            "distritos": [distrito.to_dict() for distrito in self.distritos]
+        }
+
 
 
 ubicacion = Blueprint('ubicacion', __name__)
@@ -11,10 +42,20 @@ ubicacion = Blueprint('ubicacion', __name__)
 def get_ubicaciones():
     ubicaciones = Ubicacion.query.all()
 
-    if not ubicaciones:
-        return jsonify({'message': 'No hay ubicaciones'})
+    provincias_dict = {}
     
-    return jsonify(ubicaciones_schema.dump(ubicaciones))
+    for row in ubicaciones:
+        distrito = Distrito(row.distrito, row.ubigeo, row.y, row.x)
+        if row.provincia not in provincias_dict:
+            provincias_dict[row.provincia] = Provincia(row.provincia, [distrito])
+        else:
+            provincias_dict[row.provincia].distritos.append(distrito)
+    
+    provincias = [provincia.to_dict() for provincia in provincias_dict.values()]
+    
+    return jsonify(provincias)
+
+
 
 
 #Obtener una ubicacion
