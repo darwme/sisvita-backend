@@ -7,10 +7,10 @@ from sqlalchemy.dialects.postgresql import ARRAY
 class Seccion_respuesta(db.Model):
     __tablename__='seccion_respuesta'
     id_seccion_respuesta = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_usuario = db.Column(db.Integer, db.ForeignKey('test.id_usuario'))   
+    id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))   
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
-    id_seccion = db.Column(db.Integer, db.ForeignKey('test.id_seccion'))
-    respuestas =db.Column(db.ARRAY(db.Integer))
+    id_seccion = db.Column(db.Integer, db.ForeignKey('seccion.id_seccion'))
+    respuestas =db.Column(db.String(250))
     
     usuario = db.relationship('Usuario', backref='seccion_respuestas')   
     test = db.relationship('Test', backref='seccion_respuestas')

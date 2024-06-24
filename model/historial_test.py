@@ -10,7 +10,7 @@ class Historial_test(db.Model):
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     fecha_realizada = db.Column(db.Date)
     cant_preguntas_realizadas = db.Column(db.Integer)
-    puntaje_realizado = db.Column(db.Integer)
+    puntaje_realizado = db.Column(db.String(250))
     array_diagnostico = db.Column(db.String(50))
     
     usuario = db.relationship('Usuario', backref='historiales_usuarios')
