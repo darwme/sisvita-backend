@@ -39,7 +39,12 @@ def crear_test():
         with db.session.begin():
             for test_name, test_data in data.items():
                 # Crear nuevo test
-                nuevo_test = Test(nombre=test_name)
+                print('test', data.items())
+
+                test_descripcion = test_data['descripcion']
+                print('test_descripcion', test_descripcion)
+                nuevo_test = Test(nombre=test_name, descripcion=test_descripcion)
+                
                 db.session.add(nuevo_test)
                 db.session.flush()
                 i = 0
