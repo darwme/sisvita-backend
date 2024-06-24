@@ -5,8 +5,7 @@ import pandas as pd
 @dataclass
 class Ubicacion(db.Model):
     __tablename__='ubicacion'
-    id_ubicacion = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    ubigeo = db.Column(db.String(6))
+    ubigeo = db.Column(db.String(6), primary_key=True)
     distrito = db.Column(db.String(50))
     provincia = db.Column(db.String(50))
     y = db.Column(db.Float)
@@ -40,7 +39,10 @@ class Ubicacion(db.Model):
             y = float(row['y'])
             x = float(row['x'])
 
-                
+            if len(ubigeo) < 6:
+                add_zeros = 6 - len(ubigeo)
+                ubigeo = '0'*add_zeros + ubigeo
+
             ubicacion = Ubicacion(ubigeo, distrito, provincia, x, y)
             db.session.add(ubicacion)
 

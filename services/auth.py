@@ -26,6 +26,12 @@ def crear_usuario_y_persona(datos):
 
         clave_hash = generate_password_hash(clave)
 
+        if tipo_usuario == 'administrador':
+            raise ValueError('No se puede registrar un administrador desde esta ruta')
+
+        if not tipo_usuario:
+            tipo_usuario = Usuario.__table__.c.tipo_usuario.default.arg
+
         nuevo_usuario = Usuario(email, clave_hash,tipo_usuario)
         db.session.add(nuevo_usuario)
         db.session.commit()
@@ -35,19 +41,20 @@ def crear_usuario_y_persona(datos):
             raise Exception('Error al registrar el usuario')
 
         nueva_persona = Persona(
+            ubigeo=datos.get("ubigeo"),
             id_usuario=id_usuario,
             nombres=datos.get("nombres"),
             apellidos=datos.get("apellidos"),
             fecha_nacimiento=datos.get("fecha_nacimiento"),
             sexo=datos.get("sexo"),
             estado_civil=datos.get("estado_civil"),
-            celular=datos.get("celular")
+            celular=datos.get("celular"),
+            tipo_persona=datos.get("tipo_persona")
         )
         db.session.add(nueva_persona)
         db.session.commit()
 
-        id_persona = nueva_persona.id_persona
-        if not id_persona:
+        if not nueva_persona.id_persona:
             raise Exception('Error al registrar la persona')
 
         return nueva_persona
@@ -60,6 +67,9 @@ def crear_usuario_y_persona(datos):
 def registrar_paciente():
     try:
         datos = request.json
+
+        if not datos.get("email") or not datos.get("clave"):
+            raise ValueError("El email y la clave son campos obligatorios")
 
         # Validación de campos específicos para paciente
         if not datos.get("codigo_paciente"):
@@ -95,6 +105,7 @@ def registrar_paciente():
         return jsonify(error_data), 400
 
     except Exception as e:
+        db.session.rollback()
         error_data = {
             'message': 'Error al registrar el paciente',
             'status': 500,
@@ -142,6 +153,7 @@ def registrar_especialista():
         return jsonify(error_data), 400
 
     except Exception as e:
+        db.session.rollback()
         error_data = {
             'message': 'Error al registrar el especialista',
             'status': 500,
@@ -194,6 +206,7 @@ def login():
             }), 401
 
     except Exception as e:
+
         error_data = {
             'message': 'Error al procesar el login',
             'status': 500,

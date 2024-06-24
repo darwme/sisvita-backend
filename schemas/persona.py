@@ -9,6 +9,7 @@ class PersonaSchema(ma.Schema):
         model = Persona
         fields = (
             'id_persona',
+            'ubigeo',
             'ubicacion',
             'usuario', 
             'nombres',

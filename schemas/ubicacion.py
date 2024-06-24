@@ -5,7 +5,6 @@ class UbicacionSchema(ma.Schema):
     class Meta:
         model = Ubicacion
         fields = (
-            'id_ubicacion',
             'ubigeo',
             'distrito',
             'provincia',

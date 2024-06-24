@@ -14,7 +14,7 @@ estado_civil_enum = Enum(*estado_civil_types, name='estado_civil')
 class Persona(db.Model):
     __tablename__ = 'persona'
     id_persona = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    id_ubicacion = db.Column(db.Integer, db.ForeignKey('ubicacion.id_ubicacion'))
+    ubigeo = db.Column(db.String(6), db.ForeignKey('ubicacion.ubigeo'))
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
     nombres = db.Column(db.String(50))
     apellidos = db.Column(db.String(50))
@@ -22,13 +22,13 @@ class Persona(db.Model):
     sexo = db.Column(sexo_enum)
     estado_civil = db.Column(estado_civil_enum)
     celular = db.Column(db.String(9))
-    tipo_persona = db.Column(persona_enum)
+    tipo_persona = db.Column(persona_enum, default='paciente')
     
     usuario = db.relationship('Usuario', backref='persona')
     ubicacion = db.relationship('Ubicacion', backref='ubicacion')
 
-    def __init__(self, id_ubicacion, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular, tipo_persona):
-        self.id_ubicacion = id_ubicacion
+    def __init__(self, ubigeo, id_usuario, nombres, apellidos,fecha_nacimiento, sexo, estado_civil,celular, tipo_persona):
+        self.ubigeo = ubigeo
         self.id_usuario = id_usuario
         self.nombres = nombres
         self.apellidos = apellidos

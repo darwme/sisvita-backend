@@ -11,11 +11,12 @@ class Usuario(db.Model):
     id_usuario = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(100))
     clave = db.Column(db.String(250))
-    tipo_usuario = db.Column(usuario_enum)
+    tipo_usuario = db.Column(usuario_enum, default = 'persona')
 
-    def __init__(self,email,clave):
+    def __init__(self,email,clave, tipo_usuario):
         self.email = email
         self.clave = clave
+        self.tipo_usuario = tipo_usuario
 
 
 
