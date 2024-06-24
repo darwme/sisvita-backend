@@ -7,7 +7,7 @@ from model.administrador import Administrador
 from model.persona import Persona
 from model.paciente import Paciente
 from model.especialista import Especialista
-from model.ubicacion import ubicacion
+from model.ubicacion import Ubicacion
 
 from utils.db import db
 
@@ -45,10 +45,14 @@ def crear_usuario_y_persona(datos):
         if not id_usuario:
             raise Exception('Error al registrar el usuario')
 
-
+        # Validación de ubigeo
+        ubigeo = datos.get("ubigeo")
+        ubicacion = Ubicacion.query.filter_by(ubigeo=ubigeo).first()
+        if not ubicacion:
+            raise ValueError('El ubigeo proporcionado no es válido')
         
         nueva_persona = Persona(
-            ubigeo=datos.get("ubigeo"),
+            ubigeo=ubigeo,
             id_usuario=id_usuario,
             nombres=datos.get("nombres"),
             apellidos=datos.get("apellidos"),
@@ -134,16 +138,15 @@ def registrar_especialista():
         datos = request.json
 
         # Validación de campos específicos para especialista
-        if not datos.get("codigo_especialista") or not datos.get("especialidad"):
-            raise ValueError("El código de especialista y la especialidad son campos obligatorios")
-
+        codigo_especialista = generar_codigo_aleatorio()
+        
         # Crear usuario y persona
         nueva_persona = crear_usuario_y_persona(datos)
 
         # Crear especialista
         nuevo_especialista = Especialista(
             id_persona=nueva_persona.id_persona,
-            codigo_especialista=datos.get("codigo_especialista"),
+            codigo_especialista=codigo_especialista,
             especialidad=datos.get("especialidad"),
             experiencia=datos.get("experiencia")
         )

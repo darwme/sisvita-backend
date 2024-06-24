@@ -7,7 +7,7 @@ class SeccionSchema(ma.Schema):
     class Meta:
         model = Seccion
         fields = (
-            'id_seccion',
+            #'id_seccion',
             #'test',
             'descripcion',
         )

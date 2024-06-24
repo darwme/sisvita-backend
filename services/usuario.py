@@ -13,11 +13,11 @@ def crear_usuario():
     email = request.json.get("email")
     clave = request.json.get("clave")
     tipo_usuario = request.json.get("tipo_usuario")
-    print("aqui")
+    #print("aqui")
     nuevo_usuario = Usuario(email,clave, tipo_usuario)
     db.session.add(nuevo_usuario)
     db.session.commit()
-    print("aqui2")
+    #print("aqui2")
     result = usuario_schema.dump(nuevo_usuario)
 
     data = {
