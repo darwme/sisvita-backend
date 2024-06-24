@@ -10,8 +10,9 @@ test = Blueprint('test', __name__)
 @test.route('/test/v1', methods=['POST'])
 def crear_test():
     nombre = request.json.get("nombre")
+    descripcion = request.json.get("descripcion")
 
-    nuevo_test = Test(nombre)
+    nuevo_test = Test(nombre,descripcion)
     db.session.add(nuevo_test)
     db.session.commit()
 
@@ -76,9 +77,11 @@ def actualizar_test(id):
 
     id_test = request.json.get("id_test")
     nombre = request.json.get("nombre")
+    descripcion = request.json.get("descripcion")
     
     nuevo_test.id_test = id_test
     nuevo_test.nombre = nombre
+    nuevo_test.descripcion = descripcion
     
     db.session.commit()
 

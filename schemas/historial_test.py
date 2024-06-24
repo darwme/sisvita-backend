@@ -12,7 +12,6 @@ class Historial_testSchema(ma.Schema):
             'usuario',
             'test',
             'fecha_realizada',
-            'cant_preguntas_realizadas',
             'puntaje_realizado',
             'array_diagnostico',
         )

@@ -11,12 +11,11 @@ def crear_historial_test():
     id_usuario = request.json.get("id_usuario")
     test_realizado = request.json.get("test_realizado")
     fecha_realizado = request.json.get("fecha_realizado")
-    cant_preguntas_realizadas = request.json.get("cant_preguntas_realizadas")
     puntaje_realizado = request.json.get("puntaje_realizado")
     diagnostico = request.json.get("diagnostico")
 
     nuevo_historial = Historial_test(id_usuario=id_usuario, test_realizado=test_realizado,
-                                     fecha_realizado=fecha_realizado, cant_preguntas_realizadas=cant_preguntas_realizadas,
+                                     fecha_realizado=fecha_realizado,
                                      puntaje_realizado=puntaje_realizado, diagnostico=diagnostico)
     db.session.add(nuevo_historial)
     db.session.commit()
@@ -83,14 +82,12 @@ def actualizar_historial_test(id):
     id_usuario = request.json.get("id_usuario")
     test_realizado = request.json.get("test_realizado")
     fecha_realizado = request.json.get("fecha_realizado")
-    cant_preguntas_realizadas = request.json.get("cant_preguntas_realizadas")
     puntaje_realizado = request.json.get("puntaje_realizado")
     diagnostico = request.json.get("diagnostico")
 
     historial_actual.id_usuario = id_usuario
     historial_actual.test_realizado = test_realizado
     historial_actual.fecha_realizado = fecha_realizado
-    historial_actual.cant_preguntas_realizadas = cant_preguntas_realizadas
     historial_actual.puntaje_realizado = puntaje_realizado
     historial_actual.diagnostico = diagnostico
 

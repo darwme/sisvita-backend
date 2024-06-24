@@ -9,18 +9,16 @@ class Historial_test(db.Model):
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     fecha_realizada = db.Column(db.Date)
-    cant_preguntas_realizadas = db.Column(db.Integer)
-    puntaje_realizado = db.Column(db.Integer)
+    puntaje_realizado = db.Column(db.String(250))
     array_diagnostico = db.Column(db.String(50))
     
     usuario = db.relationship('Usuario', backref='historiales_usuarios')
     test = db.relationship('Test', backref='historiales_tests')
 
 
-    def __init__(self,id_usuario,id_test,fecha_realizada,cant_preguntas_realizadas,puntaje_realizado,array_diagnostico):
+    def __init__(self,id_usuario,id_test,fecha_realizada,puntaje_realizado,array_diagnostico):
         self.id_usuario = id_usuario
         self.id_test = id_test
         self.fecha_realizada = fecha_realizada
-        self.cant_preguntas_realizadas = cant_preguntas_realizadas
         self.puntaje_realizado = puntaje_realizado
         self.array_diagnostico = array_diagnostico
