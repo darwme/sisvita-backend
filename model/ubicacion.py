@@ -12,7 +12,7 @@ class Ubicacion(db.Model):
     y = db.Column(db.Float)
     x = db.Column(db.Float)
 
-    def __init__(self, ubigeo, distrito, provincia, y, x):
+    def __init__(self, ubigeo: str, distrito: str, provincia: str, y: float, x: float):
         self.ubigeo = ubigeo
         self.x = x
         self.y = y
