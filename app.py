@@ -17,7 +17,7 @@ from services.respuesta import respuesta
 
 
 from services.test import test
-from services.rango import rango
+from services.rango_test import rango
 from services.opcion import opcion
 
 from services.seccion import seccion
