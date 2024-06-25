@@ -33,14 +33,13 @@ from schemas.seccion_respuesta import seccion_respuesta_schema, seccion_respuest
 
 gestion_test = Blueprint('gestion_test', __name__)
 
-@gestion_test.route('/gestion_test/v1/realizar_test/test', methods=['POST'])
-def realizar_test():
+@gestion_test.route('/gestion_test/v1/realizar_test/<int:id_usuario>', methods=['POST'])
+def realizar_test(id_usuario):
     try:
         data = request.json
 
         # Extraer id_test y id_usuario del JSON
         id_test = data.get('id_test')
-        id_usuario = data.get('id_usuario')
         secciones = data.get('secciones', [])
 
         # Verificar si faltan datos obligatorios en la solicitud
