@@ -136,3 +136,67 @@ def eliminar_cita(id):
     }
 
     return make_response(jsonify(data), 200)
+
+#----------------------------------------------------------------
+#funcion para extraer cita segun el paciente que es
+@cita.route('/cita/v1/visualizar_cita/<int:id_paciente>', methods=['GET'])
+def visualizar_cita(id_paciente):
+    citas_paciente = Cita.query.filter_by(id_paciente=id_paciente).all()
+
+    if not citas_paciente:
+        data = {
+            'message': f'No se encontraron citas para el paciente con ID {id_paciente}',
+            'status': 404
+        }
+        return make_response(jsonify(data), 404)
+
+    result = citas_schema.dump(citas_paciente)
+    data = {
+        'message': f'Citas del paciente con ID {id_paciente} recuperadas correctamente',
+        'status': 200,
+        'data': result
+    }
+    return make_response(jsonify(data), 200)
+
+#Cambiar estado de cita del paciente
+
+@cita.route('/cita/v1/estado_pendiente/<int:id_paciente>', methods=['PUT'])
+def estado_pendiente(id_paciente):
+    return cambiar_estado_paciente(id_paciente, 'pendiente')
+
+@cita.route('/cita/v1/estado_rechazada/<int:id_paciente>', methods=['PUT'])
+def estado_rechazada(id_paciente):
+    return cambiar_estado_paciente(id_paciente, 'rechazada')
+
+@cita.route('/cita/v1/estado_atendida/<int:id_paciente>', methods=['PUT'])
+def estado_atendida(id_paciente):
+    return cambiar_estado_paciente(id_paciente, 'atendida')
+
+@cita.route('/cita/v1/estado_cancelada/<int:id_paciente>', methods=['PUT'])
+def estado_cancelada(id_paciente):
+    return cambiar_estado_paciente(id_paciente, 'cancelada')
+
+def cambiar_estado_paciente(id_paciente, nuevo_estado):
+    citas_paciente = Cita.query.filter_by(id_paciente=id_paciente).all()
+
+    if not citas_paciente:
+        data = {
+            'message': f'No se encontraron citas para el paciente con ID {id_paciente}',
+            'status': 404
+        }
+        return make_response(jsonify(data), 404)
+
+    for cita in citas_paciente:
+        cita.estado = nuevo_estado
+
+    db.session.commit()
+
+    result = citas_schema.dump(citas_paciente)
+    data = {
+        'message': f'Estado de las citas del paciente con ID {id_paciente} cambiado a {nuevo_estado} correctamente',
+        'status': 200,
+        'data': result
+    }
+
+    return make_response(jsonify(data), 200)
+
