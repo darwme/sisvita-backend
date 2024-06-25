@@ -13,7 +13,7 @@ class Historial_testSchema(ma.Schema):
             'test',
             'fecha_realizada',
             'puntaje_realizado',
-            'array_diagnostico',
+            'diagnosticos',
         )
     usuario = fields.Nested(UsuarioSchema)
     test = fields.Nested(TestSchema)
