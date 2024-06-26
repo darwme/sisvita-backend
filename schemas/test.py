@@ -6,7 +6,7 @@ class TestSchema(ma.Schema):
     class Meta:
         model = Test
         fields = (
-            #'id_test',
+            'id_test',
             'nombre',
             'descripcion',
         )
