@@ -2,15 +2,15 @@
     "id_test": 1,
     "secciones": [
         {
-            "descripcion": "cognitivo",
+            "id_seccion": 1,
             "respuestas": [1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 0, 1, 2]    
         },
         {
-            "descripcion": "fisiologico",
+            "id_seccion": 2,
             "respuestas": [2, 1, 0, 4, 4, 3, 3, 4, 1, 3, 1, 0, 1, 2]
         },
         {
-            "descripcion": "motor",
+            "id_seccion": 3,
             "respuestas": [4, 4, 3, 0, 0, 0, 1, 1, 2, 1, 4, 3, 1]
         }
     ]

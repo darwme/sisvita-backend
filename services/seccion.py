@@ -41,9 +41,9 @@ def listar_secciones():
 
 #Obtener secciones por id_test ----------------------------------------
 
-@seccion.route('/seccion/v1/test/<int:id_test>', methods=['GET'])
-def obtener_secciones(id_test):
-    secciones = Seccion.query.filter_by(id_test=id_test).all()
+@seccion.route('/seccion/v1/test/<int:id>', methods=['GET'])
+def obtener_secciones(id):
+    secciones = Seccion.query.filter_by(id_test=id).all()
     
     result = secciones_schema.dump(secciones)
 

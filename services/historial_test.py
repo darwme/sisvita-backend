@@ -9,21 +9,21 @@ historial_test = Blueprint('historial_test', __name__)
 @historial_test.route('/historial_test/v1', methods=['POST'])
 def crear_historial_test():
     id_usuario = request.json.get("id_usuario")
-    test_realizado = request.json.get("test_realizado")
-    fecha_realizado = request.json.get("fecha_realizado")
-    puntaje_realizado = request.json.get("puntaje_realizado")
-    diagnostico = request.json.get("diagnostico")
+    id_test = request.json.get("id_test")
+    fecha_realizada = request.json.get("fecha_realizada")
+    puntajes = request.json.get("puntajes")
+    diagnosticos = request.json.get("diagnosticos")
 
-    nuevo_historial = Historial_test(id_usuario=id_usuario, test_realizado=test_realizado,
-                                     fecha_realizado=fecha_realizado,
-                                     puntaje_realizado=puntaje_realizado, diagnostico=diagnostico)
+    nuevo_historial = Historial_test(id_usuario=id_usuario,id_test= id_test,
+                                     fecha_realizada=fecha_realizada,
+                                     puntajes=puntajes, diagnosticos=diagnosticos)
     db.session.add(nuevo_historial)
     db.session.commit()
 
     result = historial_test_schema.dump(nuevo_historial)
 
     data = {
-        'message': 'Historial de test creado correctamente',
+        'message': 'Historial test creado correctamente',
         'status': 201,
         'data': result
     }
@@ -59,7 +59,7 @@ def obtener_historial_test(id):
     
     result = historial_test_schema.dump(historial)
     data = {
-        'message': 'Historial de test recuperado correctamente',
+        'message': 'Historial test recuperado correctamente',
         'status': 200,
         'data': result
     }
@@ -80,16 +80,16 @@ def actualizar_historial_test(id):
         return make_response(jsonify(data), 404)
 
     id_usuario = request.json.get("id_usuario")
-    test_realizado = request.json.get("test_realizado")
-    fecha_realizado = request.json.get("fecha_realizado")
-    puntaje_realizado = request.json.get("puntaje_realizado")
-    diagnostico = request.json.get("diagnostico")
+    id_test = request.json.get("id_test")
+    fecha_realizada = request.json.get("fecha_realizada")
+    puntajes = request.json.get("puntajes")
+    diagnosticos = request.json.get("diagnosticos")
 
     historial_actual.id_usuario = id_usuario
-    historial_actual.test_realizado = test_realizado
-    historial_actual.fecha_realizado = fecha_realizado
-    historial_actual.puntaje_realizado = puntaje_realizado
-    historial_actual.diagnostico = diagnostico
+    historial_actual.id_test = id_test
+    historial_actual.fecha_realizada = fecha_realizada
+    historial_actual.puntajes = puntajes
+    historial_actual.diagnosticos = diagnosticos
 
     db.session.commit()
 
@@ -110,7 +110,7 @@ def eliminar_historial_test(id):
 
     if not historial:
         data = {
-            'message': 'Historial de test no encontrado',
+            'message': 'Historial test no encontrado',
             'status': 404
         }
 
@@ -120,7 +120,7 @@ def eliminar_historial_test(id):
     db.session.commit()
 
     data = {
-        'message': 'Historial de test eliminado correctamente',
+        'message': 'Historial test eliminado correctamente',
         'status': 200
     }
 

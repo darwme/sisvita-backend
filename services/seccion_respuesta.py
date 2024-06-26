@@ -20,7 +20,7 @@ def crear_seccion_respuesta():
     result = seccion_respuesta_schema.dump(nueva_seccion_respuesta)
 
     data = {
-        'message': 'Sección_respuesta creada correctamente',
+        'message': 'Sección respuesta creada correctamente',
         'status': 201,
         'data': result
     }
@@ -43,15 +43,15 @@ def listar_secciones_respuestas():
 
 #Obtener secciones_respuestas por id_seccion ----------------------------------------
 
-@seccion_respuesta.route('/seccion_respuesta/v1/seccion/<int:id_seccion>', methods=['GET'])
-def obtener_secciones(id_seccion):
-    seccion_respuestas = Seccion_respuesta.query.filter_by(id_seccion=id_seccion).all()
+@seccion_respuesta.route('/seccion_respuesta/v1/seccion/<int:id>', methods=['GET'])
+def obtener_secciones(id):
+    seccion_respuestas = Seccion_respuesta.query.filter_by(id_seccion=id).all()
     
     result = seccion_respuestas_schema.dump(seccion_respuestas)
 
     if not seccion_respuestas:
         data = {
-            'message': 'Secciones_respuestas no encontradas',
+            'message': 'Secciones respuestas no encontradas',
             'status': 404
         }
 
