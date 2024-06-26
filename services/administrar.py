@@ -6,6 +6,7 @@ from model.pregunta import Pregunta
 from model.opcion import Opcion
 from model.rango_seccion import Rango_seccion
 from model.rango_test import Rango_test
+from model.historial_test import Historial_test
 from utils.db import db
 
 from schemas.test import test_schema, tests_schema
@@ -116,7 +117,6 @@ def listar_tests_detalles():
             secciones = getSeccionesByIdTest(test.id_test)
             test_data = test_schema.dump(test)
             test_data['opciones'] = opciones_schema.dump(opciones)
-            #print(test_data)
             test_data['secciones'] = []
             for seccion in secciones:
                 situaciones = getSituacionesByIdSeccion(seccion.id_seccion)
@@ -143,3 +143,58 @@ def listar_tests_detalles():
 
 
 
+@administrar.route('/administrar/v1/eliminar/test/<int:id_test>', methods=['DELETE'])
+def eliminar_test_completo(id_test):
+    try:
+        # Buscar el test por su ID
+        test = Test.query.get(id_test)
+
+        if not test:
+            return jsonify({'message': 'Test no encontrado', 'status': 404}), 404
+
+        # Eliminar registros de historial_test asociados al test
+        historiales_test = Historial_test.query.filter_by(id_test=id_test).all()
+        for historial_test in historiales_test:
+            db.session.delete(historial_test)
+            
+        # Eliminar opciones asociadas al test
+        opciones = Opcion.query.filter_by(id_test=id_test).all()
+        for opcion in opciones:
+            db.session.delete(opcion)
+
+        # Eliminar rangos de test asociados al test
+        rangos_test = Rango_test.query.filter_by(id_test=id_test).all()
+        for rango_test in rangos_test:
+            db.session.delete(rango_test)
+
+        # Eliminar secciones asociadas al test
+        secciones = Seccion.query.filter_by(id_test=id_test).all()
+        for seccion in secciones:
+            # Eliminar rangos de seccion asociados a cada seccion
+            rangos_seccion = Rango_seccion.query.filter_by(id_seccion=seccion.id_seccion).all()
+            for rango_seccion in rangos_seccion:
+                db.session.delete(rango_seccion)
+
+            # Eliminar situaciones asociadas a cada seccion
+            situaciones = Situacion.query.filter_by(id_seccion=seccion.id_seccion).all()
+            for situacion in situaciones:
+                # Eliminar preguntas asociadas a cada situacion
+                preguntas = Pregunta.query.filter_by(id_situacion=situacion.id_situacion).all()
+                for pregunta in preguntas:
+                    db.session.delete(pregunta)
+                db.session.delete(situacion)
+
+            db.session.delete(seccion)
+
+
+
+        # Finalmente, eliminar el test
+        db.session.delete(test)
+        
+        db.session.commit()  # Commit la transacción una vez todas las operaciones de eliminación han terminado
+
+        return jsonify({'message': 'Test y todas sus relaciones eliminados correctamente', 'status': 200}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'message': f'Error al eliminar el test y sus relaciones: {str(e)}', 'status': 500}), 500
