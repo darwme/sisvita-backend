@@ -8,7 +8,7 @@ class Rango_seccion(db.Model):
     id_seccion = db.Column(db.Integer, db.ForeignKey('seccion.id_seccion'))
     minimo = db.Column(db.Integer)
     maximo = db.Column(db.Integer)
-    diagnostico = db.Column(db.String(100))
+    diagnostico = db.Column(db.String(250))
     
     test = db.relationship('Seccion', backref='rango_seccion')
 

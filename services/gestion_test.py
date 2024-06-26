@@ -9,13 +9,39 @@ from model.historial_test import Historial_test
 from utils.db import db
 from datetime import datetime
 
-from schemas.test import test_schema, tests_schema
-from schemas.seccion import seccion_schema, secciones_schema
-from schemas.seccion_respuesta import seccion_respuesta_schema, seccion_respuestas_schema
-from schemas.historial_test import historial_test_schema, historiales_tests_schema
-
 gestion_test = Blueprint('gestion_test', __name__)
 
+# Función para crear una respuesta de sección
+def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
+
+    id_seccion = seccion_data.get('id_seccion')
+    respuestas = seccion_data.get('respuestas', [])
+
+    # Calcular el puntaje sumando las respuestas de la sección
+    puntaje_seccion = sum(respuestas)
+
+    # Verificar si la sección existe
+    seccion = Seccion.query.get(id_seccion)
+    if not seccion:
+        raise ValueError(f'La sección con ID {id_seccion} no existe')
+
+    # Buscar diagnóstico basado en los rangos de la tabla rango_seccion
+    diagnostico_seccion = next(
+        (rango.diagnostico for rango in Rango_seccion.query.filter_by(id_seccion=id_seccion).all()
+         if rango.minimo <= puntaje_seccion <= rango.maximo), None)
+    
+    # Convertir respuestas a cadena
+    respuestas_str = ','.join(map(str, respuestas))
+
+    # Crear la instancia de Seccion_respuesta
+    seccion_respuesta = Seccion_respuesta(
+        id_usuario=id_usuario,
+        id_test=id_test,
+        id_seccion=id_seccion,
+        respuestas=respuestas_str
+    )
+
+    return seccion_respuesta, puntaje_seccion, diagnostico_seccion
 
 @gestion_test.route('/gestion_test/v1/realizar_test/<int:id_usuario>', methods=['POST'])
 def realizar_test(id_usuario):
@@ -30,57 +56,52 @@ def realizar_test(id_usuario):
         usuario = Usuario.query.get(id_usuario)
         if not usuario:
             return jsonify({'message': f'El usuario con ID {id_usuario} no existe', 'status': 404}), 404
-
+        
         # Verificar si el test existe
         test = Test.query.get(id_test)
         if not test:
             return jsonify({'message': f'El test con ID {id_test} no existe', 'status': 404}), 404
 
         puntajes = []
-        diagnosticos = []
+        diagnosticos_seccion = []
 
-        # Iniciar la transacción fuera del bucle de secciones
+        # Iniciar la transacción
         with db.session.begin():
             for seccion_data in secciones:
-                id_seccion = seccion_data.get('id_seccion')
-                respuestas = seccion_data.get('respuestas', [])
+                print(seccion_data)
+                try:
+                    seccion_respuesta, puntaje_seccion, diagnostico_seccion = crear_seccion_respuesta(
+                        id_usuario, id_test, seccion_data
+                    )
+                    
+                    # Añadir el puntaje a la lista
+                    puntajes.append(puntaje_seccion)
 
-                # Calcular puntaje sumando las respuestas de la sección
-                puntaje_seccion = sum(respuestas)
-                puntajes.append(puntaje_seccion)
+                    # Añadir diagnóstico de sección si existe
+                    if diagnostico_seccion:
+                        diagnosticos_seccion.append(diagnostico_seccion)
 
-                # Verificar si la sección existe
-                seccion = Seccion.query.get(id_seccion)
-                if not seccion:
-                    return jsonify({'message': f'La sección con ID {id_seccion} no existe', 'status': 404}), 404
+                    # Agregar la respuesta de sección a la sesión
+                    db.session.add(seccion_respuesta)
 
-                # Buscar diagnóstico basado en los rangos de las tablas rango_seccion y rango_test
-                diagnostico_seccion = next(
-                    (rango.diagnostico for rango in Rango_seccion.query.filter_by(id_seccion=id_seccion).all()
-                     if rango.minimo <= puntaje_seccion <= rango.maximo), None)
-                
-                if diagnostico_seccion:
-                    diagnosticos.append(diagnostico_seccion)
+                except ValueError as ve:
+                    return jsonify({'message': str(ve), 'status': 404}), 404
 
-                diagnostico_test = next(
-                    (rango.diagnostico for rango in Rango_test.query.filter_by(id_test=id_test).all()
-                     if rango.minimo <= puntaje_seccion <= rango.maximo), None)
+            # Calcular el puntaje total sumando los puntajes de todas las secciones
+            puntaje_total = sum(puntajes)
 
-                if diagnostico_test:
-                    diagnosticos.append(diagnostico_test)
-
-                respuestas_str = ','.join(map(str, respuestas))
-                seccion_respuesta = Seccion_respuesta(
-                    id_usuario=id_usuario,
-                    id_test=id_test,
-                    id_seccion=id_seccion,
-                    respuestas=respuestas_str
-                )
-                db.session.add(seccion_respuesta)
+            # Buscar diagnóstico basado en el rango de la tabla rango_test para el puntaje total
+            diagnostico_test = next(
+                (rango.diagnostico for rango in Rango_test.query.filter_by(id_test=id_test).all()
+                 if rango.minimo <= puntaje_total <= rango.maximo), None)
 
             # Convertir listas de puntajes y diagnósticos a cadenas separadas por comas
             puntajes_str = ','.join(map(str, puntajes))
-            diagnosticos_str = ','.join(diagnosticos)
+            diagnosticos_str = ','.join(diagnosticos_seccion)
+
+            # Añadir el puntaje total y el diagnóstico del test a las cadenas existentes
+            puntajes_str = f"{puntajes_str},{puntaje_total}" if puntajes_str else str(puntaje_total)
+            diagnosticos_str = f"{diagnosticos_str},{diagnostico_test}" if diagnosticos_str else diagnostico_test
 
             # Crear un registro en la tabla historial_test
             fecha_realizada = datetime.now()
@@ -109,7 +130,6 @@ def realizar_test(id_usuario):
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error al registrar respuestas: {str(e)}', 'status': 500}), 500
-
 
 
 

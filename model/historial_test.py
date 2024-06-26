@@ -10,7 +10,7 @@ class Historial_test(db.Model):
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     fecha_realizada = db.Column(db.DateTime)
     puntajes = db.Column(db.String(250))
-    diagnosticos = db.Column(db.String(50))
+    diagnosticos = db.Column(db.String(250))
     
     usuario = db.relationship('Usuario', backref='historiales_usuarios')
     test = db.relationship('Test', backref='historiales_tests')
