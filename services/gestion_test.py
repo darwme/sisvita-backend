@@ -66,55 +66,54 @@ def realizar_test(id):
         diagnosticos_seccion = []
 
         # Iniciar la transacción
-        with db.session.begin():
-            for seccion_data in secciones:
-                try:
-                    seccion_respuesta, puntaje_seccion, diagnostico_seccion = crear_seccion_respuesta(
-                        usuario.id_usuario, test.id_test, seccion_data
-                    )
-                    
-                    # Añadir el puntaje a la lista
-                    puntajes.append(puntaje_seccion)
+        for seccion_data in secciones:
+            try:
+                seccion_respuesta, puntaje_seccion, diagnostico_seccion = crear_seccion_respuesta(
+                    usuario.id_usuario, test.id_test, seccion_data
+                )
+                
+                # Añadir el puntaje a la lista
+                puntajes.append(puntaje_seccion)
 
-                    # Añadir diagnóstico de sección si existe
-                    if diagnostico_seccion:
-                        diagnosticos_seccion.append(diagnostico_seccion)
+                # Añadir diagnóstico de sección si existe
+                if diagnostico_seccion:
+                    diagnosticos_seccion.append(diagnostico_seccion)
 
-                    # Agregar la respuesta de sección a la sesión
-                    db.session.add(seccion_respuesta)
+                # Agregar la respuesta de sección a la sesión
+                db.session.add(seccion_respuesta)
 
-                except ValueError as ve:
-                    return jsonify({'message': str(ve), 'status': 404}), 404
+            except ValueError as ve:
+                return jsonify({'message': str(ve), 'status': 404}), 404
 
-            # Calcular el puntaje total sumando los puntajes de todas las secciones
-            puntaje_total = sum(puntajes)
+        # Calcular el puntaje total sumando los puntajes de todas las secciones
+        puntaje_total = sum(puntajes)
 
-            # Buscar diagnóstico basado en el rango de la tabla rango_test para el puntaje total
-            diagnostico_test = next(
-                (rango.diagnostico for rango in Rango_test.query.filter_by(id_test=id_test).all()
-                 if rango.minimo <= puntaje_total <= rango.maximo), None)
+        # Buscar diagnóstico basado en el rango de la tabla rango_test para el puntaje total
+        diagnostico_test = next(
+            (rango.diagnostico for rango in Rango_test.query.filter_by(id_test=id_test).all()
+                if rango.minimo <= puntaje_total <= rango.maximo), None)
 
-            # Convertir listas de puntajes y diagnósticos a cadenas separadas por comas
-            puntajes_str = ','.join(map(str, puntajes))
-            diagnosticos_str = ','.join(diagnosticos_seccion)
+        # Convertir listas de puntajes y diagnósticos a cadenas separadas por comas
+        puntajes_str = ','.join(map(str, puntajes))
+        diagnosticos_str = ','.join(diagnosticos_seccion)
 
-            # Añadir el puntaje total y el diagnóstico del test a las cadenas existentes
-            puntajes_str = f"{puntajes_str},{puntaje_total}" if puntajes_str else str(puntaje_total)
-            diagnosticos_str = f"{diagnosticos_str},{diagnostico_test}" if diagnosticos_str else diagnostico_test
+        # Añadir el puntaje total y el diagnóstico del test a las cadenas existentes
+        puntajes_str = f"{puntajes_str},{puntaje_total}" if puntajes_str else str(puntaje_total)
+        diagnosticos_str = f"{diagnosticos_str},{diagnostico_test}" if diagnosticos_str else diagnostico_test
 
-            # Crear un registro en la tabla historial_test
-            fecha_realizada = datetime.now()
-            nuevo_historial = Historial_test(
-                id_usuario=usuario.id_usuario,
-                id_test=test.id_test,
-                fecha_realizada=fecha_realizada,
-                puntajes=puntajes_str,
-                diagnosticos=diagnosticos_str
-            )
-            db.session.add(nuevo_historial)
+        # Crear un registro en la tabla historial_test
+        fecha_realizada = datetime.now()
+        nuevo_historial = Historial_test(
+            id_usuario=usuario.id_usuario,
+            id_test=test.id_test,
+            fecha_realizada=fecha_realizada,
+            puntajes=puntajes_str,
+            diagnosticos=diagnosticos_str
+        )
+        db.session.add(nuevo_historial)
 
-            # Confirmar todos los cambios en la base de datos
-            db.session.commit()
+        # Confirmar todos los cambios en la base de datos
+        db.session.commit()
 
         # Preparar la respuesta JSON con el puntaje realizado y el diagnóstico
         response = {
