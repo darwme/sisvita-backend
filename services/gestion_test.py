@@ -43,8 +43,8 @@ def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
 
     return seccion_respuesta, puntaje_seccion, diagnostico_seccion
 
-@gestion_test.route('/gestion_test/v1/realizar_test/<int:id_usuario>', methods=['POST'])
-def realizar_test(id_usuario):
+@gestion_test.route('/gestion_test/v1/realizar_test/<int:id>', methods=['POST'])
+def realizar_test(id):
     try:
         data = request.json
 
@@ -53,9 +53,9 @@ def realizar_test(id_usuario):
         secciones = data.get('secciones', [])
 
         # Verificar si el usuario existe
-        usuario = Usuario.query.get(id_usuario)
+        usuario = Usuario.query.get(id)
         if not usuario:
-            return jsonify({'message': f'El usuario con ID {id_usuario} no existe', 'status': 404}), 404
+            return jsonify({'message': f'El usuario con ID {id} no existe', 'status': 404}), 404
         
         # Verificar si el test existe
         test = Test.query.get(id_test)
@@ -68,10 +68,9 @@ def realizar_test(id_usuario):
         # Iniciar la transacción
         with db.session.begin():
             for seccion_data in secciones:
-                print(seccion_data)
                 try:
                     seccion_respuesta, puntaje_seccion, diagnostico_seccion = crear_seccion_respuesta(
-                        id_usuario, id_test, seccion_data
+                        usuario.id_usuario, test.id_test, seccion_data
                     )
                     
                     # Añadir el puntaje a la lista
@@ -106,16 +105,16 @@ def realizar_test(id_usuario):
             # Crear un registro en la tabla historial_test
             fecha_realizada = datetime.now()
             nuevo_historial = Historial_test(
-                id_usuario=id_usuario,
-                id_test=id_test,
+                id_usuario=usuario.id_usuario,
+                id_test=test.id_test,
                 fecha_realizada=fecha_realizada,
                 puntajes=puntajes_str,
                 diagnosticos=diagnosticos_str
             )
             db.session.add(nuevo_historial)
 
-        # Confirmar todos los cambios en la base de datos
-        db.session.commit()
+            # Confirmar todos los cambios en la base de datos
+            db.session.commit()
 
         # Preparar la respuesta JSON con el puntaje realizado y el diagnóstico
         response = {
@@ -130,6 +129,7 @@ def realizar_test(id_usuario):
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error al registrar respuestas: {str(e)}', 'status': 500}), 500
+
 
 
 

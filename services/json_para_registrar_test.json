@@ -149,10 +149,10 @@
         }
     },
     "rango_test": [
-        { "minimo": 10, "maximo": 40, "diagnostico": "Ansiedad mínima" },
-        { "minimo": 41, "maximo": 60, "diagnostico": "Ansiedad moderada" },
-        { "minimo": 61, "maximo": 95, "diagnostico": "Ansiedad severa" },
-        { "minimo": 96, "maximo": 140, "diagnostico": "Ansiedad extrema" }
+        { "minimo": 30, "maximo": 120, "diagnostico": "Ansiedad mínima" },
+        { "minimo": 121, "maximo": 180, "diagnostico": "Ansiedad moderada" },
+        { "minimo": 181, "maximo": 285, "diagnostico": "Ansiedad severa" },
+        { "minimo": 288, "maximo": 720, "diagnostico": "Ansiedad extrema" }
     ],
     "opciones": [
         { "descripcion": "Casi nunca", "valor_opcion": 0 },

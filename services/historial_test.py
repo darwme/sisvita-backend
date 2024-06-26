@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from model.historial_test import Historial_test
 from utils.db import db
 from schemas.historial_test import historial_test_schema, historiales_tests_schema
+from datetime import datetime
 
 historial_test = Blueprint('historial_test', __name__)
 
@@ -10,9 +11,10 @@ historial_test = Blueprint('historial_test', __name__)
 def crear_historial_test():
     id_usuario = request.json.get("id_usuario")
     id_test = request.json.get("id_test")
-    fecha_realizada = request.json.get("fecha_realizada")
     puntajes = request.json.get("puntajes")
     diagnosticos = request.json.get("diagnosticos")
+    
+    fecha_realizada = datetime.now()
 
     nuevo_historial = Historial_test(id_usuario=id_usuario,id_test= id_test,
                                      fecha_realizada=fecha_realizada,

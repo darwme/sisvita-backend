@@ -8,6 +8,7 @@ seccion = Blueprint('seccion', __name__)
 # Crear una sección ----------------------------------------
 @seccion.route('/seccion/v1', methods=['POST'])
 def crear_seccion():
+    
     id_test = request.json.get("id_test")
     descripcion = request.json.get("descripcion")
 
