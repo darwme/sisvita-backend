@@ -1,3 +1,4 @@
+import json
 from flask import Blueprint, request, jsonify
 from model.test import Test
 from model.seccion import Seccion
@@ -47,6 +48,7 @@ def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
 def realizar_test(id):
     try:
         data = request.json
+        print('data entrante: ', data)
 
         # Extraer id_test y secciones del JSON
         id_test = data.get('id_test')
