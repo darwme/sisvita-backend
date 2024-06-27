@@ -7,6 +7,7 @@ from model.usuario import Usuario
 from model.rango_seccion import Rango_seccion
 from model.rango_test import Rango_test
 from model.historial_test import Historial_test
+from schemas.historial_test import historiales_tests_schema
 from utils.db import db
 from datetime import datetime
 
