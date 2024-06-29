@@ -23,7 +23,7 @@ import string
 
 auth = Blueprint('auth', __name__)
 
-def crear_usuario_y_persona(datos):
+def crear_usuario_y_persona(datos, tipo_persona):
     try:
         email = datos.get("email")
         clave = datos.get("clave")
@@ -60,7 +60,7 @@ def crear_usuario_y_persona(datos):
             sexo=datos.get("sexo"),
             estado_civil=datos.get("estado_civil"),
             celular=datos.get("celular"),
-            tipo_persona=datos.get("tipo_persona")
+            tipo_persona=tipo_persona
         )
         db.session.add(nueva_persona)
         db.session.commit()
@@ -84,7 +84,7 @@ def generar_codigo_aleatorio(longitud=8):
 def registrar_paciente():
     try:
         datos = request.json
-
+        tipo_persona1 = 'paciente'
         if not datos.get("email") or not datos.get("clave"):
             raise ValueError("El email y la clave son campos obligatorios")
 
@@ -95,7 +95,7 @@ def registrar_paciente():
         codigo_paciente = generar_codigo_aleatorio()
         
         # Crear usuario y persona
-        nueva_persona = crear_usuario_y_persona(datos)
+        nueva_persona = crear_usuario_y_persona(datos, tipo_persona1)
         
         # Crear paciente
         nuevo_paciente = Paciente(
@@ -136,12 +136,12 @@ def registrar_paciente():
 def registrar_especialista():
     try:
         datos = request.json
-
+        tipo_persona1 = 'especialista'
         # Validación de campos específicos para especialista
         codigo_especialista = generar_codigo_aleatorio()
         
         # Crear usuario y persona
-        nueva_persona = crear_usuario_y_persona(datos)
+        nueva_persona = crear_usuario_y_persona(datos, tipo_persona1)
 
         # Crear especialista
         nuevo_especialista = Especialista(
