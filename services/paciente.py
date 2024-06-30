@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, make_response
 from model.paciente import Paciente
 from utils.db import db
 from schemas.paciente import paciente_schema, pacientes_schema
+from model.historial_test import Historial_test
 
 # Define the Blueprint for 'paciente'
 paciente = Blueprint('paciente', __name__)
@@ -124,16 +125,3 @@ def eliminar_paciente(id):
     }
 
     return make_response(jsonify(data), 200)
-
-@paciente.route('/paciente/v1/historial_test/<int:id>', methods=['POST'])
-def visualizar_historial_test(id):
-    paciente = Paciente.query.get(id)
-    
-    if not paciente:
-        data = {
-            'message': 'Paciente no encontrado',
-            'status': 404
-        }
-
-        return make_response(jsonify(data), 404)
-    
