@@ -124,3 +124,16 @@ def eliminar_paciente(id):
     }
 
     return make_response(jsonify(data), 200)
+
+@paciente.route('/paciente/v1/historial_test/<int:id>', methods=['POST'])
+def visualizar_historial_test(id):
+    paciente = Paciente.query.get(id)
+    
+    if not paciente:
+        data = {
+            'message': 'Paciente no encontrado',
+            'status': 404
+        }
+
+        return make_response(jsonify(data), 404)
+    
