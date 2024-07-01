@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, make_response
 from model.cita import Cita
 from utils.db import db
 from schemas.cita import cita_schema, citas_schema
+from datetime import datetime
 
 # Define the Blueprint for 'cita'
 cita = Blueprint('cita', __name__)
@@ -12,18 +13,17 @@ cita = Blueprint('cita', __name__)
 def crear_cita():
     id_especialista = request.json.get("id_especialista")
     id_paciente = request.json.get("id_paciente")
-    fecha_agendada = request.json.get("fecha_agendada")
     estado = request.json.get("estado")
     motivo = request.json.get("motivo")
-    hora = request.json.get("hora")
+
+    fecha_actual = datetime.now().date()
 
     nueva_cita = Cita(
         id_especialista=id_especialista, 
         id_paciente=id_paciente, 
-        fecha_agendada=fecha_agendada, 
+        fecha_agenda=fecha_actual, 
         estado=estado, 
-        motivo=motivo,
-        hora=hora
+        motivo=motivo
     )
     
     db.session.add(nueva_cita)
@@ -90,17 +90,15 @@ def actualizar_cita(id):
 
     id_especialista = request.json.get("id_especialista")
     id_paciente = request.json.get("id_paciente")
-    fecha_agendada = request.json.get("fecha_agendada")
+    fecha_agenda = request.json.get("fecha_agenda")
     estado = request.json.get("estado")
     motivo = request.json.get("motivo")
-    hora = request.json.get("hora")
 
     cita_existente.id_especialista = id_especialista
     cita_existente.id_paciente = id_paciente
-    cita_existente.fecha_agendada = fecha_agendada
+    cita_existente.fecha_agenda = fecha_agenda
     cita_existente.estado = estado
     cita_existente.motivo = motivo
-    cita_existente.hora = hora
 
     db.session.commit()
 

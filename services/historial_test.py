@@ -133,21 +133,14 @@ def eliminar_historial_test(id):
 @historial_test.route('/historial_test/v1/usuario/<int:id>', methods=['GET'])
 def obtener_historiales_test_usuario(id):
     historiales_tests = Historial_test.query.filter_by(id_usuario=id).all()
-    
-    result = historiales_tests_schema.dump(historiales_tests)
 
     if not historiales_tests:
         data = {
-            'message': 'historiales tests no encontradas',
+            'message': 'Historiales tests no encontrados',
             'status': 404
         }
-
         return make_response(jsonify(data), 404)
 
-    data = {
-        'message': 'historiales tests recuperadas correctamente',
-        'status': 200,
-        'data': result
-    }
+    result = historiales_tests_schema.dump(historiales_tests)
 
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
