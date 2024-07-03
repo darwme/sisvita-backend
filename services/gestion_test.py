@@ -10,8 +10,16 @@ from model.historial_test import Historial_test
 from schemas.historial_test import historiales_tests_schema
 from utils.db import db
 from datetime import datetime
+import secrets
+import string
 
 gestion_test = Blueprint('gestion_test', __name__)
+
+
+def generar_codigo_aleatorio(longitud=8):
+    caracteres = string.ascii_letters + string.digits
+    codigo = ''.join(secrets.choice(caracteres) for _ in range(longitud))
+    return codigo
 
 # Función para crear una respuesta de sección
 def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
@@ -104,14 +112,19 @@ def realizar_test(id):
         puntajes_str = f"{puntajes_str},{puntaje_total}" if puntajes_str else str(puntaje_total)
         diagnosticos_str = f"{diagnosticos_str},{diagnostico_test}" if diagnosticos_str else diagnostico_test
 
+        estado_inicial ="no evaluado"
         # Crear un registro en la tabla historial_test
         fecha_realizada = datetime.now()
+        cod_historial_test = generar_codigo_aleatorio()
+        
         nuevo_historial = Historial_test(
+            codigo_historial_test= cod_historial_test,
             id_usuario=usuario.id_usuario,
             id_test=test.id_test,
             fecha_realizada=fecha_realizada,
             puntajes=puntajes_str,
-            diagnosticos=diagnosticos_str
+            diagnosticos=diagnosticos_str,
+            estado = estado_inicial
         )
         db.session.add(nuevo_historial)
 

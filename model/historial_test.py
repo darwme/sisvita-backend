@@ -10,13 +10,13 @@ estado_enum = Enum(*estado_types, name='estado')
 class Historial_test(db.Model):
     __tablename__ = 'historial_test'
     id_historial_test = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    codigo_historial_test = db.Column(db.String(6), unique=True, nullable=False)
+    codigo_historial_test = db.Column(db.String(8))
     id_usuario = db.Column(db.Integer, db.ForeignKey('usuario.id_usuario'))
     id_test = db.Column(db.Integer, db.ForeignKey('test.id_test'))
     fecha_realizada = db.Column(db.DateTime)
     puntajes = db.Column(db.String(250))
     diagnosticos = db.Column(db.String(250))
-    estado = db.Column(estado_enum)  # Use estado_enum instead of db.String(estado_enum)
+    estado = db.Column(estado_enum) 
 
     usuario = db.relationship('Usuario', backref='historiales_tests')
     test = db.relationship('Test', backref='historiales_tests')
