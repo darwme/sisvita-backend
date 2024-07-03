@@ -15,7 +15,7 @@ from services.ubicacion import ubicacion
 
 from services.historial_test import historial_test
 from services.seccion_respuesta import seccion_respuesta
-
+from services.gestion_profile import gestion_profile
 
 from services.test import test
 from services.rango_test import rango_test
@@ -78,6 +78,7 @@ app.register_blueprint(administrar)
 app.register_blueprint(ubicacion)
 app.register_blueprint(gestion_test)
 
+app.register_blueprint(gestion_profile)
 
 with app.app_context():
     db.create_all()
