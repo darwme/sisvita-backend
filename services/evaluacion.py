@@ -190,7 +190,6 @@ def listar_evaluaciones_por_especialista(id_especialista):
 
 
 
-
 # Crear una evaluación basada en el codigo_historial_test
 @evaluacion.route('/evaluacion/v1/crear_evaluacion/<string:codigo_historial_test>/<string:codigo_especialista>', methods=['POST'])
 def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
@@ -223,7 +222,7 @@ def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
             }), 404)
 
         # Buscar la persona asociada al usuario
-        persona = Persona.query.filter_by(id_persona=usuario.id_persona).first()
+        persona = Persona.query.filter_by(id_usuario=usuario.id_usuario).first()
 
         if not persona:
             return make_response(jsonify({
@@ -232,7 +231,7 @@ def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
             }), 404)
 
         # Buscar el paciente asociado a la persona
-        paciente = Paciente.query.filter_by(id_paciente=persona.id_paciente).first()
+        paciente = Paciente.query.filter_by(id_persona=persona.id_persona).first()
 
         if not paciente:
             return make_response(jsonify({
@@ -276,13 +275,20 @@ def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
             'status': 500
         }), 500)
 
-
-
 @evaluacion.route('/evaluacion/v1/ver_evaluacion/<string:codigo_historial_test>', methods=['GET'])
 def obtener_evaluaciones_por_historial(codigo_historial_test):
     try:
-        # Obtener todas las evaluaciones asociadas al historial de test
-        evaluaciones = Evaluacion.query.filter_by(codigo_historial_test=codigo_historial_test).all()
+        # Buscar el historial de test por el código
+        historial = Historial_test.query.filter_by(codigo_historial_test=codigo_historial_test).first()
+
+        if not historial:
+            return make_response(jsonify({
+                'message': f'No se encontró historial de test con código {codigo_historial_test}',
+                'status': 404
+            }), 404)
+
+        # Obtener todas las evaluaciones asociadas al id_historial_test
+        evaluaciones = Evaluacion.query.filter_by(id_historial_test=historial.id_historial_test).all()
 
         if not evaluaciones:
             return make_response(jsonify({

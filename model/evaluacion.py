@@ -9,7 +9,7 @@ class Evaluacion(db.Model):
     id_especialista = db.Column(db.Integer, db.ForeignKey('especialista.id_especialista'))
     id_historial_test = db.Column(db.Integer, db.ForeignKey('historial_test.id_historial_test'))
     id_paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'))
-    fecha_evaluacion = db.Column(db.Date)
+    fecha_evaluacion = db.Column(db.DateTime)
     fundamento_cientifico = db.Column(db.String(250))
     tratamiento = db.Column(db.String(255))
     descripcion_tratamiento = db.Column(db.String(500))
