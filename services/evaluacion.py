@@ -275,6 +275,7 @@ def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
             'status': 500
         }), 500)
 
+
 @evaluacion.route('/evaluacion/v1/ver_evaluacion/<string:codigo_historial_test>', methods=['GET'])
 def obtener_evaluaciones_por_historial(codigo_historial_test):
     try:
@@ -299,11 +300,7 @@ def obtener_evaluaciones_por_historial(codigo_historial_test):
         # Serializar las evaluaciones
         result = evaluaciones_schema.dump(evaluaciones)
 
-        return make_response(jsonify({
-            'message': f'Evaluaciones encontradas para el historial de test con código {codigo_historial_test}',
-            'status': 200,
-            'data': result
-        }), 200)
+        return make_response(jsonify(result), 200)
 
     except Exception as e:
         return make_response(jsonify({
