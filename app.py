@@ -28,6 +28,7 @@ from services.pregunta import pregunta
 
 from services.auth import auth
 from services.gestion_test import gestion_test
+from services.evaluacion import evaluacion
 
 
 #model
@@ -79,6 +80,8 @@ app.register_blueprint(ubicacion)
 app.register_blueprint(gestion_test)
 
 app.register_blueprint(gestion_profile)
+app.register_blueprint(evaluacion)
+
 
 with app.app_context():
     db.create_all()

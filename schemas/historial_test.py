@@ -9,12 +9,13 @@ class Historial_testSchema(ma.Schema):
     class Meta:
         model = Historial_test
         fields = (
-            #'id_usuario',
+            'codigo_historial_test',
             'fecha_realizada',
             'puntajes',
             'diagnosticos',
             'test',
             'secciones'
+            'estado'
         )
 
     test = fields.Method("get_test_nombre")
