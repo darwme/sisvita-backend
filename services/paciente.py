@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify, make_response
 from model.paciente import Paciente
 from utils.db import db
 from schemas.paciente import paciente_schema, pacientes_schema
+from model.historial_test import Historial_test
 
 # Define the Blueprint for 'paciente'
 paciente = Blueprint('paciente', __name__)

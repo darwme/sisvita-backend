@@ -15,16 +15,14 @@ class Cita(db.Model):
     fecha_agenda = db.Column(db.DateTime)
     estado = db.Column(db.String(50))
     motivo = db.Column(db.String(255))
-    hora = db.Column(db.Time)
     
     especialista = db.relationship('Especialista', backref='citas')
     paciente = db.relationship('Paciente', backref='citas')
     
 
-    def __init__(self, id_especialista, id_paciente, fecha_agenda, estado, motivo,hora):
+    def __init__(self, id_especialista, id_paciente, fecha_agenda, estado, motivo):
         self.id_especialista = id_especialista
         self.id_paciente = id_paciente
         self.fecha_agenda = fecha_agenda
         self.estado = estado
         self.motivo = motivo
-        self.hora = hora

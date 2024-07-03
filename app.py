@@ -15,7 +15,7 @@ from services.ubicacion import ubicacion
 
 from services.historial_test import historial_test
 from services.seccion_respuesta import seccion_respuesta
-
+from services.gestion_profile import gestion_profile
 
 from services.test import test
 from services.rango_test import rango_test
@@ -28,6 +28,7 @@ from services.pregunta import pregunta
 
 from services.auth import auth
 from services.gestion_test import gestion_test
+from services.evaluacion import evaluacion
 
 
 #model
@@ -77,6 +78,9 @@ app.register_blueprint(auth)
 app.register_blueprint(administrar)
 app.register_blueprint(ubicacion)
 app.register_blueprint(gestion_test)
+
+app.register_blueprint(gestion_profile)
+app.register_blueprint(evaluacion)
 
 
 with app.app_context():

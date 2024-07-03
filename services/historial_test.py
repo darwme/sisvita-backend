@@ -3,8 +3,18 @@ from model.historial_test import Historial_test
 from utils.db import db
 from schemas.historial_test import historial_test_schema, historiales_tests_schema
 from datetime import datetime
+import secrets
+import string
+
 
 historial_test = Blueprint('historial_test', __name__)
+
+
+def generar_codigo_aleatorio(longitud=8):
+    caracteres = string.ascii_letters + string.digits
+    codigo = ''.join(secrets.choice(caracteres) for _ in range(longitud))
+    return codigo
+
 
 # Crear un historial de test ----------------------------------------
 @historial_test.route('/historial_test/v1', methods=['POST'])
@@ -13,12 +23,14 @@ def crear_historial_test():
     id_test = request.json.get("id_test")
     puntajes = request.json.get("puntajes")
     diagnosticos = request.json.get("diagnosticos")
+    estado = request.json.get("estado")
     
     fecha_realizada = datetime.now()
+    codigo_hitorial = generar_codigo_aleatorio()
 
-    nuevo_historial = Historial_test(id_usuario=id_usuario,id_test= id_test,
+    nuevo_historial = Historial_test(codigo_historial_test=codigo_hitorial,id_usuario=id_usuario,id_test= id_test,
                                      fecha_realizada=fecha_realizada,
-                                     puntajes=puntajes, diagnosticos=diagnosticos)
+                                     puntajes=puntajes, diagnosticos=diagnosticos,estado = estado)
     db.session.add(nuevo_historial)
     db.session.commit()
 
@@ -83,15 +95,15 @@ def actualizar_historial_test(id):
 
     id_usuario = request.json.get("id_usuario")
     id_test = request.json.get("id_test")
-    fecha_realizada = request.json.get("fecha_realizada")
     puntajes = request.json.get("puntajes")
     diagnosticos = request.json.get("diagnosticos")
+    estado = request.json.get("estado")
 
     historial_actual.id_usuario = id_usuario
     historial_actual.id_test = id_test
-    historial_actual.fecha_realizada = fecha_realizada
     historial_actual.puntajes = puntajes
     historial_actual.diagnosticos = diagnosticos
+    historial_actual.estado = estado
 
     db.session.commit()
 
@@ -127,3 +139,20 @@ def eliminar_historial_test(id):
     }
 
     return make_response(jsonify(data), 200)
+
+
+#mostrar los historiales test segun usuario
+@historial_test.route('/historial_test/v1/usuario/<int:id>', methods=['GET'])
+def obtener_historiales_test_usuario(id):
+    historiales_tests = Historial_test.query.filter_by(id_usuario=id).all()
+
+    if not historiales_tests:
+        data = {
+            'message': 'Historiales tests no encontrados',
+            'status': 404
+        }
+        return make_response(jsonify(data), 404)
+
+    result = historiales_tests_schema.dump(historiales_tests)
+
+    return make_response(jsonify(result), 200)

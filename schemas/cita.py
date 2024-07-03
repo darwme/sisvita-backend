@@ -13,8 +13,7 @@ class CitaSchema(ma.Schema):
             'paciente',  
             'fecha_agenda',
             'estado',
-            'motivo',
-            'hora',
+            'motivo'
         )
     especialista = fields.Nested(EspecialistaSchema)
     paciente = fields.Nested(PacienteSchema)

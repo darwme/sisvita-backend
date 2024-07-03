@@ -34,13 +34,7 @@ def listar_usuarios():
     all_usuarios = Usuario.query.all()
     result = usuarios_schema.dump(all_usuarios)
 
-    data = {
-        'message': 'Usuarios recuperados correctamente',
-        'status': 200,
-        'data': result
-    }
-
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
 
 # Get a usuario by ID ----------------------------------------
 @usuario.route('/usuario/v1/<int:id>', methods=['GET'])
