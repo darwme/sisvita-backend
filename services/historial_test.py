@@ -23,7 +23,7 @@ def crear_historial_test():
     id_test = request.json.get("id_test")
     puntajes = request.json.get("puntajes")
     diagnosticos = request.json.get("diagnosticos")
-    estado = request.json.get("estado")
+    estado = "no evaluado"
     
     fecha_realizada = datetime.now()
     codigo_hitorial = generar_codigo_aleatorio()
