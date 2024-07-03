@@ -60,7 +60,7 @@ class EvaluacionSchema(ma.Schema):
     class Meta:
         model = Evaluacion
         fields = (
-            'id_evaluacion',
+            #'id_evaluacion',
             'especialista',
             'paciente',
             'historial_test',
