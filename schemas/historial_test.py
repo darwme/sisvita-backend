@@ -14,7 +14,7 @@ class Historial_testSchema(ma.Schema):
             'puntajes',
             'diagnosticos',
             'test',
-            'secciones'
+            'secciones',
             'estado'
         )
 
