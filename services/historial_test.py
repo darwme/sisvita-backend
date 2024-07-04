@@ -160,7 +160,7 @@ def obtener_historiales_test_usuario(id):
 
 
 # Listar todos los historiales de test ----------------------------------------
-@historial_test.route('/historial_test/v1/listar_especialista', methods=['GET'])
+@historial_test.route('/historial_test/v1/listar_h_pacientes', methods=['GET'])
 def listar_historiales_test_para_espcialista():
     all_historiales = Historial_test.query.all()
     result = historiales_tests_e_schema.dump(all_historiales)
