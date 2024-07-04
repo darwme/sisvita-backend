@@ -7,6 +7,7 @@ from model.usuario import Usuario
 from model.persona import Persona
 from model.paciente import Paciente
 from model.ubicacion import Ubicacion
+from model.rango_test import Rango_test
 
 class Historial_test_e_Schema(ma.Schema):
     class Meta:
@@ -21,12 +22,14 @@ class Historial_test_e_Schema(ma.Schema):
             'secciones',
             'estado',
             'ubicacion',
+            'codigo_paciente',
         )
 
     test = fields.Method("get_test_nombre")
     secciones = fields.Method("get_secciones")
     paciente = fields.Method("get_nombre_paciente")
     ubicacion = fields.Method("get_ubicacion")
+    codigo_paciente = fields.Method("get_codigo_paciente")
 
     def get_test_nombre(self, obj):
         return obj.test.nombre if obj.test else None
@@ -45,6 +48,17 @@ class Historial_test_e_Schema(ma.Schema):
                     return f"{persona.nombres} {persona.apellidos} "  # Ajusta según la estructura real de tu base de datos
         return None
     
+    def get_codigo_paciente(self, obj):
+        usuario = Usuario.query.get(obj.id_usuario)
+        if usuario:
+            persona = Persona.query.filter_by(id_usuario=usuario.id_usuario).first()
+            if persona:
+                paciente = Paciente.query.filter_by(id_persona=persona.id_persona).first()
+                if paciente:
+                    return paciente.codigo_paciente
+        return None
+    
+    
     def get_ubicacion(self, obj):
         usuario = Usuario.query.get(obj.id_usuario)
         if usuario:
@@ -55,9 +69,9 @@ class Historial_test_e_Schema(ma.Schema):
                 print('ubicacion:', ubicacion.y)
                 if ubicacion:
                     data = {
-                        'ubigeo': ubicacion.ubigeo,
                         'distrito': ubicacion.distrito,
                         'provincia': ubicacion.provincia,
+                        'ubigeo': ubicacion.ubigeo,
                         'y': ubicacion.y,
                         'x': ubicacion.x
                     }
