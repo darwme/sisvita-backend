@@ -6,6 +6,7 @@ from marshmallow import fields
 from model.usuario import Usuario
 from model.persona import Persona
 from model.paciente import Paciente
+from model.ubicacion import Ubicacion
 
 class Historial_test_e_Schema(ma.Schema):
     class Meta:
@@ -18,12 +19,14 @@ class Historial_test_e_Schema(ma.Schema):
             'diagnosticos',
             'test',
             'secciones',
-            'estado'
+            'estado',
+            'ubicacion',
         )
 
     test = fields.Method("get_test_nombre")
     secciones = fields.Method("get_secciones")
     paciente = fields.Method("get_nombre_paciente")
+    ubicacion = fields.Method("get_ubicacion")
 
     def get_test_nombre(self, obj):
         return obj.test.nombre if obj.test else None
@@ -39,7 +42,26 @@ class Historial_test_e_Schema(ma.Schema):
             if persona:
                 paciente = Paciente.query.filter_by(id_persona=persona.id_persona).first()
                 if paciente:
-                    return f"{persona.nombres} {persona.apellidos}"  # Ajusta según la estructura real de tu base de datos
+                    return f"{persona.nombres} {persona.apellidos} "  # Ajusta según la estructura real de tu base de datos
+        return None
+    
+    def get_ubicacion(self, obj):
+        usuario = Usuario.query.get(obj.id_usuario)
+        if usuario:
+            persona = Persona.query.filter_by(id_usuario=usuario.id_usuario).first()
+            print('ubigeo: ', persona.ubigeo)
+            if persona:
+                ubicacion = Ubicacion.query.filter_by(ubigeo=persona.ubigeo).first()
+                print('ubicacion:', ubicacion.y)
+                if ubicacion:
+                    data = {
+                        'ubigeo': ubicacion.ubigeo,
+                        'distrito': ubicacion.distrito,
+                        'provincia': ubicacion.provincia,
+                        'y': ubicacion.y,
+                        'x': ubicacion.x
+                    }
+                    return data            
         return None
 
 
