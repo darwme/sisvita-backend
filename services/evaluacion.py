@@ -202,6 +202,8 @@ def crear_evaluacion_por_codigo(codigo_historial_test, codigo_especialista):
                 'message': 'Historial de test no encontrado con el código proporcionado',
                 'status': 404
             }), 404)
+            
+        historial.estado= "evaluado"
 
         # Buscar el especialista por el código
         especialista = Especialista.query.filter_by(codigo_especialista=codigo_especialista).first()
