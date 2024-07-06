@@ -54,7 +54,7 @@ def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
 
     return seccion_respuesta, puntaje_seccion, diagnostico_seccion
 
-gestor_realizar_test.route('/gestor_realizar_test/v1/realizar_test/<int:id>', methods=['POST'])
+@gestor_realizar_test.route('/gestor_realizar_test/v1/realizar_test/<int:id>', methods=['POST'])
 def realizar_test(id):
     try:
         data = request.json

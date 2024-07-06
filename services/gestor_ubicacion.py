@@ -38,7 +38,7 @@ class Provincia:
 gestor_ubicacion = Blueprint('gestor_ubicacion', __name__)
 
 #Obtener todas las ubicaciones
-@gestor_ubicacion.route('/gestor_ubicacion/v1/listar_ubicaciones', methods=['GET'])
+@gestor_ubicacion.route('/ubicaciones/v1', methods=['GET'])
 def get_ubicaciones():
     ubicaciones = Ubicacion.query.all()
 
@@ -59,7 +59,7 @@ def get_ubicaciones():
 
 
 #Obtener una ubicacion
-@gestor_ubicacion.route('/gestor_ubicacion/v1/ubicacion<int:id_ubicacion>', methods=['GET'])
+@gestor_ubicacion.route('/gestor_ubicacion/v1/<int:id_ubicacion>', methods=['GET'])
 def get_ubicacion(id_ubicacion):
     ubicacion = Ubicacion.query.get(id_ubicacion)
 

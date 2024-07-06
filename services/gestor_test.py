@@ -36,7 +36,7 @@ def getOpcionesByIdTest(id_test):
 
 gestor_test = Blueprint('gestor_test', __name__)
 
-@gestor_test.route('/gestor_test/v1/administrador/registrar_test/test', methods=['POST'])
+@gestor_test.route('/gestor_test/v1/administrador/registrar_test', methods=['POST'])
 def crear_test():
     try:
         data = request.json
