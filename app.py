@@ -11,30 +11,29 @@ from services.persona import persona
 from services.especialista import especialista
 from services.paciente import paciente
 from services.cita import cita
-from services.ubicacion import ubicacion
-
+from services.gestor_ubicacion import gestor_ubicacion
 from services.historial_test import historial_test
 from services.seccion_respuesta import seccion_respuesta
-from services.gestion_profile import gestion_profile
-
 from services.test import test
 from services.rango_test import rango_test
 from services.rango_seccion import rango_seccion
 from services.opcion import opcion
-
 from services.seccion import seccion
 from services.situacion import situacion
 from services.pregunta import pregunta
 
-from services.auth import auth
-from services.gestion_test import gestion_test
-from services.evaluacion import evaluacion
+from services.gestor_auth import gestor_auth
+from services.gestor_evaluacion import gestor_evaluacion
+from services.gestor_historial_test import gestor_historial_test
+from services.gestor_profile import gestor_profile
+from services.gestor_realizar_test import gestor_realizar_test
+from services.gestor_test import gestor_test
+from services.gestor_ubicacion import gestor_ubicacion
 
 
 #model
 from model.ubicacion import Ubicacion
 
-from services.administrar import administrar
 
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -62,26 +61,23 @@ app.register_blueprint(persona)
 app.register_blueprint(especialista)
 app.register_blueprint(paciente)
 app.register_blueprint(cita)
-
 app.register_blueprint(historial_test)
 app.register_blueprint(seccion_respuesta)
-
 app.register_blueprint(test)
 app.register_blueprint(rango_test)
 app.register_blueprint(rango_seccion)
 app.register_blueprint(opcion)
-
 app.register_blueprint(seccion)
 app.register_blueprint(situacion)
 app.register_blueprint(pregunta)
-app.register_blueprint(auth)
-app.register_blueprint(administrar)
-app.register_blueprint(ubicacion)
-app.register_blueprint(gestion_test)
 
-app.register_blueprint(gestion_profile)
-app.register_blueprint(evaluacion)
-
+app.register_blueprint(gestor_auth)
+app.register_blueprint(gestor_evaluacion)
+app.register_blueprint(gestor_historial_test)
+app.register_blueprint(gestor_profile)
+app.register_blueprint(gestor_realizar_test)
+app.register_blueprint(gestor_test)
+app.register_blueprint(gestor_ubicacion)
 
 with app.app_context():
     db.create_all()

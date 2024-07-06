@@ -309,3 +309,31 @@ def obtener_evaluaciones_por_historial(codigo_historial_test):
             'message': f'Error al obtener las evaluaciones: {str(e)}',
             'status': 500
         }), 500)
+
+
+# Listar evaluaciones por ID del especialista
+@evaluacion.route('/evaluacion/v1/especialista/<int:id_especialista>', methods=['GET'])
+def listar_evaluaciones_por_especialista(id_especialista):
+    try:
+        evaluaciones = Evaluacion.query.filter_by(id_especialista=id_especialista).all()
+
+        if not evaluaciones:
+            return make_response(jsonify({
+                'message': 'No se encontraron evaluaciones para el especialista',
+                'status': 404
+            }), 404)
+
+        result = evaluaciones_schema.dump(evaluaciones)
+        
+        return make_response(jsonify({
+            'message': 'Evaluaciones recuperadas correctamente',
+            'status': 200,
+            'data': result
+        }), 200)
+    
+    except Exception as e:
+        return make_response(jsonify({
+            'message': f'Error al listar las evaluaciones del especialista: {str(e)}',
+            'status': 500
+        }), 500)
+

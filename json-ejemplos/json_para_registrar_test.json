@@ -44,10 +44,10 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 0, "maximo": 19, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 20, "maximo": 35, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 36, "maximo": 45, "diagnostico": "Ansiedad severa" },
-                { "minimo": 46, "maximo": 55, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         },
         "fisiologico": {
@@ -93,10 +93,10 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 0, "maximo": 19, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 20, "maximo": 35, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 36, "maximo": 45, "diagnostico": "Ansiedad severa" },
-                { "minimo": 46, "maximo": 55, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         },
         "motor": {
@@ -141,10 +141,10 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 0, "maximo": 19, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 20, "maximo": 35, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 36, "maximo": 45, "diagnostico": "Ansiedad severa" },
-                { "minimo": 46, "maximo": 55, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         }
     },
