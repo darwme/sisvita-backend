@@ -1,0 +1,45 @@
+{
+    "nombre": "Beck",
+    "descripcion": "Utilizado en psicología para evaluar la intensidad de la depresión en pacientes.",
+    "secciones": {
+      "seccion 1": {
+        "situacion": "Situación 1",
+        "preguntas": [
+          "Torpe o entumecido",
+          "Acalorado",
+          "Con temblor en las piernas",
+          "Incapaz de relajarse",
+          "Con temor a que ocurra lo peor",
+          "Mareado, o que se le va la cabeza",
+          "Con latidos del corazón fuertes y acelerados",
+          "Inestable",
+          "Atemorizado o asustado",
+          "Nervioso",
+          "Con sensación de bloqueo",
+          "Con temblores en las manos",
+          "Inquieto, inseguro",
+          "Con miedo a perder el control",
+          "Con sensación de ahogo",
+          "Con temor a morir",
+          "Con miedo",
+          "Con problemas digestivos",
+          "Con desvanecimientos",
+          "Con rubor facial",
+          "Con sudores, fríos o calientes"
+        ],
+        "rango_seccion": [
+          { "minimo": 0, "maximo": 7, "diagnostico": "Nivel mínimo de ansiedad" },
+          { "minimo": 8, "maximo": 15, "diagnostico": "Nivel leve de ansiedad" },
+          { "minimo": 16, "maximo": 25, "diagnostico": "Nivel moderado de ansiedad" },
+          { "minimo": 26, "maximo": 63, "diagnostico": "Nivel grave de ansiedad" }
+        ]
+      }
+    },
+    "rango_test": [
+      { "minimo": 0, "maximo": 7, "diagnostico": "Nivel mínimo de ansiedad" },
+      { "minimo": 8, "maximo": 15, "diagnostico": "Nivel leve de ansiedad" },
+      { "minimo": 16, "maximo": 25, "diagnostico": "Nivel moderado de ansiedad" },
+      { "minimo": 26, "maximo": 63, "diagnostico": "Nivel grave de ansiedad" }
+    ]
+  }
+  
