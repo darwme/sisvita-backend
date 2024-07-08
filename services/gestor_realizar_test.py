@@ -13,7 +13,8 @@ from datetime import datetime
 import secrets
 import string
 
-gestion_test = Blueprint('gestion_test', __name__)
+gestor_realizar_test = Blueprint('gestor_realizar_test', __name__)
+
 
 
 def generar_codigo_aleatorio(longitud=8):
@@ -53,7 +54,7 @@ def crear_seccion_respuesta(id_usuario, id_test, seccion_data):
 
     return seccion_respuesta, puntaje_seccion, diagnostico_seccion
 
-@gestion_test.route('/gestion_test/v1/realizar_test/<int:id>', methods=['POST'])
+@gestor_realizar_test.route('/gestor_realizar_test/v1/realizar_test/<int:id>', methods=['POST'])
 def realizar_test(id):
     try:
         data = request.json
@@ -144,29 +145,4 @@ def realizar_test(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({'message': f'Error al registrar respuestas: {str(e)}', 'status': 500}), 500
-
-
-
-
-@gestion_test.route('/gestion_test/v1/visualizar_historial_test/<int:id_usuario>', methods=['GET'])
-def visualizar_historial_test(id_usuario):
-    try:
-        historiales = Historial_test.query.filter_by(id_usuario=id_usuario).all()
-
-        if not historiales:
-            return jsonify({'message': f'No se encontraron historiales para el usuario con ID {id_usuario}', 'status': 404}), 404
-
-    
-        result = historiales_tests_schema.dump(historiales)
-
-        response = {
-            'message': 'Historiales de test recuperados correctamente',
-            'status': 200,
-            'data': result
-        }
-
-        return jsonify(response), 200
-
-    except Exception as e:
-        return jsonify({'message': f'Error al recuperar historiales de test: {str(e)}', 'status': 500}), 
 

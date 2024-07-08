@@ -7,9 +7,9 @@ from utils.db import db
 from datetime import datetime
 
 
-gestion_profile = Blueprint('gestion_profile', __name__)
+gestor_profile = Blueprint('gestor_profile', __name__)
 
-@gestion_profile.route('/gestion_profile/v1/especialista/<cod_especialista>', methods=['GET'])
+@gestor_profile.route('/gestor_profile/v1/especialista/<cod_especialista>', methods=['GET'])
 def informacionEspecialista(cod_especialista):
     try:
         # Obtener el especialista por su código
@@ -26,7 +26,7 @@ def informacionEspecialista(cod_especialista):
         return jsonify({'message': f'Error al obtener información del especialista: {str(e)}', 'status': 500}), 500
 
 
-@gestion_profile.route('/gestion_profile/v1/paciente/<cod_paciente>', methods=['GET'])
+@gestor_profile.route('/gestor_profile/v1/paciente/<cod_paciente>', methods=['GET'])
 def informacionPaciente(cod_paciente):
     try:
         # Obtener el paciente por su código
@@ -46,7 +46,7 @@ def informacionPaciente(cod_paciente):
     
 
 
-@gestion_profile.route('/gestion_profile/v1/update/especialista/<cod_especialista>', methods=['PUT'])
+@gestor_profile.route('/gestor_profile/v1/especialista/update/<cod_especialista>', methods=['PUT'])
 def actualizarEspecialista(cod_especialista):
     try:
         # Obtener el especialista por su código
@@ -85,7 +85,7 @@ def actualizarEspecialista(cod_especialista):
     
     
 
-@gestion_profile.route('/gestion_profile/v1/update/paciente/<cod_paciente>', methods=['PUT'])
+@gestor_profile.route('/gestor_profile/v1/paciente/update/<cod_paciente>', methods=['PUT'])
 def actualizarPaciente(cod_paciente):
     try:
         data = request.json

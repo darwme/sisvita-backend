@@ -34,9 +34,9 @@ def getOpcionesByIdTest(id_test):
     opciones = Opcion.query.filter_by(id_test=id_test).all()
     return opciones
 
-administrar = Blueprint('administrar', __name__)
+gestor_test = Blueprint('gestor_test', __name__)
 
-@administrar.route('/administrar/v1/registrar/test', methods=['POST'])
+@gestor_test.route('/gestor_test/v1/administrador/registrar_test', methods=['POST'])
 def crear_test():
     try:
         data = request.json
@@ -107,7 +107,7 @@ def crear_test():
 
 
 
-@administrar.route('/administrar/v1/enviar/test', methods=['GET'])
+@gestor_test.route('/gestor_test/v1/listar_tests', methods=['GET'])
 def listar_tests_detalles():
     try:
         all_tests = Test.query.all()
@@ -143,7 +143,7 @@ def listar_tests_detalles():
 
 
 
-@administrar.route('/administrar/v1/eliminar/test/<int:id_test>', methods=['DELETE'])
+@gestor_test.route('/gestor_test/v1/administrador/eliminar_test/<int:id_test>', methods=['DELETE'])
 def eliminar_test_completo(id_test):
     try:
         # Buscar el test por su ID

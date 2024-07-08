@@ -21,7 +21,7 @@ from schemas.ubicacion import ubicacion_schema,ubicaciones_schema
 import secrets
 import string
 
-auth = Blueprint('auth', __name__)
+gestor_auth = Blueprint('gestor_auth', __name__)
 
 def crear_usuario_y_persona(datos, tipo_persona):
     try:
@@ -80,7 +80,7 @@ def generar_codigo_aleatorio(longitud=8):
     return codigo
 
 
-@auth.route('/auth/v1/register/paciente', methods=['POST'])
+@gestor_auth.route('/gestor_auth/v1/register/paciente', methods=['POST'])
 def registrar_paciente():
     try:
         datos = request.json
@@ -132,7 +132,7 @@ def registrar_paciente():
         }
         return jsonify(error_data), 500
 
-@auth.route('/auth/v1/register/especialista', methods=['POST'])
+@gestor_auth.route('/gestor_auth/v1/register/especialista', methods=['POST'])
 def registrar_especialista():
     try:
         datos = request.json
@@ -180,7 +180,7 @@ def registrar_especialista():
         return jsonify(error_data), 500
 
   
-@auth.route('/auth/v1/login', methods=['POST'])
+@gestor_auth.route('/gestor_auth/v1/login', methods=['POST'])
 def login():
     try:
         email = request.json.get("email")

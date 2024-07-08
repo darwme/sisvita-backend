@@ -5,7 +5,7 @@
         "cognitivo": {
             "situaciones": [
                 {
-                    "situacion": "Situación 1",
+                    "situacion": "Entrevista",
                     "preguntas": [
                         "¿Te sientes ansioso/a en entrevistas?",
                         "¿Te preocupa mucho el futuro?",
@@ -13,14 +13,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 2",
+                    "situacion": "Hablar en público",
                     "preguntas": [
                         "¿Te sientes inseguro/a al hablar en público?",
                         "¿Te cuesta decidir bajo presión?"
                     ]
                 },
                 {
-                    "situacion": "Situación 3",
+                    "situacion": "Problemas para dormir",
                     "preguntas": [
                         "¿Tienes problemas para dormir debido a preocupaciones?",
                         "¿Te preocupas por la opinión de los demás?",
@@ -28,14 +28,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 4",
+                    "situacion": "Reuniones sociales",
                     "preguntas": [
                         "¿Te sientes nervioso/a en reuniones sociales?",
                         "¿Te preocupa constantemente tu rendimiento laboral?"
                     ]
                 },
                 {
-                    "situacion": "Situación 5",
+                    "situacion": "Tiempo libre",
                     "preguntas": [
                         "¿Te resulta difícil relajarte en tu tiempo libre?",
                         "¿Te preocupas mucho por tu salud?",
@@ -44,16 +44,16 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 10, "maximo": 40, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 41, "maximo": 60, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 61, "maximo": 95, "diagnostico": "Ansiedad severa" },
-                { "minimo": 96, "maximo": 140, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         },
         "fisiologico": {
             "situaciones": [
                 {
-                    "situacion": "Situación 1",
+                    "situacion": "Palpitaciones",
                     "preguntas": [
                         "¿Sientes palpitaciones en situaciones estresantes?",
                         "¿Tienes problemas digestivos por nervios?",
@@ -62,14 +62,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 2",
+                    "situacion": "Dolores de cabeza",
                     "preguntas": [
                         "¿Tienes dolores de cabeza frecuentes debido al estrés?",
                         "¿Te mareas en situaciones de ansiedad?"
                     ]
                 },
                 {
-                    "situacion": "Situación 3",
+                    "situacion": "Dificultad para respirar",
                     "preguntas": [
                         "¿Tienes dificultad para respirar en momentos de ansiedad?",
                         "¿Sientes náuseas cuando estás nervioso/a?",
@@ -77,14 +77,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 4",
+                    "situacion": "Insomnio",
                     "preguntas": [
                         "¿Tienes insomnio por preocupaciones?",
                         "¿Te sientes fatigado/a debido a la ansiedad?"
                     ]
                 },
                 {
-                    "situacion": "Situación 5",
+                    "situacion": "Cambios en el apetito",
                     "preguntas": [
                         "¿Experimentas cambios en tu apetito debido al estrés?",
                         "¿Tienes calambres estomacales cuando estás ansioso/a?",
@@ -93,16 +93,16 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 10, "maximo": 40, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 41, "maximo": 60, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 61, "maximo": 95, "diagnostico": "Ansiedad severa" },
-                { "minimo": 96, "maximo": 140, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         },
         "motor": {
             "situaciones": [
                 {
-                    "situacion": "Situación 1",
+                    "situacion": "Tics nerviosos",
                     "preguntas": [
                         "¿Tienes tics nerviosos en situaciones de estrés?",
                         "¿Muerdes tus uñas cuando estás ansioso/a?",
@@ -110,14 +110,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 2",
+                    "situacion": "Inquietud",
                     "preguntas": [
                         "¿Tienes dificultad para estar quieto/a en situaciones estresantes?",
                         "¿Muerdes los labios cuando estás preocupado/a?"
                     ]
                 },
                 {
-                    "situacion": "Situación 3",
+                    "situacion": "Movimientos repetitivos",
                     "preguntas": [
                         "¿Te rascas la cabeza cuando estás nervioso/a?",
                         "¿Te resulta difícil mantener la calma bajo presión?",
@@ -125,14 +125,14 @@
                     ]
                 },
                 {
-                    "situacion": "Situación 4",
+                    "situacion": "Mantener la compostura",
                     "preguntas": [
                         "¿Tienes problemas para mantener la compostura en situaciones estresantes?",
                         "¿Tocas constantemente tu cara cuando estás nervioso/a?"
                     ]
                 },
                 {
-                    "situacion": "Situación 5",
+                    "situacion": "Inquietud extrema",
                     "preguntas": [
                         "¿Te resulta difícil estar quieto/a en situaciones de tensión?",
                         "¿Muerdes el interior de las mejillas cuando estás ansioso/a?",
@@ -141,18 +141,18 @@
                 }
             ],
             "rango_seccion": [
-                { "minimo": 10, "maximo": 40, "diagnostico": "Ansiedad mínima" },
-                { "minimo": 41, "maximo": 60, "diagnostico": "Ansiedad moderada" },
-                { "minimo": 61, "maximo": 95, "diagnostico": "Ansiedad severa" },
-                { "minimo": 96, "maximo": 140, "diagnostico": "Ansiedad extrema" }
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
             ]
         }
     },
     "rango_test": [
-        { "minimo": 30, "maximo": 120, "diagnostico": "Ansiedad mínima" },
-        { "minimo": 121, "maximo": 180, "diagnostico": "Ansiedad moderada" },
-        { "minimo": 181, "maximo": 285, "diagnostico": "Ansiedad severa" },
-        { "minimo": 288, "maximo": 720, "diagnostico": "Ansiedad extrema" }
+        { "minimo": 0, "maximo": 60, "diagnostico": "Ansiedad mínima" },
+        { "minimo": 61, "maximo": 110, "diagnostico": "Ansiedad moderada" },
+        { "minimo": 110, "maximo": 140, "diagnostico": "Ansiedad severa" },
+        { "minimo": 141, "maximo": 160, "diagnostico": "Ansiedad extrema" }
     ],
     "opciones": [
         { "descripcion": "Casi nunca", "valor_opcion": 0 },
