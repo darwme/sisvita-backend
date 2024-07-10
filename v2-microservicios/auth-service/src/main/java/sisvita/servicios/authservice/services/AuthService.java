@@ -26,16 +26,11 @@ import java.util.*;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class AsignaturaService {
+public class AuthService {
     private final AsignaturaRepository repository;
     private final UsuarioController usuarioController;
     private final JwtUtil jwtUtil = new JwtUtil();
-    public ResponseEntity<String> createAsignatura(String Authorization,Asignatura request){
-        Map<String,Object> claims=jwtUtil.extractClaims(Authorization.substring(7));
-        if(claims.get("administrador").equals(1))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Se necesita permisos de administrador");
-        }
+    public ResponseEntity<String> createAsignatura(Asignatura request){
         ExampleMatcher exampleMatcher=ExampleMatcher.matching()
                 .withIgnorePaths("id")
                 .withIncludeNullValues();
@@ -63,13 +58,8 @@ public class AsignaturaService {
     {
         return ResponseEntity.ok(repository.findByCodigoAndSeccion(codigo,seccion));
     }
-    public ResponseEntity<String> deleteById(String Authorization,String id)
+    public ResponseEntity<String> deleteById(String id)
     {
-        Map<String,Object> claims=jwtUtil.extractClaims(Authorization.substring(7));
-        if(claims.get("administrador").equals(1))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Se necesita permisos de administrador");
-        }
         ResponseEntity<String> result ;
         if(repository.findAll().stream()
                 .noneMatch(asignatura -> asignatura.getId().toString().equals(id)))
@@ -86,16 +76,11 @@ public class AsignaturaService {
     {
         return ResponseEntity.of(repository.findById(UUID.fromString(id)));
     }
-    public ResponseEntity<String> reservarAlumno(String Authorization,Integer codigo, Integer seccion,String alumnoCodigo)
+    public ResponseEntity<String> reservarAlumno(Integer codigo, Integer seccion,String alumnoCodigo)
     {
-        Map<String,Object> claims=jwtUtil.extractClaims(Authorization.substring(7));
-        if(claims.get("administrador").equals(1))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Se necesita permisos de administrador");
-        }
         Asignatura asignatura=repository.findByCodigoAndSeccion(codigo,seccion);
         //System.out.println(usuarioController.getByCodigo(alumnoCodigo));
-        Alumno alumno= Convertidor.fromLinkedHashMapToAlumno(usuarioController.getByCodigo(Authorization,alumnoCodigo).get(0));
+        Alumno alumno= Convertidor.fromLinkedHashMapToAlumno(usuarioController.getByCodigo(alumnoCodigo).get(0));
         ResponseEntity<String> result;
         if(repository.exists(Example.of(asignatura)))
         {
@@ -108,14 +93,8 @@ public class AsignaturaService {
         }
         return result;
     }
-    public ResponseEntity<Boolean> alumnoEstaReservado(String Authorization,Integer codigo, Integer seccion,String alumnoCodigo)
+    public ResponseEntity<Boolean> alumnoEstaReservado(Integer codigo, Integer seccion,String alumnoCodigo)
     {
-        Map<String,Object> claims=jwtUtil.extractClaims(Authorization.substring(7));
-        String rol = (String) claims.get("rol");
-        if(rol.equalsIgnoreCase("profesor"))
-        {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(false);
-        }
         Asignatura asignatura=repository.findByCodigoAndSeccion(codigo,seccion);
         return ResponseEntity.of(Optional.of(asignatura.getAlumnos().stream().anyMatch(alumno -> alumno.getCodigo().equals(alumnoCodigo))));
     }

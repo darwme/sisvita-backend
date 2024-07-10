@@ -16,20 +16,17 @@ public interface UsuarioController {
     public LinkedHashMap<String,Object> login(@RequestBody Map<String,Object> request);
     @GetMapping("alumnos/{codigo}")
     public List<LinkedHashMap<String,Object>> getByCodigo(
-            @RequestHeader String Authorization,
             @PathVariable String codigo);
 
     @PostMapping("alumnos")
-    public List<LinkedHashMap<String,Object>> getAlumnos(@RequestHeader String Authorization);
+    public List<LinkedHashMap<String,Object>> getAlumnos();
 
     @PostMapping("auth/register")
     public void setUsuario(@RequestBody LinkedHashMap<String,Object> usuario);
 
     @DeleteMapping("alumnos/{codigo}")
-    public String deleteAlumnoByCodigo(@RequestHeader String authorization,
-                                       @PathVariable String codigo);
+    public String deleteAlumnoByCodigo(@PathVariable String codigo);
 
     @GetMapping("auth/usuario/{id}")
-    public List<LinkedHashMap<String,Object>> getUsuarioById(@RequestHeader String Authorization,
-                                                             @PathVariable String id);
+    public List<LinkedHashMap<String,Object>> getUsuarioById(@PathVariable String id);
 }

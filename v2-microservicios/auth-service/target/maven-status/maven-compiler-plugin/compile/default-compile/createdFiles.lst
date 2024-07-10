@@ -1,4 +1,3 @@
-sisvita\servicios\authservice\services\AsignaturaService.class
 sisvita\servicios\authservice\jwt\JwtUtil.class
 sisvita\servicios\authservice\models\Categoria.class
 sisvita\servicios\authservice\controllers\AsignaturaController.class
@@ -6,15 +5,16 @@ sisvita\servicios\authservice\repositories\AsignaturaRepository.class
 sisvita\servicios\authservice\models\Profesor$ProfesorBuilder.class
 sisvita\servicios\authservice\tools\Convertidor.class
 sisvita\servicios\authservice\jwt\JwtAuthentificationFilter.class
+sisvita\servicios\authservice\services\AuthService.class
 sisvita\servicios\authservice\models\Asignatura$AsignaturaBuilder.class
 sisvita\servicios\authservice\models\Tesis.class
 sisvita\servicios\authservice\models\Asignatura.class
 sisvita\servicios\authservice\models\Tesis$TesisBuilder.class
+sisvita\servicios\authservice\AuthServiceApplication.class
 sisvita\servicios\authservice\config\SecurityConfig.class
 sisvita\servicios\authservice\controllers\UsuarioController.class
 sisvita\servicios\authservice\models\Profesor.class
 sisvita\servicios\authservice\models\Estado.class
 sisvita\servicios\authservice\models\Alumno$AlumnoBuilder.class
-sisvita\servicios\authservice\AsignaturasServiceApplication.class
 sisvita\servicios\authservice\models\Alumno.class
 sisvita\servicios\authservice\models\Estado$EstadoBuilder.class

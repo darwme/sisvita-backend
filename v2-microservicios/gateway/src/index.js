@@ -5,10 +5,10 @@ import dotenv from "dotenv";
 import {findRoutes} from "./eureka-helper.js";
 
 const app = express();
-let [ USERS_API_URL, AUTH_API_URL ,IDEA_TESIS_API_URL] = ["",""];
+let [ USERS_API_URL, AUTH_API_URL ,IDEA_TESIS_API_URL] = ["","",""];
 dotenv.config();
 findRoutes().then(routes=>{
-  AUTH_API_URL=routes.find(route => route.name==="AUTH-SERVICE").url;
+  AUTH_API_URL=routes.find((route) => route.name==="AUTH-SERVICE").url;
   app.use(express.json());
   app.use(morgan("combined"));
   app.get("/", (req, res) => {
@@ -17,7 +17,7 @@ findRoutes().then(routes=>{
     });
   });
 
-  const optionsAsignaturas = {
+  const optionsAuth = {
     target: AUTH_API_URL,
     changeOrigin: true,
     pathRewrite: {
@@ -27,7 +27,7 @@ findRoutes().then(routes=>{
     onProxyReq: fixRequestBody,
   };
 
-  app.use("/a", createProxyMiddleware(optionsAsignaturas));
+  app.use("/a", createProxyMiddleware(optionsAuth));
 
   const port = process.env.PORT || 3000;
 
