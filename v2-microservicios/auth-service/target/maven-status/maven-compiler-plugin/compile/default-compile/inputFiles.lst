@@ -1,0 +1,15 @@
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Tesis.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Alumno.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Asignatura.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\controllers\AsignaturaController.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Categoria.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Estado.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\controllers\UsuarioController.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\services\AsignaturaService.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\models\Profesor.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\AsignaturasServiceApplication.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\jwt\JwtAuthentificationFilter.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\jwt\JwtUtil.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\tools\Convertidor.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\repositories\AsignaturaRepository.java
+C:\Users\vagot\Documents\GitHub\UNMSM\DSW\PROYECTO_SISVITA\backend-v3\sisvita-backend\v2-microservicios\auth-service\src\main\java\sisvita\servicios\authservice\config\SecurityConfig.java
