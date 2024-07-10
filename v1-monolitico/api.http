@@ -1,0 +1,10 @@
+#create test
+https://sisvita-backend-gow8.onrender.com/test/v1
+Content-Type: application/json
+
+{
+  "clasificacion":"ansiedad severa",
+  "total_test":250,
+  "fecha":"2024-12-12",
+  "id_estudiante":1
+}

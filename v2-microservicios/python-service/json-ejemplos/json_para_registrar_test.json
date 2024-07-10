@@ -1,0 +1,164 @@
+{
+    "nombre": "ISRA",
+    "descripcion": "El Test ISRA es utilizado en psicología para medir respuestas de agresión en situaciones variadas, ayudando a entender cómo las personas reaccionan bajo estrés y evaluando distintos aspectos de la agresividad.",
+    "secciones": {
+        "cognitivo": {
+            "situaciones": [
+                {
+                    "situacion": "Entrevista",
+                    "preguntas": [
+                        "¿Te sientes ansioso/a en entrevistas?",
+                        "¿Te preocupa mucho el futuro?",
+                        "¿Te cuesta concentrarte bajo estrés?"
+                    ]
+                },
+                {
+                    "situacion": "Hablar en público",
+                    "preguntas": [
+                        "¿Te sientes inseguro/a al hablar en público?",
+                        "¿Te cuesta decidir bajo presión?"
+                    ]
+                },
+                {
+                    "situacion": "Problemas para dormir",
+                    "preguntas": [
+                        "¿Tienes problemas para dormir debido a preocupaciones?",
+                        "¿Te preocupas por la opinión de los demás?",
+                        "¿Te sientes abrumado/a por tus responsabilidades?"
+                    ]
+                },
+                {
+                    "situacion": "Reuniones sociales",
+                    "preguntas": [
+                        "¿Te sientes nervioso/a en reuniones sociales?",
+                        "¿Te preocupa constantemente tu rendimiento laboral?"
+                    ]
+                },
+                {
+                    "situacion": "Tiempo libre",
+                    "preguntas": [
+                        "¿Te resulta difícil relajarte en tu tiempo libre?",
+                        "¿Te preocupas mucho por tu salud?",
+                        "¿Te sientes ansioso/a cuando tienes que viajar?"
+                    ]
+                }
+            ],
+            "rango_seccion": [
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
+            ]
+        },
+        "fisiologico": {
+            "situaciones": [
+                {
+                    "situacion": "Palpitaciones",
+                    "preguntas": [
+                        "¿Sientes palpitaciones en situaciones estresantes?",
+                        "¿Tienes problemas digestivos por nervios?",
+                        "¿Te sudan las manos en situaciones incómodas?",
+                        "¿Experimentas tensión muscular por preocupación?"
+                    ]
+                },
+                {
+                    "situacion": "Dolores de cabeza",
+                    "preguntas": [
+                        "¿Tienes dolores de cabeza frecuentes debido al estrés?",
+                        "¿Te mareas en situaciones de ansiedad?"
+                    ]
+                },
+                {
+                    "situacion": "Dificultad para respirar",
+                    "preguntas": [
+                        "¿Tienes dificultad para respirar en momentos de ansiedad?",
+                        "¿Sientes náuseas cuando estás nervioso/a?",
+                        "¿Experimentas temblores en situaciones estresantes?"
+                    ]
+                },
+                {
+                    "situacion": "Insomnio",
+                    "preguntas": [
+                        "¿Tienes insomnio por preocupaciones?",
+                        "¿Te sientes fatigado/a debido a la ansiedad?"
+                    ]
+                },
+                {
+                    "situacion": "Cambios en el apetito",
+                    "preguntas": [
+                        "¿Experimentas cambios en tu apetito debido al estrés?",
+                        "¿Tienes calambres estomacales cuando estás ansioso/a?",
+                        "¿Sientes opresión en el pecho en situaciones estresantes?"
+                    ]
+                }
+            ],
+            "rango_seccion": [
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
+            ]
+        },
+        "motor": {
+            "situaciones": [
+                {
+                    "situacion": "Tics nerviosos",
+                    "preguntas": [
+                        "¿Tienes tics nerviosos en situaciones de estrés?",
+                        "¿Muerdes tus uñas cuando estás ansioso/a?",
+                        "¿Te mueves constantemente cuando estás nervioso/a?"
+                    ]
+                },
+                {
+                    "situacion": "Inquietud",
+                    "preguntas": [
+                        "¿Tienes dificultad para estar quieto/a en situaciones estresantes?",
+                        "¿Muerdes los labios cuando estás preocupado/a?"
+                    ]
+                },
+                {
+                    "situacion": "Movimientos repetitivos",
+                    "preguntas": [
+                        "¿Te rascas la cabeza cuando estás nervioso/a?",
+                        "¿Te resulta difícil mantener la calma bajo presión?",
+                        "¿Haces movimientos repetitivos cuando estás ansioso/a?"
+                    ]
+                },
+                {
+                    "situacion": "Mantener la compostura",
+                    "preguntas": [
+                        "¿Tienes problemas para mantener la compostura en situaciones estresantes?",
+                        "¿Tocas constantemente tu cara cuando estás nervioso/a?"
+                    ]
+                },
+                {
+                    "situacion": "Inquietud extrema",
+                    "preguntas": [
+                        "¿Te resulta difícil estar quieto/a en situaciones de tensión?",
+                        "¿Muerdes el interior de las mejillas cuando estás ansioso/a?",
+                        "¿Te tambaleas o balanceas cuando estás nervioso/a?"
+                    ]
+                }
+            ],
+            "rango_seccion": [
+                { "minimo": 0, "maximo": 30, "diagnostico": "Ansiedad mínima" },
+                { "minimo": 31, "maximo": 55, "diagnostico": "Ansiedad moderada" },
+                { "minimo": 56, "maximo": 70, "diagnostico": "Ansiedad severa" },
+                { "minimo": 71, "maximo": 100, "diagnostico": "Ansiedad extrema" }
+            ]
+        }
+    },
+    "rango_test": [
+        { "minimo": 0, "maximo": 60, "diagnostico": "Ansiedad mínima" },
+        { "minimo": 61, "maximo": 110, "diagnostico": "Ansiedad moderada" },
+        { "minimo": 110, "maximo": 140, "diagnostico": "Ansiedad severa" },
+        { "minimo": 141, "maximo": 160, "diagnostico": "Ansiedad extrema" }
+    ],
+    "opciones": [
+        { "descripcion": "Casi nunca", "valor_opcion": 0 },
+        { "descripcion": "Pocas veces", "valor_opcion": 1 },
+        { "descripcion": "Unas veces sí, otras veces no", "valor_opcion": 2 },
+        { "descripcion": "Muchas veces", "valor_opcion": 3 },
+        { "descripcion": "Casi siempre", "valor_opcion": 4 }
+    ]
+}
