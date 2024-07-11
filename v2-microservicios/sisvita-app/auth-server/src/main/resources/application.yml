@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth?useSSL=false&serverTimezone=UTC
+    username: root
+    password: spideyforever
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+        hibernate:
+            dialect: org.hibernate.dialect.MySQL8Dialect
+  application:
+    name: auth-server
+  config:
+    import: configserver:http://localhost:8888
+
+server:
+  port: 8081
