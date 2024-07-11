@@ -32,13 +32,7 @@ def listar_tests():
     all_tests = Test.query.all()
     result = tests_schema.dump(all_tests)
 
-    data = {
-        'message': 'Tests recuperados correctamente',
-        'status': 200,
-        'data': result
-    }
-
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
 
 # Obtener un test por su ID ----------------------------------------
 @test.route('/test/v1/<int:id>', methods=['GET'])

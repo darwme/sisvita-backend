@@ -18,14 +18,7 @@ def crear_rango_test():
     db.session.commit()
 
     result = rango_test_schema.dump(nuevo_rango_test)
-
-    data = {
-        'message': 'rango_test creado correctamente',
-        'status': 201,
-        'data': result
-    }
-
-    return make_response(jsonify(data), 201)
+    return make_response(jsonify(result), 201)
 
 # Listar todos los rango_tests ----------------------------------------
 @rango_test.route('/rango_test/v1/listar', methods=['GET'])
@@ -33,13 +26,7 @@ def listar_rango_tests():
     all_rango_tests = Rango_test.query.all()
     result = rango_tests_schema.dump(all_rango_tests)
 
-    data = {
-        'message': 'rango_tests recuperados correctamente',
-        'status': 200,
-        'data': result
-    }
-
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
 
 # Obtener un rango_test por su ID ----------------------------------------
 @rango_test.route('/rango_test/v1/<int:id>', methods=['GET'])
