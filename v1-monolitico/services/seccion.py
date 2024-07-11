@@ -32,13 +32,8 @@ def listar_secciones():
     all_secciones = Seccion.query.all()
     result = secciones_schema.dump(all_secciones)
 
-    data = {
-        'message': 'Secciones recuperadas correctamente',
-        'status': 200,
-        'data': result
-    }
 
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
 
 #Obtener secciones por id_test ----------------------------------------
 

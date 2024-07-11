@@ -8,12 +8,17 @@ class Rango_testSchema(ma.Schema):
         model = Rango_test
         fields = (
             'id_rango_test',
-            'test',
+            'id_test',
             'minimo',
             'maximo',
             'diagnostico',
         )
-    test = fields.Nested(TestSchema)
+
+    id_test = fields.Method("get_id_test")
+    secciones = fields.Method("get_secciones")
+
+    def get_id_test(self, obj):
+        return obj.test.id_test
 
 rango_test_schema = Rango_testSchema()
 rango_tests_schema = Rango_testSchema(many=True)

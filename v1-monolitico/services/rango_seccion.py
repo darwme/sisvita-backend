@@ -33,13 +33,7 @@ def listar_rango_seccions():
     all_rango_secciones = Rango_seccion.query.all()
     result = rango_secciones_schema.dump(all_rango_secciones)
 
-    data = {
-        'message': 'rango_seccions recuperados correctamente',
-        'status': 200,
-        'data': result
-    }
-
-    return make_response(jsonify(data), 200)
+    return make_response(jsonify(result), 200)
 
 # Obtener un rango_seccion por su ID ----------------------------------------
 @rango_seccion.route('/rango_seccion/v1/<int:id>', methods=['GET'])
